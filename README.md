@@ -1,6 +1,6 @@
 # Runby::Pace
 
-runby-pace contains the core logic for calculating the target "paces" used by runners. By "runners" I mean  the common
+Runby-Pace contains the core logic for calculating the target "paces" used by runners. By "runners" I mean  the common
  humanoid biped variety, complete with oscillating appendages and prolific perspiration. :)
 
 Any sort of running program will include runs at varying paces, easy runs, distance runs, tempo runs, long runs, and
@@ -10,7 +10,9 @@ Any sort of running program will include runs at varying paces, easy runs, dista
  Long Run table, and it tells you that you should try to maintain a pace of 5:30-6:19 minutes per kilometer.
 
 So this is great, but a little tedious. Runby-pace automates this whole process by calculating all of the paces for you.
-All you need is your current 5K time and some Ruby, and you're off running at just the right pace.
+ All you need is your current 5K time and some Ruby, and you're off running at just the right pace.
+
+Note that this project is currently being developed, so the gem doesn't even exist yet. Coming soon!
 
 ## Installation
 
@@ -40,7 +42,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/runby-pace.
+Bug reports and pull requests are welcome on GitHub at https://github.com/tygerbytes/runby-pace.
 
 
 ## License
