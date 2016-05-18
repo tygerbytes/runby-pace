@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Runby::Pace do
+describe RunbyPace do
   it 'has a version number' do
-    expect(Runby::Pace::VERSION).not_to be nil
+    expect(RunbyPace::VERSION).not_to be nil
   end
 
   it 'does something useful' do

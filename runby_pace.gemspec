@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'runby/pace/version'
+require 'runby_pace/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'runby-pace'
-  spec.version       = Runby::Pace::VERSION
+  spec.name          = 'runby_pace'
+  spec.version       = RunbyPace::VERSION
   spec.authors       = ['Ty Walls']
   spec.email         = ['tygerbytes@users.noreply.github.com']
 

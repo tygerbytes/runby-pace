@@ -1,6 +1,6 @@
-# Runby::Pace
+# RunbyPace
 
-Runby-Pace contains the core logic for calculating the target "paces" used by runners. By "runners" I mean  the common
+RunbyPace contains the core logic for calculating the target "paces" used by runners. By "runners" I mean  the common
  humanoid biped variety, complete with oscillating appendages and prolific perspiration. :)
 
 Any sort of running program will include runs at varying paces, easy runs, distance runs, tempo runs, long runs, and
@@ -9,7 +9,7 @@ Any sort of running program will include runs at varying paces, easy runs, dista
  recent 5K time was 20 minutes, and you're supposed to run a "long run", you find your most recent 5K time in the
  Long Run table, and it tells you that you should try to maintain a pace of 5:30-6:19 minutes per kilometer.
 
-So this is great, but a little tedious. Runby-pace automates this whole process by calculating all of the paces for you.
+So this is great, but a little tedious. RunbyPace automates this whole process by calculating all of the paces for you.
  All you need is your current 5K time and some Ruby, and you're off running at just the right pace.
 
 Note that this project is currently being developed, so the gem doesn't even exist yet. Coming soon!
@@ -19,7 +19,7 @@ Note that this project is currently being developed, so the gem doesn't even exi
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'runby-pace'
+gem 'runby_pace'
 ```
 
 And then execute:
@@ -28,7 +28,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install runby-pace
+    $ gem install runby_pace
 
 ## Usage
 
