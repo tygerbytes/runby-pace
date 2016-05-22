@@ -5,7 +5,8 @@ RunbyPace contains the core logic for calculating the target "paces" used by run
 
 | | |
 | --- | --- |
-| **Build** | [![Build status](https://api.travis-ci.org/tygerbytes/runby-pace.png?branch=master)](https://travis-ci.org/tygerbytes/runby-pace) |
+| **Build** | [![Build Status](https://travis-ci.org/tygerbytes/runby-pace.svg?branch=master)](https://travis-ci.org/tygerbytes/runby-pace) |
+| **Coverage** | [![Coverage Status](https://coveralls.io/repos/github/tygerbytes/runby-pace/badge.svg?branch=master)](https://coveralls.io/github/tygerbytes/runby-pace?branch=master) |
 
 Any sort of running program will include runs at varying paces, easy runs, distance runs, tempo runs, long runs, and
  then the gambit of "interval" type runs, such as 1500m pace repetitions, 5K and 10K pace reps, cruise intervals, and
