@@ -1,6 +1,7 @@
+
 require 'runby_pace/version'
-require 'runby_pace/pace_time'
+Dir[File.dirname(__FILE__) + '/runby_pace/*.rb'].each { |file| require file }
+Dir[File.dirname(__FILE__) + '/runby_pace/run_types/*.rb'].each { |file| require file }
 
 module RunbyPace
-  # Your code goes here...
 end
