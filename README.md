@@ -36,7 +36,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+TODO: Coming soon... When the class interfaces are fleshed out.
 
 ## Development
 
