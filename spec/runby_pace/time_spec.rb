@@ -20,6 +20,12 @@ describe 'PaceTime' do
     it 'creates a time from numeric seconds' do
       expect(RunbyPace::PaceTime.from_seconds(61)).to eq '01:01'
     end
+
+    it 'creates a time from another pace time' do
+      pace_time = RunbyPace::PaceTime.new('03:59')
+      cloned_time = RunbyPace::PaceTime.new(pace_time)
+      expect(cloned_time).to eq pace_time
+    end
   end
 
   describe '#to_s' do

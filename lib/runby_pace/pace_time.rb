@@ -4,12 +4,11 @@ module RunbyPace
     attr_reader :time_s, :minutes_part, :seconds_part
 
     def initialize(time)
-      raise 'Invalid time format' if !time.match(/(-)?\d\d:\d\d/)
-      @time_s = time
-      parts = time.to_s.split(':')
-      @minutes_part = parts[0].to_i
-      @seconds_part = parts[1].to_i
-      raise 'Seconds must be less than 60' if @seconds_part.abs > 59
+      if time.is_a?(String) || time.is_a?(Symbol)
+        init_from_string(time)
+      elsif time.is_a?(PaceTime)
+        init_from_clone(time)
+      end
     end
 
     # @param [numeric] total_seconds
@@ -71,6 +70,24 @@ module RunbyPace
       if value.is_a?(PaceTime)
         total_seconds <= value.total_seconds
       end
+    end
+
+    private
+
+    def init_from_string(time)
+      raise 'Invalid time format' if !time.match(/(-)?\d\d:\d\d/)
+      @time_s = time
+      parts = time.to_s.split(':')
+      @minutes_part = parts[0].to_i
+      @seconds_part = parts[1].to_i
+      raise 'Seconds must be less than 60' if @seconds_part.abs > 59
+    end
+
+    # @param [PaceTime] time
+    def init_from_clone(time)
+      @time = time.time_s
+      @minutes_part = time.minutes_part
+      @seconds_part = time.seconds_part
     end
   end
 end
