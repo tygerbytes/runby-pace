@@ -26,6 +26,10 @@ module RunbyPace
       @minutes_part * 60 + @seconds_part
     end
 
+    def total_minutes
+      @minutes_part + (@seconds_part / 60.0)
+    end
+
     # @param [PaceTime] value
     def -(value)
       if value.is_a?(PaceTime)

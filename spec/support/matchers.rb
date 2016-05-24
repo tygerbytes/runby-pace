@@ -2,7 +2,7 @@ RSpec::Matchers.define :be_within_seconds do |expected_time_s, seconds_variation
   match do |actual_time|
     seconds = RunbyPace::PaceTime.new(seconds_variation_s)
     expected_time = RunbyPace::PaceTime.new(expected_time_s)
-    assert(actual_time >= expected_time - seconds && actual_time <= expected_time + seconds)
+    actual_time >= (expected_time - seconds) && actual_time <= (expected_time + seconds)
   end
 
   failure_message do |actual_time|
@@ -17,9 +17,11 @@ RSpec::Matchers.define :be_within_seconds do |expected_time_s, seconds_variation
     "match a runby time of #{expected_time_s} varying by no more than #{seconds_variation_s} seconds"
   end
 
-  def format_time_range(expected_time, variation_seconds)
-    slow_time = expected_time - variation_seconds
-    fast_time = expected_time + variation_seconds
+  def format_time_range(expected_time_s, seconds_variation_s)
+    expected_time = RunbyPace::PaceTime.new(expected_time_s)
+    seconds_variation = RunbyPace::PaceTime.new(seconds_variation_s)
+    slow_time = expected_time - seconds_variation
+    fast_time = expected_time + seconds_variation
     "#{slow_time}-#{fast_time}"
   end
 end

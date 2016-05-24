@@ -9,5 +9,12 @@ describe RunbyPace::PaceRange do
     end
   end
 
+  describe '#to_s' do
+    it 'outputs a human-readable range of pace times' do
+      range = RunbyPace::PaceRange.new('10:00', '10:59')
+      expect(range.to_s).to eq '10:00-10:59'
+    end
+  end
+
 
 end

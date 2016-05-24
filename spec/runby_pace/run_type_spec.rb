@@ -20,8 +20,9 @@ describe RunbyPace::RunTypes do
       long_run = runs::LongRun.new
 
       golden_paces.each do |five_k, golden_pace|
-        calculated_pace = long_run.pace(five_k)
-        expect(calculated_pace).to be_within_seconds(golden_pace, '00:02')
+        calculated_pace_range = long_run.pace(five_k)
+        expect(calculated_pace_range.fast).to be_within_seconds(golden_pace, '00:02')
+        expect(calculated_pace_range.slow).to be_within_seconds(golden_pace, '00:02')
       end
     end
   end

@@ -35,6 +35,20 @@ describe 'PaceTime' do
     end
   end
 
+  describe '#total_seconds' do
+    it 'returns the pace time in seconds, represented by an integer' do
+      time = RunbyPace::PaceTime.new('01:30')
+      expect(time.total_seconds).to eq 90
+    end
+  end
+
+  describe '#total_minutes' do
+    it 'returns the pace time in minutes ,represented by a floating point numeric value' do
+      time = RunbyPace::PaceTime.new('01:30')
+      expect(time.total_minutes).to eq 1.5
+    end
+  end
+
   describe 'PaceTime arithmetic' do
     it 'subtracts one runby time from another' do
       time_a = RunbyPace::PaceTime.new('01:30')
