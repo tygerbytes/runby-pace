@@ -21,6 +21,10 @@ describe 'PaceTime' do
       expect(RunbyPace::PaceTime.from_seconds(61)).to eq '01:01'
     end
 
+    it 'creates a time from numeric minutes' do
+      expect(RunbyPace::PaceTime.from_minutes(0.5)).to eq '00:30'
+    end
+
     it 'creates a time from another pace time' do
       pace_time = RunbyPace::PaceTime.new('03:59')
       cloned_time = RunbyPace::PaceTime.new(pace_time)

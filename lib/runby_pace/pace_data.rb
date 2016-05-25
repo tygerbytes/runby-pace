@@ -37,6 +37,13 @@ module RunbyPace
       (@slowest_pace_km.total_minutes - @fastest_pace_km.total_minutes) / (DATA_POINTS_COUNT - 1)
     end
 
+    # Calculate the prescribed pace for the given 5K time
+    def calc(five_k_time)
+      five_k_time = RunbyPace::PaceTime.new(five_k_time)
+      x2 = ((five_k_time.total_minutes * 2) - (MIDPOINT_X - 1)) - 1
+      RunbyPace::PaceTime.from_minutes(slope * x2 + @fastest_pace_km.total_minutes + curve_minutes(x2))
+    end
+
     private
 
     # Since the paces for each 5K time do not progress in a straight line
@@ -55,6 +62,7 @@ module RunbyPace
         midpoint_reduction = midpoint - (midpoint_reduction - midpoint)
         midpoint_reduction = 0 if midpoint_reduction < 0
       end
+      # TODO: Use an actual curve instead of a triangle to calculate the number of minutes to add.
       midpoint_reduction / @midpoint_radius_divisor / 60
     end
   end

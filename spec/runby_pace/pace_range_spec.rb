@@ -15,6 +15,4 @@ describe RunbyPace::PaceRange do
       expect(range.to_s).to eq '10:00-10:59'
     end
   end
-
-
 end

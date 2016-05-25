@@ -18,6 +18,11 @@ module RunbyPace
       PaceTime.new("#{'%02d' % minutes}:#{'%02d' % seconds}")
     end
 
+    # @param [numeric] total_minutes
+    def self.from_minutes(total_minutes)
+      self.from_seconds(total_minutes * 60.0)
+    end
+
     def to_s
       @time_s
     end
@@ -48,7 +53,7 @@ module RunbyPace
       if value.is_a?(PaceTime)
         total_seconds == value.total_seconds
       elsif value.is_a?(String)
-        to_s == value
+        @time_s == value
       end
     end
 
@@ -80,7 +85,7 @@ module RunbyPace
 
     def init_from_string(time)
       raise 'Invalid time format' if !time.match(/(-)?\d\d:\d\d/)
-      @time_s = time
+      @time_s = time.to_s
       parts = time.to_s.split(':')
       @minutes_part = parts[0].to_i
       @seconds_part = parts[1].to_i
@@ -89,7 +94,7 @@ module RunbyPace
 
     # @param [PaceTime] time
     def init_from_clone(time)
-      @time = time.time_s
+      @time_s = time.time_s
       @minutes_part = time.minutes_part
       @seconds_part = time.seconds_part
     end
