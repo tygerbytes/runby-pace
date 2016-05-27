@@ -6,5 +6,6 @@ deploy:
   provider: rubygems
   api_key:
     secure: AOOSaXksG1n9LsFbpc5wJWk/Rj7jYFohJMsfLEosWPHw1Kidgng7OlpgWC6+iBRM78Bo6lgeMK/8Ng9KxU9+Cs/+6pKjrMrj4T/cVmY4tlAXhHW3DBJe4KTmmTmTOWsSP4icPIXKCY24ExbIGLnwCGuagezBENyTemLBkQXMBXRtyubr77M2fB0K5zJwx76n1kGM6MkGOdEF4Qj64OswTudHxc98Rs2p4xdf8ft8YqGrGj19Z+ALj1NmOZgPfEXV0SuwtK6Yk3XPvCXojXJRRd4JfUQ/dghmiQkKBS7o7bwnhcWd6H5aJFJVVSjDwerdLpgHU0O16PSU2+gh4QcMDeWnzkciGaQQIrsy8eU3EUMN+N1Pn70eXFb4PtgS7esBTbzwivjZt94DYyvITaoOcZTs6ceX838CAj7QQcNkMZhb7HV49awlIYhJibpB5AWuBulXwTaD+6VozTGh0nVdAXaR8BcItv933rucmrjQx4WRvChjTV+oskW/C2QI7BgAZRQyqHy1UIuWe1r+kWWs1i+L8anshW/MrJ6S6JUUgUiONP1CldTgUezAjiIL6wiuIurjLRRa//wXmedr0x37cw+bwgq4l9KcU0X/0fYx2+8YN3BC5qvmxha7+AUljL1u/Jw8zwIa36g608tZ7RbshgTHDmFXxLRLVuSt3vjDlAI=
-  gem: runby-pace
-  skip_cleanup: true
+  gem: runby_pace
+  on:
+    repo: tygerbytes/runby-pace
