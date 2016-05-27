@@ -1,3 +1,3 @@
 module RunbyPace
-  VERSION = "0.2.#{`git rev-list --count master`}"
+  VERSION = "0.2.#{`git rev-list --count HEAD`}"
 end
