@@ -9,3 +9,4 @@ deploy:
   gem: runby-pace
   on:
     repo: tygerbytes/runby-pace
+    tags: false
