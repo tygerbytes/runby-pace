@@ -6,7 +6,7 @@ module RunbyPace
       attr_reader :slow_pace_data, :fast_pace_data
 
       def initialize
-        @fast_pace_data = PaceData.new(GoldenPaces::fast[:'14:00'], GoldenPaces::fast[:'42:00'], 1.99)
+        @fast_pace_data = PaceData.new(GoldenPaces::fast[:'14:00'], GoldenPaces::fast[:'42:00'], 2.125)
         @slow_pace_data = PaceData.new(GoldenPaces::slow[:'14:00'], GoldenPaces::slow[:'42:00'], 1.55)
       end
 

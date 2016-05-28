@@ -58,6 +58,9 @@ module RunbyPace
     end
 
     def almost_equals?(other_time, tolerance_time = '00:01')
+      if other_time.is_a?(String)
+        other_time = PaceTime.new(other_time)
+      end
       tolerance = PaceTime.new(tolerance_time)
       self >= (other_time - tolerance) && self <= (other_time + tolerance)
     end
