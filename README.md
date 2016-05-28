@@ -56,7 +56,8 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/tygerb
 
 Crafted with care, with the support of [JetBrains RubyMine](https://www.jetbrains.com/ruby/)
 
-[![RubyMine logo](misc/icon_RubyMine.svg?raw=true "RubyMine")](https://www.jetbrains.com/ruby/)
+[![RubyMine logo](misc/rubymine.png)](https://www.jetbrains.com/ruby/)
+
 
 ## License
 
