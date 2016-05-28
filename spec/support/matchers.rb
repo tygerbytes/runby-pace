@@ -4,7 +4,7 @@ RSpec::Matchers.define :be_within_seconds do |expected_time, seconds_variation|
     seconds = RunbyPace::PaceTime.new(seconds_variation)
     expected_time = RunbyPace::PaceTime.new(expected_time)
     actual_time = RunbyPace::PaceTime.new(actual_time)
-    actual_time >= (expected_time - seconds) && actual_time <= (expected_time + seconds)
+    actual_time.almost_equals?(expected_time, seconds)
   end
 
   failure_message do |actual_time|

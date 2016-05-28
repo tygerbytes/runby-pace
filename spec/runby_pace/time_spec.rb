@@ -78,6 +78,24 @@ describe 'PaceTime' do
       time = RunbyPace::PaceTime.new('12:15')
       expect(time).to eq '12:15'
     end
+
+    describe '#almost_equals?' do
+      it 'should equal another PaceTime within the given tolerance' do
+        time = RunbyPace::PaceTime.new('01:00')
+        low_time = RunbyPace::PaceTime.new('00:58')
+        high_time = RunbyPace::PaceTime.new('01:02')
+        expect(time.almost_equals?(low_time, '00:02')).to be true
+        expect(time.almost_equals?(high_time, '00:02')).to be true
+      end
+
+      it 'should not equal another PaceTime outside the given tolerance' do
+        time = RunbyPace::PaceTime.new('01:00')
+        too_low_time = RunbyPace::PaceTime.new('00:57')
+        too_high_time = RunbyPace::PaceTime.new('01:03')
+        expect(time.almost_equals?(too_low_time, '00:02')).to be false
+        expect(time.almost_equals?(too_high_time, '00:02')).to be false
+      end
+    end
   end
 
   describe 'PaceTime comparisons' do
