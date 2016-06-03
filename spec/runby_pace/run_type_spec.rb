@@ -10,8 +10,16 @@ describe RunbyPace::RunTypes do
 
   describe '#new_from_name' do
     it 'returns an initialized run type, given the name of an existing run type' do
-      long_run = RunbyPace::RunTypes::new_from_name('LongRun')
+      long_run = runs::new_from_name('LongRun')
       expect(long_run.description).to eq 'Long Run'
+    end
+  end
+
+  describe '#enumerate_run_types' do
+    it 'enumerates all of the possible run types' do
+      run_types = runs::enumerate_run_types
+      expect(run_types).to include 'EasyRun'
+      expect(run_types).to include 'LongRun'
     end
   end
 
