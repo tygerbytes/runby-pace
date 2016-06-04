@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
   spec.metadata      = { 'commit-hash' => `git log -n 1 --pretty=format:"%H"`}
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files         += ['lib/runby_pace/run_types/all_run_types.g.rb']
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
