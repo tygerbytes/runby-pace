@@ -17,7 +17,7 @@ describe RunbyPace::RunTypes do
 
   describe '#enumerate_run_types' do
     it 'enumerates all of the possible run types' do
-      run_types = runs::enumerate_run_types
+      run_types = runs::all
       expect(run_types).to include 'EasyRun'
       expect(run_types).to include 'LongRun'
     end
