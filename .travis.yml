@@ -10,3 +10,5 @@ deploy:
   gem: runby_pace
   on:
     repo: tygerbytes/runby-pace
+git:
+  depth: 1024
