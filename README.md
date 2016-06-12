@@ -20,7 +20,7 @@ Any sort of running program will include runs at varying paces, easy runs, dista
 So this is great, but a little tedious. RunbyPace automates this whole process by calculating all of the paces for you.
  All you need is your current 5K time and some Ruby, and you're off running at just the right pace.
 
-Note that this project is currently being developed, so the gem doesn't even exist yet. Coming soon!
+Note that this project is currently being developed, so much of the functionality is pending.
 
 ## Installation
 
