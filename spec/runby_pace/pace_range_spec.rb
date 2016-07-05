@@ -14,5 +14,10 @@ describe RunbyPace::PaceRange do
       range = RunbyPace::PaceRange.new('10:00', '10:59')
       expect(range.to_s).to eq '10:00-10:59'
     end
+
+    it 'shows only one pace time when fast and slow paces are equal' do
+      range = RunbyPace::PaceRange.new('09:59', '09:59')
+      expect(range.to_s).to eq '09:59'
+    end
   end
 end

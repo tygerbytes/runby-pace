@@ -9,7 +9,11 @@ module RunbyPace
     end
 
     def to_s
-      "#{@fast}-#{@slow}"
+      if @fast == @slow
+        "#{@fast}"
+      else
+        "#{@fast}-#{@slow}"
+      end
     end
   end
 end
