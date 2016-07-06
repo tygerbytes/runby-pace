@@ -38,10 +38,12 @@ module RunbyPace
     end
 
     # Calculate the prescribed pace for the given 5K time
-    def calc(five_k_time)
+    def calc(five_k_time, distance_units = :km)
       five_k_time = RunbyPace::PaceTime.new(five_k_time)
       x2 = ((five_k_time.total_minutes * 2) - (MIDPOINT_X - 1)) - 1
-      RunbyPace::PaceTime.from_minutes(slope * x2 + @fastest_pace_km.total_minutes + curve_minutes(x2))
+      minutes_per_km = slope * x2 + @fastest_pace_km.total_minutes + curve_minutes(x2)
+      minutes_per_unit = minutes_per_km * RunbyPace::PaceUnits.distance_conversion_factor(distance_units)
+      RunbyPace::PaceTime.from_minutes(minutes_per_unit)
     end
 
     private

@@ -14,8 +14,8 @@ module RunbyPace
         @slow_pace_data = @fast_pace_data
       end
 
-      def pace(five_k_time)
-        fast = @fast_pace_data.calc(five_k_time)
+      def pace(five_k_time, distance_units = :km)
+        fast = @fast_pace_data.calc(five_k_time, distance_units)
         slow = fast
         PaceRange.new(fast, slow)
       end

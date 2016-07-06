@@ -21,6 +21,12 @@ describe RunbyPace::RunTypes do
       end
     end
 
+    it 'calculates the pace in minutes per mile' do
+      distance_run = runs::DistanceRun.new
+      calculated_pace_range = distance_run.pace('14:00', :mi)
+      expect(calculated_pace_range.fast).to eq '06:01'
+    end
+
   end
 
 end

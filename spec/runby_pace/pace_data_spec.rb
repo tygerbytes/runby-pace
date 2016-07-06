@@ -26,6 +26,18 @@ describe RunbyPace::PaceData do
     end
   end
 
+  describe 'PaceData distance units conversions' do
+    it 'calculates the pace in minutes per kilometer by default' do
+      pace_data = RunbyPace::PaceData.new('10:00', '20:00', 2.0)
+      expect(pace_data.calc('14:00')).to eq '10:00'
+    end
+
+    it 'calculates the pace in minutes per mile when the units are provided' do
+      pace_data = RunbyPace::PaceData.new('10:00', '20:00', 2.0)
+      expect(pace_data.calc('14:00', :mi)).to eq '16:07'
+    end
+  end
+
   describe 'PaceData implementation' do
     it 'calculates the slope between the fastest and slowest paces' do
       pace_data = RunbyPace::PaceData.new('10:00', '66:00', 1.0)
