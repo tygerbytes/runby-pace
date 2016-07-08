@@ -30,6 +30,13 @@ describe 'PaceTime' do
       cloned_time = RunbyPace::PaceTime.new(pace_time)
       expect(cloned_time).to eq pace_time
     end
+
+    describe 'Fuzzy string parsing' do
+      it 'correctly parses a time string without a leading zero' do
+        time = RunbyPace::PaceTime.new('5:20')
+        expect(time.total_seconds).to be 320
+      end
+    end
   end
 
   describe '#to_s' do

@@ -92,7 +92,7 @@ module RunbyPace
     private
 
     def init_from_string(time)
-      raise 'Invalid time format' if !time.match(/(-)?\d\d:\d\d/)
+      raise 'Invalid time format' if !time.match(/(-)?\d?\d:\d\d/)
       @time_s = time.to_s
       parts = time.to_s.split(':')
       @minutes_part = parts[0].to_i
