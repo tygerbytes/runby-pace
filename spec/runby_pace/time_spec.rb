@@ -36,6 +36,33 @@ describe 'PaceTime' do
         time = RunbyPace::PaceTime.new('5:20')
         expect(time.total_seconds).to be 320
       end
+
+      it 'parses a time string without a colon as decimal minutes' do
+        time = RunbyPace::PaceTime.new('5')
+        expect(time.total_seconds).to be 300
+        expect(time.to_s).to eq '05:00'
+      end
+
+      describe 'parses a time string with a decimal separator as decimal minutes' do
+        it 'handles . as a decimal separator' do
+          time = RunbyPace::PaceTime.new('5.5')
+          expect(time.to_s).to eq '05:30'
+        end
+
+        it 'handles , as a decimal separator' do
+          time = RunbyPace::PaceTime.new('5,5')
+          expect(time.to_s).to eq '05:30'
+        end
+
+        it 'handles a space as a decimal separator' do
+          time = RunbyPace::PaceTime.new('5 5')
+          expect(time.to_s).to eq '05:30'
+        end
+      end
+
+      it 'will not parse a time greater than 99 minutes' do
+        expect { RunbyPace::PaceTime.new('100') }.to raise_error 'Minutes must be less than 100'
+      end
     end
   end
 

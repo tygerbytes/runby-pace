@@ -92,12 +92,36 @@ module RunbyPace
     private
 
     def init_from_string(time)
-      raise 'Invalid time format' if !time.match(/(-)?\d?\d:\d\d/)
-      @time_s = time.to_s
-      parts = time.to_s.split(':')
-      @minutes_part = parts[0].to_i
-      @seconds_part = parts[1].to_i
-      raise 'Seconds must be less than 60' if @seconds_part.abs > 59
+      time = time.to_s.strip.chomp
+      is_negative = false
+
+      if time[0] == '-'
+        is_negative = true
+        time = time[1..-1]
+      end
+
+      if time.match(/^\d?\d:\d\d$/)
+        parts = time.split(':')
+        @minutes_part = parts[0].to_i
+        @seconds_part = parts[1].to_i
+      elsif time.match(/^\d+$/)
+        @minutes_part = time.to_i
+        @seconds_part = 0
+      elsif time.match(/^\d+[,\. ]\d+$/)
+        parts = time.split(/[,\. ]/)
+        @minutes_part = parts[0].to_i
+        @seconds_part = (parts[1].to_i / 10.0 * 60).to_i
+      else
+        raise 'Invalid time format'
+      end
+
+      raise 'Minutes must be less than 100' if @minutes_part > 99
+      raise 'Seconds must be less than 60' if @seconds_part > 59
+      if is_negative
+        @minutes_part *= -1
+        @seconds_part *= -1
+      end
+      @time_s = "#{@minutes_part.to_s.rjust(2, '0')}:#{@seconds_part.to_s.rjust(2, '0')}"
     end
 
     # @param [PaceTime] time
