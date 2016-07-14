@@ -36,4 +36,13 @@ describe RunbyPace::RunTypes do
     end
   end
 
+  describe runs::TempoRun do
+    it 'combines the fast and slow tempo runs into one run type' do
+      tempo_run = runs::TempoRun.new
+      calculated_pace_range = tempo_run.pace('14:00')
+      expect(calculated_pace_range.fast).to eq '03:07'
+      expect(calculated_pace_range.slow).to eq '03:18'
+    end
+  end
+
 end
