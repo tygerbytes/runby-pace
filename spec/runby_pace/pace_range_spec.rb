@@ -7,6 +7,15 @@ describe RunbyPace::PaceRange do
       expect(range.fast).to eq '10:00'
       expect(range.slow).to eq '20:00'
     end
+
+    describe '#from_speed_range' do
+      it 'Creates a new pace range from a SpeedRange' do
+        speed_range = RunbyPace::SpeedRange.new 6, 5
+        pace_range = RunbyPace::PaceRange.from_speed_range speed_range
+        expect(pace_range.fast).to eq '10:00'
+        expect(pace_range.slow).to eq '12:00'
+      end
+    end
   end
 
   describe '#to_s' do

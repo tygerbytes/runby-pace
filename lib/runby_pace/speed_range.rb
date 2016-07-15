@@ -8,5 +8,11 @@ module RunbyPace
       @fast = fast.round(2)
       @slow = slow.round(2)
     end
+
+    def self.from_pace_range(pace_range)
+      fast = RunbyPace::RunMath.convert_pace_to_speed pace_range.fast
+      slow = RunbyPace::RunMath.convert_pace_to_speed pace_range.slow
+      SpeedRange.new fast, slow
+    end
   end
 end

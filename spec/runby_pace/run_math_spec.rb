@@ -7,6 +7,13 @@ describe RunbyPace::RunMath do
       mph = RunbyPace::RunMath.convert_pace_to_speed pace
       expect(mph).to eq 7
     end
+
+    it 'converts a mile-per-hour time to a pace-per-mile time (good for km too)' do
+      mph = 7
+      pace = RunbyPace::RunMath.convert_speed_to_pace mph
+      expect(pace).to eq '08:34'
+    end
+
   end
 
 end
