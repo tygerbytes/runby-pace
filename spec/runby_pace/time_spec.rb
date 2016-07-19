@@ -64,6 +64,21 @@ describe 'PaceTime' do
         expect { RunbyPace::PaceTime.new('100') }.to raise_error 'Minutes must be less than 100'
       end
     end
+
+    describe '#try_parse' do
+      it 'parses a valid time string and returns a results hash containing a PaceTime' do
+        results = RunbyPace::PaceTime.try_parse '05:29'
+        expect(results[:time]).to eq '05:29'
+        expect(results[:error_message]).to eq nil
+      end
+
+      it 'attempts to parse an invalid time string and returns the error message in the results hash' do
+        results = RunbyPace::PaceTime.try_parse 'INVALID'
+        expect(results[:time]).to eq nil
+        expect(results[:error_message]).to eq 'Invalid time format (INVALID)'
+      end
+
+    end
   end
 
   describe '#to_s' do

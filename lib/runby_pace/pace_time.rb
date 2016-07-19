@@ -5,9 +5,11 @@ module RunbyPace
 
     def initialize(time)
       if time.is_a?(String) || time.is_a?(Symbol)
-        init_from_string(time)
+        init_from_string time
       elsif time.is_a?(PaceTime)
-        init_from_clone(time)
+        init_from_clone time
+      elsif time.is_a?(Hash)
+        init_from_hash time
       end
     end
 
@@ -21,6 +23,52 @@ module RunbyPace
     # @param [numeric] total_minutes
     def self.from_minutes(total_minutes)
       self.from_seconds(total_minutes * 60.0)
+    end
+
+    def self.parse(str)
+      time = str.to_s.strip.chomp
+      is_negative = false
+
+      if time[0] == '-'
+        is_negative = true
+        time = time[1..-1]
+      end
+
+      if time.match(/^\d?\d:\d\d$/)
+        parts = time.split(':')
+        minutes_part = parts[0].to_i
+        seconds_part = parts[1].to_i
+      elsif time.match(/^\d+$/)
+        minutes_part = time.to_i
+        seconds_part = 0
+      elsif time.match(/^\d+[,\. ]\d+$/)
+        parts = time.split(/[,\. ]/)
+        minutes_part = parts[0].to_i
+        seconds_part = (parts[1].to_i / 10.0 * 60).to_i
+      else
+        raise 'Invalid time format'
+      end
+
+      raise 'Minutes must be less than 100' if minutes_part > 99
+      raise 'Seconds must be less than 60' if seconds_part > 59
+      if is_negative
+        minutes_part *= -1
+        seconds_part *= -1
+      end
+      time_formatted = "#{minutes_part.to_s.rjust(2, '0')}:#{seconds_part.to_s.rjust(2, '0')}"
+
+      PaceTime.new({ :time_s => time_formatted, :minutes_part => minutes_part, :seconds_part => seconds_part })
+    end
+
+    def self.try_parse(str)
+      time, error_message = nil
+      begin
+        time = self.parse str
+      rescue Exception => ex
+        error_message = "#{ex.message} (#{str})"
+      end
+
+      return { :time => time, :error_message => error_message}
     end
 
     def to_s
@@ -91,37 +139,11 @@ module RunbyPace
 
     private
 
-    def init_from_string(time)
-      time = time.to_s.strip.chomp
-      is_negative = false
-
-      if time[0] == '-'
-        is_negative = true
-        time = time[1..-1]
-      end
-
-      if time.match(/^\d?\d:\d\d$/)
-        parts = time.split(':')
-        @minutes_part = parts[0].to_i
-        @seconds_part = parts[1].to_i
-      elsif time.match(/^\d+$/)
-        @minutes_part = time.to_i
-        @seconds_part = 0
-      elsif time.match(/^\d+[,\. ]\d+$/)
-        parts = time.split(/[,\. ]/)
-        @minutes_part = parts[0].to_i
-        @seconds_part = (parts[1].to_i / 10.0 * 60).to_i
-      else
-        raise 'Invalid time format'
-      end
-
-      raise 'Minutes must be less than 100' if @minutes_part > 99
-      raise 'Seconds must be less than 60' if @seconds_part > 59
-      if is_negative
-        @minutes_part *= -1
-        @seconds_part *= -1
-      end
-      @time_s = "#{@minutes_part.to_s.rjust(2, '0')}:#{@seconds_part.to_s.rjust(2, '0')}"
+    # @param [Hash] params
+    def init_from_hash(params = {})
+      @time_s = params.fetch :time_s, '00:00'
+      @minutes_part = params.fetch :minutes_part, 0.0
+      @seconds_part = params.fetch :seconds_part, 0.0
     end
 
     # @param [PaceTime] time
@@ -129,6 +151,11 @@ module RunbyPace
       @time_s = time.time_s
       @minutes_part = time.minutes_part
       @seconds_part = time.seconds_part
+    end
+
+    # @param [String] time
+    def init_from_string(time)
+      init_from_clone PaceTime.parse time
     end
   end
 end
