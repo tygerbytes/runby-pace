@@ -60,15 +60,21 @@ module RunbyPace
       PaceTime.new({ :time_s => time_formatted, :minutes_part => minutes_part, :seconds_part => seconds_part })
     end
 
-    def self.try_parse(str)
-      time, error_message = nil
+    def self.try_parse(str, is_five_k = false)
+      time, error_message, warning_message = nil
       begin
         time = self.parse str
       rescue Exception => ex
         error_message = "#{ex.message} (#{str})"
       end
 
-      return { :time => time, :error_message => error_message}
+      # Break out these sanity checks into their own class if we add any more.
+      if !time.nil? && is_five_k
+        if time.minutes_part < 14 then warning_message = '5K times of less than 14:00 are unlikely' end
+        if time.total_seconds > (42 * 60) then warning_message = '5K times of greater than 42:00 are not fully supported' end
+      end
+
+      { time: time, error: error_message, warning: warning_message }
     end
 
     def to_s

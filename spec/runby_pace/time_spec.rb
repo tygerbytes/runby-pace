@@ -69,15 +69,26 @@ describe 'PaceTime' do
       it 'parses a valid time string and returns a results hash containing a PaceTime' do
         results = RunbyPace::PaceTime.try_parse '05:29'
         expect(results[:time]).to eq '05:29'
-        expect(results[:error_message]).to eq nil
+        expect(results[:error]).to eq nil
       end
 
       it 'attempts to parse an invalid time string and returns the error message in the results hash' do
         results = RunbyPace::PaceTime.try_parse 'INVALID'
         expect(results[:time]).to eq nil
-        expect(results[:error_message]).to eq 'Invalid time format (INVALID)'
+        expect(results[:error]).to eq 'Invalid time format (INVALID)'
       end
 
+      describe '5k sanity checks' do
+        it 'returns a warning message if the 5k time < 14:00' do
+          results = RunbyPace::PaceTime.try_parse '13:59', is_five_k = true
+          expect(results[:warning]).to eq '5K times of less than 14:00 are unlikely'
+        end
+
+        it 'returns a warning message if the 5k time > 42:00' do
+          results = RunbyPace::PaceTime.try_parse '42:01', is_five_k = true
+          expect(results[:warning]).to eq '5K times of greater than 42:00 are not fully supported'
+        end
+      end
     end
   end
 
@@ -174,6 +185,4 @@ describe 'PaceTime' do
       expect(time_a <= time_a).to be true
     end
   end
-
-
 end
