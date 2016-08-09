@@ -8,6 +8,7 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rspec'
   gem 'rb-notifu'
+  gem 'rubocop', require: false
   gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 end
 
