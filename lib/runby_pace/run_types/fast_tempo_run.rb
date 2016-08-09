@@ -1,9 +1,7 @@
 require_relative 'tempo_run'
 
 module RunbyPace
-
   module RunTypes
-
     class FastTempoRun < TempoRun
       def description
         'Fast Tempo Run'

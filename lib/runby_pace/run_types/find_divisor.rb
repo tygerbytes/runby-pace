@@ -1,7 +1,5 @@
 module RunbyPace
-
   module RunTypes
-
     # Currently, to find the radius of the curve in the pace table data for a given run time,
     #   we start with a radius equal to that of the midpoint of the X axis for the data when
     #   plotted on a graph. Then we use a radius divisor for the PaceData for each run type to
@@ -31,17 +29,16 @@ module RunbyPace
           viable_divisor = candidate_divisor
         end
 
-        if viable_divisor != nil
+        if !viable_divisor.nil?
           viable_divisors << viable_divisor
         end
       end
 
-      if viable_divisors.length > 0
+      if !viable_divisors.empty?
         # puts viable_divisors
         midpoint = (viable_divisors.length - 1) / 2
         return viable_divisors[midpoint]
       end
     end
-
   end
 end

@@ -1,0 +1,10 @@
+AllCops:
+  Exclude:
+    - 'bin/**'
+  TargetRubyVersion: 2.2
+
+Style/Encoding:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120

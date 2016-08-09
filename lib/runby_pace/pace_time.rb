@@ -1,5 +1,4 @@
 module RunbyPace
-
   class PaceTime
     attr_reader :time_s, :minutes_part, :seconds_part
 
@@ -22,7 +21,7 @@ module RunbyPace
 
     # @param [numeric] total_minutes
     def self.from_minutes(total_minutes)
-      self.from_seconds(total_minutes * 60.0)
+      from_seconds(total_minutes * 60.0)
     end
 
     def self.parse(str)
@@ -57,13 +56,13 @@ module RunbyPace
       end
       time_formatted = "#{minutes_part.to_s.rjust(2, '0')}:#{seconds_part.to_s.rjust(2, '0')}"
 
-      PaceTime.new({ :time_s => time_formatted, :minutes_part => minutes_part, :seconds_part => seconds_part })
+      PaceTime.new(time_s: time_formatted, minutes_part: minutes_part, seconds_part: seconds_part)
     end
 
     def self.try_parse(str, is_five_k = false)
       time, error_message, warning_message = nil
       begin
-        time = self.parse str
+        time = parse str
       rescue Exception => ex
         error_message = "#{ex.message} (#{str})"
       end
@@ -89,25 +88,25 @@ module RunbyPace
       @minutes_part + (@seconds_part / 60.0)
     end
 
-    # @param [PaceTime] value
-    def -(value)
-      if value.is_a?(PaceTime)
-        PaceTime.from_seconds(total_seconds - value.total_seconds)
+    # @param [PaceTime] other
+    def -(other)
+      if other.is_a?(PaceTime)
+        PaceTime.from_seconds(total_seconds - other.total_seconds)
       end
     end
 
-    # @param [PaceTime] value
-    def +(value)
-      if value.is_a?(PaceTime)
-        PaceTime.from_seconds(total_seconds + value.total_seconds)
+    # @param [PaceTime] other
+    def +(other)
+      if other.is_a?(PaceTime)
+        PaceTime.from_seconds(total_seconds + other.total_seconds)
       end
     end
 
-    def ==(value)
-      if value.is_a?(PaceTime)
-        total_seconds == value.total_seconds
-      elsif value.is_a?(String)
-        @time_s == value
+    def ==(other)
+      if other.is_a?(PaceTime)
+        total_seconds == other.total_seconds
+      elsif other.is_a?(String)
+        @time_s == other
       end
     end
 
@@ -119,27 +118,27 @@ module RunbyPace
       self >= (other_time - tolerance) && self <= (other_time + tolerance)
     end
 
-    def >(value)
-      if value.is_a?(PaceTime)
-        total_seconds > value.total_seconds
+    def >(other)
+      if other.is_a?(PaceTime)
+        total_seconds > other.total_seconds
       end
     end
 
-    def >=(value)
-      if value.is_a?(PaceTime)
-        total_seconds >= value.total_seconds
+    def >=(other)
+      if other.is_a?(PaceTime)
+        total_seconds >= other.total_seconds
       end
     end
 
-    def <(value)
-      if value.is_a?(PaceTime)
-        total_seconds < value.total_seconds
+    def <(other)
+      if other.is_a?(PaceTime)
+        total_seconds < other.total_seconds
       end
     end
 
-    def <=(value)
-      if value.is_a?(PaceTime)
-        total_seconds <= value.total_seconds
+    def <=(other)
+      if other.is_a?(PaceTime)
+        total_seconds <= other.total_seconds
       end
     end
 

@@ -9,8 +9,8 @@ describe RunbyPace::SpeedRange do
     end
 
     it 'raises an error if the two values are not numeric' do
-      expect{ RunbyPace::SpeedRange.new('ABC', 5.5) }.to raise_error 'Invalid speed values'
-      expect{ RunbyPace::SpeedRange.new(5.5, 'ABC') }.to raise_error 'Invalid speed values'
+      expect { RunbyPace::SpeedRange.new('ABC', 5.5) }.to raise_error 'Invalid speed values'
+      expect { RunbyPace::SpeedRange.new(5.5, 'ABC') }.to raise_error 'Invalid speed values'
     end
 
     describe '#from_pace_range' do

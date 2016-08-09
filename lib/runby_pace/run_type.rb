@@ -1,5 +1,4 @@
 module RunbyPace
-
   class RunType
     def description
       'No description'
@@ -11,8 +10,7 @@ module RunbyPace
 
   module RunTypes
     def self.new_from_name(run_type_name)
-      Object::const_get("RunbyPace::RunTypes::#{run_type_name}").new
+      Object.const_get("RunbyPace::RunTypes::#{run_type_name}").new
     end
   end
-
 end

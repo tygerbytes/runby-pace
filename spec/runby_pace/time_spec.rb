@@ -1,7 +1,6 @@
 require_relative '../spec_helper'
 
 describe 'PaceTime' do
-
   describe 'PaceTime initialization and creation' do
     it 'parses a time string such as 05:20, where 05 is the number of minutes, and 20 is the number of seconds' do
       time = RunbyPace::PaceTime.new('05:20')
@@ -80,12 +79,12 @@ describe 'PaceTime' do
 
       describe '5k sanity checks' do
         it 'returns a warning message if the 5k time < 14:00' do
-          results = RunbyPace::PaceTime.try_parse '13:59', is_five_k = true
+          results = RunbyPace::PaceTime.try_parse '13:59', is_five_k: true
           expect(results[:warning]).to eq '5K times of less than 14:00 are unlikely'
         end
 
         it 'returns a warning message if the 5k time > 42:00' do
-          results = RunbyPace::PaceTime.try_parse '42:01', is_five_k = true
+          results = RunbyPace::PaceTime.try_parse'42:01', is_five_k: true
           expect(results[:warning]).to eq '5K times of greater than 42:00 are not fully supported'
         end
       end

@@ -13,7 +13,5 @@ describe RunbyPace::RunMath do
       pace = RunbyPace::RunMath.convert_speed_to_pace mph
       expect(pace).to eq '08:34'
     end
-
   end
-
 end

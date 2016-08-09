@@ -1,7 +1,5 @@
 module RunbyPace
-
   class PaceData
-
     # The number of data points plotted on our line of 5K times.
     #  We take 5K times from 14:00 to 42:00 with a sample rate
     #  of 30 seconds, and out pops 57.
@@ -57,7 +55,7 @@ module RunbyPace
     # The default curve radius is the same as the midpoint of the X axis,
     #  forming a circle. Use #midpoint_radius_divisor to reduce it's size.
     def curve_minutes(x_axis)
-      return 0 if @midpoint_radius_divisor == 0
+      return 0 if @midpoint_radius_divisor.zero?
       midpoint_reduction = x_axis
       midpoint = MIDPOINT_X
       if midpoint_reduction > midpoint

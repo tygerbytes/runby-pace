@@ -1,5 +1,4 @@
 module RunbyPace
-
   class RunbyRange
     attr_reader :fast, :slow
 
@@ -11,11 +10,10 @@ module RunbyPace
 
     def to_s
       if @fast == @slow
-        "#{@fast}"
+        @fast.to_s
       else
         "#{@fast}-#{@slow}"
       end
     end
   end
-
 end

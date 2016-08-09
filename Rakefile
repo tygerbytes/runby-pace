@@ -5,7 +5,7 @@ RSpec::Core::RakeTask.new(:spec)
 
 task :default => :build
 
-task :build => [:gen_all_run_types,:spec]
+task :build => [:gen_all_run_types, :spec]
 
 desc 'Generate the all_run_types.g.rb file'
 task :gen_all_run_types do
