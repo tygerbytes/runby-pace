@@ -1,4 +1,5 @@
 module RunbyPace
+  # Encapsulates the algorithms used to calculate target paces.
   class PaceData
     # The number of data points plotted on our line of 5K times.
     #  We take 5K times from 14:00 to 42:00 with a sample rate

@@ -1,6 +1,7 @@
 require_relative 'runby_range'
 
 module RunbyPace
+  # Represents a range of paces, from fast to slow.
   class PaceRange < RunbyRange
     def initialize(fast, slow)
       @fast = RunbyPace::PaceTime.new(fast)

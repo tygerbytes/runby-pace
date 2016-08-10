@@ -1,4 +1,5 @@
 module RunbyPace
+  # Represents a human-readable time in the format MM:ss
   class PaceTime
     attr_reader :time_s, :minutes_part, :seconds_part
 
@@ -16,7 +17,7 @@ module RunbyPace
     def self.from_seconds(total_seconds)
       minutes = total_seconds.abs.to_i / 60
       seconds = total_seconds.abs.to_i % 60
-      PaceTime.new("#{'%02d' % minutes}:#{'%02d' % seconds}")
+      PaceTime.new format("#{'%02d'}:#{'%02d'}", minutes, seconds)
     end
 
     # @param [numeric] total_minutes
@@ -63,7 +64,7 @@ module RunbyPace
       time, error_message, warning_message = nil
       begin
         time = parse str
-      rescue Exception => ex
+      rescue StandardError => ex
         error_message = "#{ex.message} (#{str})"
       end
 
