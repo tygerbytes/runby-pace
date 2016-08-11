@@ -11,14 +11,14 @@ describe RunbyPace::PaceData do
   it 'calculates the prescribed pace for a given 5K time' do
     pace_data = RunbyPace::PaceData.new('10:00', '20:00', 2.0)
     golden_paces = {
-        '14:00': '10:00',
-        '15:00': '10:22',
-        '20:00': '12:14',
-        '25:00': '14:06',
-        '30:00': '15:54',
-        '35:00': '17:37',
-        '40:00': '19:19',
-        '42:00': '20:00'
+      '14:00': '10:00',
+      '15:00': '10:22',
+      '20:00': '12:14',
+      '25:00': '14:06',
+      '30:00': '15:54',
+      '35:00': '17:37',
+      '40:00': '19:19',
+      '42:00': '20:00'
     }
     golden_paces.each do |five_k_time, expected_pace|
       calculated_pace = pace_data.calc(five_k_time)
@@ -49,15 +49,15 @@ describe RunbyPace::PaceData do
       #  If we need more accuracy we'll improve the calculation in the future.
       pace_data = RunbyPace::PaceData.new('00:00', '00:00', 1.0)
       curve_offsets = [
-          [0,  0],
-          [1,  1],
-          [14, 14],
-          [28, 28],
-          [42, 14],
-          [55, 1],
-          [56, 0],
-          [57, 0],
-          [99, 0]
+        [0,  0],
+        [1,  1],
+        [14, 14],
+        [28, 28],
+        [42, 14],
+        [55, 1],
+        [56, 0],
+        [57, 0],
+        [99, 0]
       ]
       curve_offsets.each do |x, expected_seconds_increase|
         calculated_seconds_increase = pace_data.send('curve_minutes', x.to_i) * 60.0

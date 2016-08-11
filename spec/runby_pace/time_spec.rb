@@ -167,8 +167,9 @@ describe 'PaceTime' do
     it 'should be greater than or equal to another pace time of lesser or equal value' do
       time_a = RunbyPace::PaceTime.new('00:01')
       time_b = RunbyPace::PaceTime.new('00:00')
+      time_a_clone = RunbyPace::PaceTime.new(time_a)
       expect(time_a >= time_b).to be true
-      expect(time_a >= time_a).to be true
+      expect(time_a >= time_a_clone).to be true
     end
 
     it 'should be less than another pace time of greater value' do
@@ -180,8 +181,9 @@ describe 'PaceTime' do
     it 'should be less than or equal to another pace time of greater or equal value' do
       time_a = RunbyPace::PaceTime.new('00:00')
       time_b = RunbyPace::PaceTime.new('00:01')
+      time_a_clone = RunbyPace::PaceTime.new(time_a)
       expect(time_a <= time_b).to be true
-      expect(time_a <= time_a).to be true
+      expect(time_a <= time_a_clone).to be true
     end
   end
 end

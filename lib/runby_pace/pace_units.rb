@@ -1,4 +1,7 @@
 module RunbyPace
+  # Represents the distance units (e.g. kilometers, miles) used in paces
+  #  including the human-readable description of each unit
+  #  and the factor used to convert it to kilometers.
   class PaceUnits
     def self.description(units)
       descriptions[units]
@@ -8,13 +11,13 @@ module RunbyPace
       distance_conversion_factors[units]
     end
 
-    private
+    ### -- Private class methods --
 
-    def self.descriptions
+    private_class_method def self.descriptions
       { km: 'Kilometers', mi: 'Miles' }
     end
 
-    def self.distance_conversion_factors
+    private_class_method def self.distance_conversion_factors
       { km: 1.0, mi: 1.612903225806452 }
     end
   end

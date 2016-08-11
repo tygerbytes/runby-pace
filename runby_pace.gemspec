@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Ty Walls']
   spec.email         = ['tygerbytes@users.noreply.github.com']
 
-  spec.summary       = %q(Runby Pace is the core logic which simplifies the calculation of target paces used by track and distance runners.)
+  spec.summary       = 'Runby Pace is the core logic which simplifies the calculation of target paces used by track and distance runners.'
   spec.homepage      = 'https://github.com/tygerbytes/runby-pace'
   spec.license       = 'MIT'
 

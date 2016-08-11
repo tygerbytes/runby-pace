@@ -1,5 +1,7 @@
 module RunbyPace
   module RunTypes
+    # Defines the venerable "distance run", the backbone of any distance running program.
+    #  Most of your runs should be at this pace. Harder than an "easy run" but still conversational.
     class DistanceRun < RunType
       attr_reader :slow_pace_data, :fast_pace_data
 
@@ -18,6 +20,7 @@ module RunbyPace
         PaceRange.new(fast, slow)
       end
 
+      # Used in testing, contains hashes mapping 5K race times with the recommended pace-per-km for this run type.
       class GoldenPaces
         def self.fast
           { '14:00': '03:44', '15:00': '03:58', '20:00': '05:09', '25:00': '06:18', '30:00': '07:24', '35:00': '08:29', '40:00': '09:33', '42:00': '09:58' }

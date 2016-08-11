@@ -1,4 +1,5 @@
 module RunbyPace
+  # Extend RunTypes with additional behavior. (See comments for details)
   module RunTypes
     # Currently, to find the radius of the curve in the pace table data for a given run time,
     #   we start with a radius equal to that of the midpoint of the X axis for the data when
@@ -22,19 +23,17 @@ module RunbyPace
           five_k_time = RunbyPace::PaceTime.new(five_k.to_s)
           pace_data = RunbyPace::PaceData.new(first_pace, last_pace, candidate_divisor)
           calculated_pace = pace_data.calc(five_k_time)
-          if !calculated_pace.almost_equals?(golden_pace, allowable_deviation)
+          unless calculated_pace.almost_equals?(golden_pace, allowable_deviation)
             viable_divisor = nil
             break
           end
           viable_divisor = candidate_divisor
         end
 
-        if !viable_divisor.nil?
-          viable_divisors << viable_divisor
-        end
+        viable_divisors << viable_divisor unless viable_divisor.nil?
       end
 
-      if !viable_divisors.empty?
+      unless viable_divisors.empty?
         # puts viable_divisors
         midpoint = (viable_divisors.length - 1) / 2
         return viable_divisors[midpoint]

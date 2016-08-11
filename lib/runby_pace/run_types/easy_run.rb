@@ -1,5 +1,6 @@
 module RunbyPace
   module RunTypes
+    # An easy run is basically a jog. It should be conversational.
     class EasyRun < RunType
       attr_reader :slow_pace_data, :fast_pace_data
 
@@ -18,6 +19,7 @@ module RunbyPace
         PaceRange.new(fast, slow)
       end
 
+      # Used in testing, contains hashes mapping 5K race times with the recommended pace-per-km for this run type.
       class GoldenPaces
         def self.fast
           { '14:00': '04:17', '15:00': '04:33', '20:00': '05:53', '25:00': '07:09', '30:00': '08:23', '35:00': '09:33', '40:00': '10:41', '42:00': '11:08' }

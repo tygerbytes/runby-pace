@@ -2,6 +2,8 @@ require_relative 'tempo_run'
 
 module RunbyPace
   module RunTypes
+    # The "fast tempo" pace roughly equates to your half-marathon pace.
+    #  It's a pace you could maintain for about an hour, if pressed.
     class FastTempoRun < TempoRun
       def description
         'Fast Tempo Run'

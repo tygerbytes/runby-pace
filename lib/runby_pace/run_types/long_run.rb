@@ -1,5 +1,7 @@
 module RunbyPace
   module RunTypes
+    # Arguably one of the most important run types, the "long run" is harder than an "easy run", but easier than
+    #  a "distance run". It should remain conversational.
     class LongRun < RunType
       attr_reader :slow_pace_data, :fast_pace_data
 
@@ -18,6 +20,7 @@ module RunbyPace
         PaceRange.new(fast, slow)
       end
 
+      # Used in testing, contains hashes mapping 5K race times with the recommended pace-per-km for this run type.
       class GoldenPaces
         def self.fast
           { '14:00': '04:00', '15:00': '04:16', '20:00': '05:31', '25:00': '06:44', '30:00': '07:54', '35:00': '09:01', '40:00': '10:07', '42:00': '10:32' }

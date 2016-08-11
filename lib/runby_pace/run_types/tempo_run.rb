@@ -1,5 +1,6 @@
 module RunbyPace
   module RunTypes
+    # Combines the fast and slow tempo runs into one convenient range of paces
     class TempoRun < RunType
       attr_reader :slow_pace_data, :fast_pace_data
 
@@ -18,6 +19,7 @@ module RunbyPace
         PaceRange.new(fast, slow)
       end
 
+      # Used in testing, contains hashes mapping 5K race times with the recommended pace-per-km for this run type.
       class GoldenPaces
         def self.fast
           { '14:00': '03:07', '15:00': '03:20', '20:00': '04:21', '25:00': '05:20', '30:00': '06:19', '35:00': '07:16', '40:00': '08:12', '42:00': '08:35' }

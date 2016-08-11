@@ -1,4 +1,5 @@
 module RunbyPace
+  # Base class for ranges of Runby data, e.g. PaceRange, SpeedRange, ...
   class RunbyRange
     attr_reader :fast, :slow
 

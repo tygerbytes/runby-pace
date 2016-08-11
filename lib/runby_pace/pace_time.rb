@@ -17,7 +17,7 @@ module RunbyPace
     def self.from_seconds(total_seconds)
       minutes = total_seconds.abs.to_i / 60
       seconds = total_seconds.abs.to_i % 60
-      PaceTime.new format("#{'%02d'}:#{'%02d'}", minutes, seconds)
+      PaceTime.new format('%02d:%02d', minutes, seconds)
     end
 
     # @param [numeric] total_minutes

@@ -1,4 +1,5 @@
 module RunbyPace
+  # An assortment of mathematical functions related to running.
   class RunMath
     def self.convert_pace_to_speed(pace)
       pace = RunbyPace::PaceTime.new(pace)
