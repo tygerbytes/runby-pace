@@ -14,4 +14,13 @@ describe RunbyPace::RunMath do
       expect(pace).to eq '08:34'
     end
   end
+
+  describe 'distance calculations' do
+    it 'calculates distance traveled, given a pace and a duration in seconds' do
+      pace = '06:00'
+      duration = '60:00'
+      meters_traveled = RunbyPace::RunMath.distance_traveled(pace, duration)
+      expect(meters_traveled).to be_within(0.01).of(10)
+    end
+  end
 end
