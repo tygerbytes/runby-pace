@@ -1,9 +1,9 @@
 RSpec::Matchers.define :be_within_seconds do |expected_time, seconds_variation|
   match do |actual_time|
     # First make sure everything is a PaceTime
-    seconds = RunbyPace::PaceTime.new(seconds_variation)
-    expected_time = RunbyPace::PaceTime.new(expected_time)
-    actual_time = RunbyPace::PaceTime.new(actual_time)
+    seconds = Runby::PaceTime.new(seconds_variation)
+    expected_time = Runby::PaceTime.new(expected_time)
+    actual_time = Runby::PaceTime.new(actual_time)
     actual_time.almost_equals?(expected_time, seconds)
   end
 
@@ -20,8 +20,8 @@ RSpec::Matchers.define :be_within_seconds do |expected_time, seconds_variation|
   end
 
   def format_time_range(expected_time_s, seconds_variation_s)
-    expected_time = RunbyPace::PaceTime.new(expected_time_s)
-    seconds_variation = RunbyPace::PaceTime.new(seconds_variation_s)
+    expected_time = Runby::PaceTime.new(expected_time_s)
+    seconds_variation = Runby::PaceTime.new(seconds_variation_s)
     slow_time = expected_time - seconds_variation
     fast_time = expected_time + seconds_variation
     "#{slow_time}-#{fast_time}"

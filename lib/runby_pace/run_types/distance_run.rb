@@ -1,4 +1,4 @@
-module RunbyPace
+module Runby
   module RunTypes
     # Defines the venerable "distance run", the backbone of any distance running program.
     #  Most of your runs should be at this pace. Harder than an "easy run" but still conversational.

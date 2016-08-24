@@ -1,4 +1,4 @@
-module RunbyPace
+module Runby
   module RunTypes
     # Combines the fast and slow tempo runs into one convenient range of paces
     class TempoRun < RunType

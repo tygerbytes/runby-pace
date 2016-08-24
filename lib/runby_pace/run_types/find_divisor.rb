@@ -1,10 +1,10 @@
-module RunbyPace
+module Runby
   # Extend RunTypes with additional behavior. (See comments for details)
   module RunTypes
     # Currently, to find the radius of the curve in the pace table data for a given run time,
     #   we start with a radius equal to that of the midpoint of the X axis for the data when
     #   plotted on a graph. Then we use a radius divisor for the PaceData for each run type to
-    #   dial in the height of the curve. (See RunbyPace::PaceData)
+    #   dial in the height of the curve. (See Runby::PaceData)
     # This method, #find_divisor, accepts a hash of "golden paces" for a run type along with
     #   the number of seconds of allowable deviation from the golden pace. Then it proceeds
     #   to brute force the divisor.
@@ -20,8 +20,8 @@ module RunbyPace
         viable_divisor = nil
 
         golden_paces.each do |five_k, golden_pace|
-          five_k_time = RunbyPace::PaceTime.new(five_k.to_s)
-          pace_data = RunbyPace::PaceData.new(first_pace, last_pace, candidate_divisor)
+          five_k_time = Runby::PaceTime.new(five_k.to_s)
+          pace_data = Runby::PaceData.new(first_pace, last_pace, candidate_divisor)
           calculated_pace = pace_data.calc(five_k_time)
           unless calculated_pace.almost_equals?(golden_pace, allowable_deviation)
             viable_divisor = nil

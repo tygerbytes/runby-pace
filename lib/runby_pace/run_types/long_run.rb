@@ -1,4 +1,4 @@
-module RunbyPace
+module Runby
   module RunTypes
     # Arguably one of the most important run types, the "long run" is harder than an "easy run", but easier than
     #  a "distance run". It should remain conversational.

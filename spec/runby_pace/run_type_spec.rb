@@ -1,10 +1,10 @@
 require_relative '../spec_helper'
 
-describe RunbyPace::RunTypes do
-  runs = RunbyPace::RunTypes
+describe Runby::RunTypes do
+  runs = Runby::RunTypes
 
   it 'provides a default description of the run type' do
-    expect(RunbyPace::RunType.new.description).to eq 'No description'
+    expect(Runby::RunType.new.description).to eq 'No description'
   end
 
   describe '#new_from_name' do

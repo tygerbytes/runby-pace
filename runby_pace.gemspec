@@ -5,7 +5,7 @@ require 'runby_pace/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'runby_pace'
-  spec.version       = RunbyPace::VERSION
+  spec.version       = Runby::VERSION
   spec.authors       = ['Ty Walls']
   spec.email         = ['tygerbytes@users.noreply.github.com']
 

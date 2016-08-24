@@ -1,4 +1,4 @@
-module RunbyPace
+module Runby
   # Base class for all run types
   class RunType
     def description
@@ -15,7 +15,7 @@ module RunbyPace
   module RunTypes
     # Returns an initialized run type, given the name of an existing run type
     def self.new_from_name(run_type_name)
-      Object.const_get("RunbyPace::RunTypes::#{run_type_name}").new
+      Object.const_get("Runby::RunTypes::#{run_type_name}").new
     end
   end
 end

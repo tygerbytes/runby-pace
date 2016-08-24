@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 
-describe RunbyPace::RunTypes do
-  run_types = RunbyPace::RunTypes
+describe Runby::RunTypes do
+  run_types = Runby::RunTypes
 
   describe '#find_divisor' do
     it 'finds the correct radius divisor for a set of golden paces' do

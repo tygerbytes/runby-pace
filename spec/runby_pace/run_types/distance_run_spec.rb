@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 
-describe RunbyPace::RunTypes do
-  runs = RunbyPace::RunTypes
+describe Runby::RunTypes do
+  runs = Runby::RunTypes
 
   describe runs::DistanceRun do
     it 'calculates a set of distance run (fast) paces correctly' do

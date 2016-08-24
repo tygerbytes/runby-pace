@@ -1,4 +1,4 @@
-module RunbyPace
+module Runby
   # Encapsulates the algorithms used to calculate target paces.
   class PaceData
     # The number of data points plotted on our line of 5K times.
@@ -26,8 +26,8 @@ module RunbyPace
     attr_reader :midpoint_radius_divisor
 
     def initialize(fastest_pace_km, slowest_pace_km, midpoint_radius_divisor)
-      @fastest_pace_km = RunbyPace::PaceTime.new(fastest_pace_km)
-      @slowest_pace_km = RunbyPace::PaceTime.new(slowest_pace_km)
+      @fastest_pace_km = Runby::PaceTime.new(fastest_pace_km)
+      @slowest_pace_km = Runby::PaceTime.new(slowest_pace_km)
       @midpoint_radius_divisor = midpoint_radius_divisor
     end
 
@@ -38,11 +38,11 @@ module RunbyPace
 
     # Calculate the prescribed pace for the given 5K time
     def calc(five_k_time, distance_units = :km)
-      five_k_time = RunbyPace::PaceTime.new(five_k_time)
+      five_k_time = Runby::PaceTime.new(five_k_time)
       x2 = ((five_k_time.total_minutes * 2) - (MIDPOINT_X - 1)) - 1
       minutes_per_km = slope * x2 + @fastest_pace_km.total_minutes + curve_minutes(x2)
-      minutes_per_unit = minutes_per_km * RunbyPace::PaceUnits.distance_conversion_factor(distance_units)
-      RunbyPace::PaceTime.from_minutes(minutes_per_unit)
+      minutes_per_unit = minutes_per_km * Runby::PaceUnits.distance_conversion_factor(distance_units)
+      Runby::PaceTime.from_minutes(minutes_per_unit)
     end
 
     private

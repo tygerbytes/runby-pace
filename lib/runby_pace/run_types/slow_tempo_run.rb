@@ -1,6 +1,6 @@
 require_relative 'tempo_run'
 
-module RunbyPace
+module Runby
   module RunTypes
     # The "slow tempo" pace roughly equates to your marathon pace.
     class SlowTempoRun < TempoRun

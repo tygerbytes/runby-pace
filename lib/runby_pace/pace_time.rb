@@ -1,4 +1,4 @@
-module RunbyPace
+module Runby
   # Represents a human-readable time in the format MM:ss
   class PaceTime
     attr_reader :time_s, :minutes_part, :seconds_part
