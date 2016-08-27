@@ -20,7 +20,7 @@ module Runby
         viable_divisor = nil
 
         golden_paces.each do |five_k, golden_pace|
-          five_k_time = Runby::PaceTime.new(five_k.to_s)
+          five_k_time = Runby::RunbyTime.new(five_k.to_s)
           pace_data = Runby::PaceData.new(first_pace, last_pace, candidate_divisor)
           calculated_pace = pace_data.calc(five_k_time)
           unless calculated_pace.almost_equals?(golden_pace, allowable_deviation)

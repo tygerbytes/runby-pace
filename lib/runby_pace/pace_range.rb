@@ -4,8 +4,8 @@ module Runby
   # Represents a range of paces, from fast to slow.
   class PaceRange < RunbyRange
     def initialize(fast, slow)
-      @fast = Runby::PaceTime.new(fast)
-      @slow = Runby::PaceTime.new(slow)
+      @fast = Runby::RunbyTime.new(fast)
+      @slow = Runby::RunbyTime.new(slow)
     end
 
     # Create a new pace range from an existing speed range.

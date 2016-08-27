@@ -1,12 +1,12 @@
 module Runby
   # Represents a human-readable time in the format MM:ss
-  class PaceTime
+  class RunbyTime
     attr_reader :time_s, :minutes_part, :seconds_part
 
     def initialize(time)
       if time.is_a?(String) || time.is_a?(Symbol)
         init_from_string time
-      elsif time.is_a?(PaceTime)
+      elsif time.is_a?(RunbyTime)
         init_from_clone time
       elsif time.is_a?(Hash)
         init_from_hash time
@@ -17,7 +17,7 @@ module Runby
     def self.from_seconds(total_seconds)
       minutes = total_seconds.abs.to_i / 60
       seconds = total_seconds.abs.to_i % 60
-      PaceTime.new format('%02d:%02d', minutes, seconds)
+      RunbyTime.new format('%02d:%02d', minutes, seconds)
     end
 
     # @param [numeric] total_minutes
@@ -57,7 +57,7 @@ module Runby
       end
       time_formatted = "#{minutes_part.to_s.rjust(2, '0')}:#{seconds_part.to_s.rjust(2, '0')}"
 
-      PaceTime.new(time_s: time_formatted, minutes_part: minutes_part, seconds_part: seconds_part)
+      RunbyTime.new(time_s: time_formatted, minutes_part: minutes_part, seconds_part: seconds_part)
     end
 
     def self.try_parse(str, is_five_k = false)
@@ -89,22 +89,22 @@ module Runby
       @minutes_part + (@seconds_part / 60.0)
     end
 
-    # @param [PaceTime] other
+    # @param [RunbyTime] other
     def -(other)
-      if other.is_a?(PaceTime)
-        PaceTime.from_seconds(total_seconds - other.total_seconds)
+      if other.is_a?(RunbyTime)
+        RunbyTime.from_seconds(total_seconds - other.total_seconds)
       end
     end
 
-    # @param [PaceTime] other
+    # @param [RunbyTime] other
     def +(other)
-      if other.is_a?(PaceTime)
-        PaceTime.from_seconds(total_seconds + other.total_seconds)
+      if other.is_a?(RunbyTime)
+        RunbyTime.from_seconds(total_seconds + other.total_seconds)
       end
     end
 
     def ==(other)
-      if other.is_a?(PaceTime)
+      if other.is_a?(RunbyTime)
         total_seconds == other.total_seconds
       elsif other.is_a?(String)
         @time_s == other
@@ -113,32 +113,32 @@ module Runby
 
     def almost_equals?(other_time, tolerance_time = '00:01')
       if other_time.is_a?(String)
-        other_time = PaceTime.new(other_time)
+        other_time = RunbyTime.new(other_time)
       end
-      tolerance = PaceTime.new(tolerance_time)
+      tolerance = RunbyTime.new(tolerance_time)
       self >= (other_time - tolerance) && self <= (other_time + tolerance)
     end
 
     def >(other)
-      if other.is_a?(PaceTime)
+      if other.is_a?(RunbyTime)
         total_seconds > other.total_seconds
       end
     end
 
     def >=(other)
-      if other.is_a?(PaceTime)
+      if other.is_a?(RunbyTime)
         total_seconds >= other.total_seconds
       end
     end
 
     def <(other)
-      if other.is_a?(PaceTime)
+      if other.is_a?(RunbyTime)
         total_seconds < other.total_seconds
       end
     end
 
     def <=(other)
-      if other.is_a?(PaceTime)
+      if other.is_a?(RunbyTime)
         total_seconds <= other.total_seconds
       end
     end
@@ -152,7 +152,7 @@ module Runby
       @seconds_part = params.fetch :seconds_part, 0.0
     end
 
-    # @param [PaceTime] time
+    # @param [RunbyTime] time
     def init_from_clone(time)
       @time_s = time.time_s
       @minutes_part = time.minutes_part
@@ -161,7 +161,7 @@ module Runby
 
     # @param [String] time
     def init_from_string(time)
-      init_from_clone PaceTime.parse time
+      init_from_clone RunbyTime.parse time
     end
   end
 end
