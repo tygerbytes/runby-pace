@@ -12,3 +12,7 @@ deploy:
     repo: tygerbytes/runby-pace
 git:
   depth: 1024
+notifications:
+  email:
+    on_success: always
+    on_failure: always
