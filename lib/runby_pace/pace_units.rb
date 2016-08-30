@@ -14,7 +14,7 @@ module Runby
     ### -- Private class methods --
 
     private_class_method def self.descriptions
-      { km: 'Kilometers', mi: 'Miles' }
+      { km: 'Kilometer', mi: 'Mile' }
     end
 
     private_class_method def self.distance_conversion_factors
