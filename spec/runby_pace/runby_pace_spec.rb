@@ -10,6 +10,6 @@ describe Runby do
     long_run = Runby::RunTypes::LongRun.new
     five_k_time = Runby::RunbyTime.new('20:00')
     pace_range = long_run.pace(five_k_time)
-    expect(pace_range.to_s).to eq '05:29-06:19'
+    expect(pace_range.to_s).to eq '5:29-6:19'
   end
 end

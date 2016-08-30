@@ -78,7 +78,7 @@ module Runby
     end
 
     def to_s
-      @time_s
+      @time_s.sub(/^[0:]*/, '')
     end
 
     def total_seconds

@@ -39,23 +39,23 @@ describe 'RunbyTime' do
       it 'parses a time string without a colon as decimal minutes' do
         time = Runby::RunbyTime.new('5')
         expect(time.total_seconds).to be 300
-        expect(time.to_s).to eq '05:00'
+        expect(time.to_s).to eq '5:00'
       end
 
       describe 'parses a time string with a decimal separator as decimal minutes' do
         it 'handles . as a decimal separator' do
           time = Runby::RunbyTime.new('5.5')
-          expect(time.to_s).to eq '05:30'
+          expect(time.to_s).to eq '5:30'
         end
 
         it 'handles , as a decimal separator' do
           time = Runby::RunbyTime.new('5,5')
-          expect(time.to_s).to eq '05:30'
+          expect(time.to_s).to eq '5:30'
         end
 
         it 'handles a space as a decimal separator' do
           time = Runby::RunbyTime.new('5 5')
-          expect(time.to_s).to eq '05:30'
+          expect(time.to_s).to eq '5:30'
         end
       end
 
@@ -95,6 +95,11 @@ describe 'RunbyTime' do
     it 'outputs a human-readable time format' do
       time = Runby::RunbyTime.new('99:59')
       expect(time.to_s).to eq '99:59'
+    end
+
+    it 'strips any leading zeroes and colons' do
+      time = Runby::RunbyTime.new('04:59')
+      expect(time.to_s).to eq '4:59'
     end
   end
 
