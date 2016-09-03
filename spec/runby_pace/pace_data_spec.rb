@@ -34,7 +34,7 @@ describe Runby::PaceData do
 
     it 'calculates the pace in minutes per mile when the units are provided' do
       pace_data = Runby::PaceData.new('10:00', '20:00', 2.0)
-      expect(pace_data.calc('14:00', :mi)).to eq '16:07'
+      expect(pace_data.calc('14:00', :mi)).to eq '16:05'
     end
   end
 

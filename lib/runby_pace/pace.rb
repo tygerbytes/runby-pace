@@ -4,12 +4,7 @@ module Runby
     attr_reader :time, :distance
     def initialize(time, distance = '1K')
       @time = Runby::RunbyTime.parse(time)
-
-      if distance == '1K' then
-        @distance = Runby::Distance.new(:km)
-      else
-        @distance = distance
-      end
+      @distance = Runby::Distance.new(distance)
     end
 
     def to_s
