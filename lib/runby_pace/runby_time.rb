@@ -27,12 +27,6 @@ module Runby
 
     def self.parse(str)
       time = str.to_s.strip.chomp
-      is_negative = false
-
-      if time[0] == '-'
-        is_negative = true
-        time = time[1..-1]
-      end
 
       if time.match(/^\d?\d:\d\d$/)
         parts = time.split(':')
@@ -41,8 +35,8 @@ module Runby
       elsif time.match(/^\d+$/)
         minutes_part = time.to_i
         seconds_part = 0
-      elsif time.match(/^\d+[,\. ]\d+$/)
-        parts = time.split(/[,\. ]/)
+      elsif time.match(/^\d+[,. ]\d+$/)
+        parts = time.split(/[,. ]/)
         minutes_part = parts[0].to_i
         seconds_part = (parts[1].to_i / 10.0 * 60).to_i
       else
@@ -51,10 +45,6 @@ module Runby
 
       raise 'Minutes must be less than 100' if minutes_part > 99
       raise 'Seconds must be less than 60' if seconds_part > 59
-      if is_negative
-        minutes_part *= -1
-        seconds_part *= -1
-      end
       time_formatted = "#{minutes_part.to_s.rjust(2, '0')}:#{seconds_part.to_s.rjust(2, '0')}"
 
       RunbyTime.new(time_s: time_formatted, minutes_part: minutes_part, seconds_part: seconds_part)
@@ -70,8 +60,8 @@ module Runby
 
       # Break out these sanity checks into their own class if we add any more.
       if !time.nil? && is_five_k
-        if time.minutes_part < 14 then warning_message = '5K times of less than 14:00 are unlikely' end
-        if time.total_seconds > (42 * 60) then warning_message = '5K times of greater than 42:00 are not fully supported' end
+        warning_message = '5K times of less than 14:00 are unlikely' if time.minutes_part < 14
+        warning_message = '5K times of greater than 42:00 are not fully supported' if time.total_seconds > (42 * 60)
       end
 
       { time: time, error: error_message, warning: warning_message }

@@ -4,6 +4,10 @@ describe Runby::RunTypes do
   runs = Runby::RunTypes
 
   describe runs::DistanceRun do
+    it 'has the correct description' do
+      expect(runs::DistanceRun.new.description).to eq 'Distance Run'
+    end
+
     it 'calculates a set of distance run (fast) paces correctly' do
       distance_run = runs::DistanceRun.new
       runs::DistanceRun::GoldenPaces.fast.each do |five_k, golden_pace|

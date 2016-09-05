@@ -7,8 +7,7 @@ describe 'RunbyTime' do
       expect(time.total_seconds).to be 320
     end
 
-    it 'expects the time to be formatted as (-)?\d\d:\d\d ' do
-      # The '-' is an optional negative sign
+    it 'expects the time to be formatted as \d\d:\d\d ' do
       expect { Runby::RunbyTime.new('ab:cd') }.to raise_error 'Invalid time format'
     end
 
