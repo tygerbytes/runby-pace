@@ -12,7 +12,7 @@ module Runby
       raise 'Invalid multiplier' unless multiplier.is_a?(Numeric)
 
       if distance_uom.is_a? Symbol
-        raise "Unknown unit of measure #{distance_uom}" unless Runby::PaceUnits.known_uom? distance_uom
+        raise "Unknown unit of measure #{distance_uom}" unless Runby::DistanceUnits.known_uom? distance_uom
         @uom = distance_uom
         @multiplier = multiplier * 1.0
         return
@@ -24,7 +24,7 @@ module Runby
     end
 
     def meters
-      kilometers = @multiplier * Runby::PaceUnits.distance_conversion_factor(@uom)
+      kilometers = @multiplier * Runby::DistanceUnits.conversion_factor(@uom)
       kilometers * 1000.0
     end
 
@@ -36,7 +36,7 @@ module Runby
       # TODO: test V
       raise "Unable to find distance unit in #{str}" if uom.nil?
 
-      parsed_uom = Runby::PaceUnits.parse_unit_of_measure uom
+      parsed_uom = Runby::DistanceUnits.parse uom
       # TODO: test
       raise "#{uom} is not recognized as a distance unit" if parsed_uom[:uom].nil?
 
@@ -48,7 +48,7 @@ module Runby
     end
 
     def pluralized_uom
-      uom_description = PaceUnits.description(@uom).downcase
+      uom_description = DistanceUnits.description(@uom).downcase
       if @multiplier > 1 then
         uom_description += 's'
       end

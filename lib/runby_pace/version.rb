@@ -1,3 +1,3 @@
 module Runby
-  VERSION = "0.4.#{`git rev-list --count HEAD`}".freeze
+  VERSION = "0.5.#{`git rev-list --count HEAD`}".freeze
 end
