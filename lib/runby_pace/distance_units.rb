@@ -4,14 +4,14 @@ module Runby
   #  and the factor used to convert it to kilometers.
   class DistanceUnits
     def self.description(uom)
-      @@_uom_definition[uom][:description]
+      @@_uom_definitions[uom][:description]
     end
 
     def self.parse(description)
       description = description.strip.chomp
       found_uom = nil
       found_uom_factor = 1
-      @@_uom_definition.each do |uom, details|
+      @@_uom_definitions.each do |uom, details|
         if details[:synonyms].include? description
           if details.has_key? :uom
             found_uom = details[:uom]
@@ -26,15 +26,15 @@ module Runby
     end
 
     def self.conversion_factor(units)
-      @@_uom_definition[units][:conversion_factor]
+      @@_uom_definitions[units][:conversion_factor]
     end
 
     def self.known_uom?(symbol)
       # TODO: test
-      @@_uom_definition.has_key?(symbol)
+      @@_uom_definitions.has_key?(symbol)
     end
 
-    @@_uom_definition =
+    @@_uom_definitions =
       { km: { description: 'Kilometer', conversion_factor: 1.0, synonyms: %w(k km kms kilometer kilometers) },
         m:  { description: 'Meter', conversion_factor: 0.001, synonyms: %w(m meter meters) },
         mi: { description: 'Mile', conversion_factor: 1.609344, synonyms: %w(mi mile miles) },
