@@ -32,6 +32,16 @@ module Runby
       return DistanceUnit.new found_uom
     end
 
+    def self.try_parse(str)
+      uom, error_message = nil
+      begin
+        uom = parse str
+      rescue StandardError => ex
+        error_message = "#{ex.message}"
+      end
+      { uom: uom, error: error_message }
+    end
+
     def self.known_uom?(symbol)
       # TODO: test
       @@_uom_definitions.has_key?(symbol)

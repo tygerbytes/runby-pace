@@ -36,5 +36,19 @@ describe Runby::DistanceUnit do
         expect(uom.description).to eq 'Marathon'
       end
     end
+
+    describe '#try_parse' do
+      it 'parses a string containing a valid unit of measure and returns a results hash containing a DistanceUnit' do
+        results = Runby::DistanceUnit.try_parse 'miles'
+        expect(results[:uom].symbol).to eq :mi
+        expect(results[:error]).to eq nil
+      end
+
+      it 'attempts to parse a string containing an invalid unit of measure and returns the error message in the results hash' do
+        results = Runby::DistanceUnit.try_parse 'INVALID'
+        expect(results[:uom]).to eq nil
+        expect(results[:error]).to eq "Error parsing distance unit 'invalid'"
+      end
+    end
   end
 end

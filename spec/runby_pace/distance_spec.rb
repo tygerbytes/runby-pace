@@ -64,7 +64,6 @@ describe Runby::Distance do
       end
 
       it 'raises an error if the unit of measure is unknown to it' do
-        # expect { Runby::Distance.parse '15 bananas'}.to raise_error "'bananas' is not recognized as a distance unit"
         expect { Runby::Distance.parse '15 bananas'}.to raise_error "Error parsing distance unit 'bananas'"
       end
     end
