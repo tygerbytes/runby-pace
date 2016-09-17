@@ -39,7 +39,7 @@ describe Runby::Pace do
     describe 'Distance' do
       it 'defaults to 1 kilometer if not provided' do
         pace = Runby::Pace.new('59:59')
-        expect(pace.distance.uom).to eq :km
+        expect(pace.distance.uom.symbol).to eq :km
         expect(pace.distance.multiplier).to eq 1
       end
 

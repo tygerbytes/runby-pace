@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
 describe Runby::Distance do
-  it 'represents a physical distance such as 5 kilometers, encapsulating a distance UOM and a multiplier' do
+  it 'represents a physical distance such as 5 kilometers, encapsulating a DistanceUnit and a multiplier' do
     # Note: UOM is short for Unit of Measure
     distance = Runby::Distance.new :km, 5
     expect(distance.to_s).to eq '5 kilometers'
@@ -22,7 +22,7 @@ describe Runby::Distance do
   describe 'distance initialization and creation' do
     it 'parses the string as a distance if one is provided' do
       distance = Runby::Distance.new('26.2 miles')
-      expect(distance.uom).to eq :mi
+      expect(distance.uom.symbol).to eq :mi
       expect(distance.multiplier).to eq 26.2
     end
 
@@ -34,13 +34,13 @@ describe Runby::Distance do
 
     it 'defaults to 1 kilometer if no parameters are provided' do
       distance = Runby::Distance.new
-      expect(distance.uom).to eq :km
+      expect(distance.uom.symbol).to eq :km
       expect(distance.multiplier).to eq 1
     end
 
     it 'defaults to a multiplier of 1 if one is not provided' do
       distance = Runby::Distance.new(:mi)
-      expect(distance.uom).to eq :mi
+      expect(distance.uom.symbol).to eq :mi
       expect(distance.multiplier).to eq 1
     end
 
@@ -55,7 +55,7 @@ describe Runby::Distance do
     describe '#parse' do
       it 'parses a string as a distance and returns a new Distance' do
         distance = Runby::Distance.parse '26.2 miles'
-        expect(distance.uom).to eq :mi
+        expect(distance.uom.symbol).to eq :mi
         expect(distance.multiplier).to eq 26.2
       end
 
@@ -64,7 +64,8 @@ describe Runby::Distance do
       end
 
       it 'raises an error if the unit of measure is unknown to it' do
-        expect { Runby::Distance.parse '15 bananas'}.to raise_error "'bananas' is not recognized as a distance unit"
+        # expect { Runby::Distance.parse '15 bananas'}.to raise_error "'bananas' is not recognized as a distance unit"
+        expect { Runby::Distance.parse '15 bananas'}.to raise_error "Error parsing distance unit 'bananas'"
       end
     end
   end

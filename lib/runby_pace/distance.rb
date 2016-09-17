@@ -3,21 +3,22 @@ module Runby
   class Distance
     attr_reader :uom, :multiplier
     def initialize(uom = :km, multiplier = 1)
-      raise 'Invalid multiplier' unless multiplier.is_a?(Numeric)
       case uom
         when Distance
           return init_from_clone uom
+        when DistanceUnit
+          return init_from_distance_unit uom, multiplier
         when String
           return init_from_string uom
         when Symbol
-          return init_from_symbol(uom, multiplier)
+          return init_from_symbol uom, multiplier
         else
           raise 'Invalid distance unit of measure'
       end
     end
 
     def meters
-      kilometers = @multiplier * Runby::DistanceUnits.conversion_factor(@uom)
+      kilometers = @multiplier * @uom.conversion_factor
       kilometers * 1000.0
     end
 
@@ -27,10 +28,10 @@ module Runby
       uom = str.scan(/[-_a-z ]+$/).first
       raise "Unable to find distance unit in '#{str}'" if uom.nil?
 
-      parsed_uom = Runby::DistanceUnits.parse uom
-      raise "'#{uom.strip}' is not recognized as a distance unit" if parsed_uom[:uom].nil?
+      parsed_uom = Runby::DistanceUnit.parse uom
+      raise "'#{uom.strip}' is not recognized as a distance unit" if parsed_uom.nil?
 
-      self.new parsed_uom[:uom], parsed_uom[:factor] * multiplier
+      self.new parsed_uom, multiplier
     end
 
     def to_s
@@ -38,7 +39,7 @@ module Runby
     end
 
     def pluralized_uom
-      uom_description = DistanceUnits.description(@uom).downcase
+      uom_description = @uom.description.downcase
       if @multiplier > 1 then
         uom_description += 's'
       end
@@ -52,13 +53,19 @@ module Runby
       @multiplier = distance.multiplier
     end
 
+    def init_from_distance_unit(uom, multiplier)
+      @uom = uom
+      @multiplier = multiplier
+    end
+
     def init_from_string(string)
       init_from_clone Distance.parse string
     end
 
-    def init_from_symbol(distance_uom, multiplier)
-      raise "Unknown unit of measure #{distance_uom}" unless Runby::DistanceUnits.known_uom? distance_uom
-      @uom = distance_uom
+    def init_from_symbol(distance_uom_symbol, multiplier)
+      raise "Unknown unit of measure #{distance_uom_symbol}" unless Runby::DistanceUnit.known_uom? distance_uom_symbol
+      raise 'Invalid multiplier' unless multiplier.is_a?(Numeric)
+      @uom = DistanceUnit.new distance_uom_symbol
       @multiplier = multiplier * 1.0
     end
   end
