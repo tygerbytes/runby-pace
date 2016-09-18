@@ -67,6 +67,22 @@ describe Runby::Distance do
         expect { Runby::Distance.parse '15 bananas'}.to raise_error "Error parsing distance unit 'bananas'"
       end
     end
+
+    describe '#try_parse' do
+      it 'parses a string containing a valid distance and returns a results hash containing a Distance' do
+        results = Runby::Distance.try_parse '5 miles'
+        expect(results[:distance].uom.symbol).to eq :mi
+        expect(results[:distance].multiplier).to eq 5
+        expect(results[:error]).to eq nil
+      end
+
+      it 'attempts to parse a string containing an invalid distance and returns the error message in the results hash' do
+        results = Runby::Distance.try_parse 'INVALID'
+        expect(results[:distance]).to eq nil
+        expect(results[:error]).to eq "Error parsing distance unit 'invalid'"
+      end
+    end
+
   end
 
   describe 'Fuzzy string parsing of common distance descriptions' do

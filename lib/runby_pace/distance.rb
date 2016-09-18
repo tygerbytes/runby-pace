@@ -34,6 +34,16 @@ module Runby
       self.new parsed_uom, multiplier
     end
 
+    def self.try_parse(str)
+      distance, error_message = nil
+      begin
+        distance = parse str
+      rescue StandardError => ex
+        error_message = "#{ex.message}"
+      end
+      { distance: distance, error: error_message }
+    end
+
     def to_s
       "#{format('%g', @multiplier.round(2))} #{pluralized_uom}"
     end
