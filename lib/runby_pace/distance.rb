@@ -17,9 +17,18 @@ module Runby
       end
     end
 
+    def convert_to(uom)
+      target_uom = DistanceUnit.new uom
+      target_multiplier = kilometers / (target_uom.conversion_factor * 1.0)
+      Distance.new target_uom, target_multiplier
+    end
+
     def meters
-      kilometers = @multiplier * @uom.conversion_factor
       kilometers * 1000.0
+    end
+
+    def kilometers
+      @multiplier * @uom.conversion_factor
     end
 
     def self.parse(str)

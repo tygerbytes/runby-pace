@@ -19,6 +19,29 @@ describe Runby::Distance do
     end
   end
 
+  describe '#kilometers' do
+    it 'return the total number of kilometers represented by the distance' do
+      distance = Runby::Distance.new(:mi, 3.1)
+      expect(distance.kilometers).to be_within(0.1).of(5.0)
+    end
+  end
+
+  describe '#convert_to UOM' do
+    it 'returns a new distance converted to the given distance unit of measure' do
+      distance_mi = Runby::Distance.new(:mi, 3.1)
+      distance_km = distance_mi.convert_to :km
+      expect(distance_km.multiplier).to be_within(0.1).of(5.0)
+      expect(distance_km.uom.symbol).to eq :km
+    end
+
+    it 'converts kilometers to miles' do
+      distance_mi = Runby::Distance.new(:km, 5.0)
+      distance_km = distance_mi.convert_to 'miles'
+      expect(distance_km.multiplier).to be_within(0.1).of(3.1)
+      expect(distance_km.uom.symbol).to eq :mi
+    end
+  end
+
   describe 'distance initialization and creation' do
     it 'parses the string as a distance if one is provided' do
       distance = Runby::Distance.new('26.2 miles')
