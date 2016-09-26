@@ -11,8 +11,9 @@ module Runby
 
     # Create a new speed range from an existing pace range.
     def self.from_pace_range(pace_range)
-      fast = Runby::RunMath.convert_pace_to_speed pace_range.fast
-      slow = Runby::RunMath.convert_pace_to_speed pace_range.slow
+      # TODO: We need a Speed class with Distance_units included
+      fast = Runby::RunMath.convert_pace_to_speed pace_range.fast.time
+      slow = Runby::RunMath.convert_pace_to_speed pace_range.slow.time
       SpeedRange.new fast, slow
     end
   end

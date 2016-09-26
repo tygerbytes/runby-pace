@@ -3,8 +3,8 @@ require_relative '../spec_helper'
 describe Runby::PaceData do
   it 'houses the data used to calculate the prescribed paces for a run type' do
     pace_data = Runby::PaceData.new('10:00', '20:00', 2.0)
-    expect(pace_data.fastest_pace_km).to eq '10:00'
-    expect(pace_data.slowest_pace_km).to eq '20:00'
+    expect(pace_data.fastest_pace_km.time).to eq '10:00'
+    expect(pace_data.slowest_pace_km.time).to eq '20:00'
     expect(pace_data.midpoint_radius_divisor).to eq 2.0
   end
 
@@ -20,21 +20,21 @@ describe Runby::PaceData do
       '40:00': '19:19',
       '42:00': '20:00'
     }
-    golden_paces.each do |five_k_time, expected_pace|
+    golden_paces.each do |five_k_time, expected_pace_time|
       calculated_pace = pace_data.calc(five_k_time)
-      expect(calculated_pace).to eq expected_pace
+      expect(calculated_pace.time).to eq expected_pace_time
     end
   end
 
   describe 'PaceData distance units conversions' do
     it 'calculates the pace in minutes per kilometer by default' do
       pace_data = Runby::PaceData.new('10:00', '20:00', 2.0)
-      expect(pace_data.calc('14:00')).to eq '10:00'
+      expect(pace_data.calc('14:00').time).to eq '10:00'
     end
 
     it 'calculates the pace in minutes per mile when the units are provided' do
       pace_data = Runby::PaceData.new('10:00', '20:00', 2.0)
-      expect(pace_data.calc('14:00', :mi)).to eq '16:05'
+      expect(pace_data.calc('14:00', :mi).time).to eq '16:05'
     end
   end
 

@@ -26,14 +26,14 @@ module Runby
     attr_reader :midpoint_radius_divisor
 
     def initialize(fastest_pace_km, slowest_pace_km, midpoint_radius_divisor)
-      @fastest_pace_km = Runby::RunbyTime.new(fastest_pace_km)
-      @slowest_pace_km = Runby::RunbyTime.new(slowest_pace_km)
+      @fastest_pace_km = Pace.new(fastest_pace_km)
+      @slowest_pace_km = Pace.new(slowest_pace_km)
       @midpoint_radius_divisor = midpoint_radius_divisor
     end
 
     # Calculate the slope of the line between the fastest and slowest paces
     def slope
-      (@slowest_pace_km.total_minutes - @fastest_pace_km.total_minutes) / (DATA_POINTS_COUNT - 1)
+      (@slowest_pace_km.time.total_minutes - @fastest_pace_km.time.total_minutes) / (DATA_POINTS_COUNT - 1)
     end
 
     # Calculate the prescribed pace for the given 5K time
@@ -41,9 +41,13 @@ module Runby
       five_k_time = Runby::RunbyTime.new five_k_time
       distance_units = Runby::DistanceUnit.new distance_units
       x2 = ((five_k_time.total_minutes * 2) - (MIDPOINT_X - 1)) - 1
-      minutes_per_km = slope * x2 + @fastest_pace_km.total_minutes + curve_minutes(x2)
+      minutes_per_km = slope * x2 + @fastest_pace_km.time.total_minutes + curve_minutes(x2)
       minutes_per_unit = minutes_per_km * distance_units.conversion_factor
-      Runby::RunbyTime.from_minutes(minutes_per_unit)
+
+      # TODO: Is there a way to clean up all of this "newing up"?
+      time = RunbyTime.from_minutes(minutes_per_unit)
+      distance = Distance.new distance_units, 1
+      Pace.new time, distance
     end
 
     private

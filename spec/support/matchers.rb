@@ -3,7 +3,11 @@ RSpec::Matchers.define :be_within_seconds do |expected_time, seconds_variation|
     # First make sure everything is a RunbyTime
     seconds = Runby::RunbyTime.new(seconds_variation)
     expected_time = Runby::RunbyTime.new(expected_time)
-    actual_time = Runby::RunbyTime.new(actual_time)
+    if actual_time.is_a? Runby::Pace
+      actual_time = actual_time.time
+    elsif actual_time.is_a? String
+      actual_time = Runby::RunbyTime.new(actual_time)
+    end
     actual_time.almost_equals?(expected_time, seconds)
   end
 

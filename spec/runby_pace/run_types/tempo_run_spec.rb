@@ -19,7 +19,7 @@ describe Runby::RunTypes do
     it 'calculates the pace in minutes per mile' do
       fast_tempo_run = runs::FastTempoRun.new
       calculated_pace_range = fast_tempo_run.pace('14:00', :mi)
-      expect(calculated_pace_range.fast).to eq '05:00'
+      expect(calculated_pace_range.fast.to_s).to eq '5:00 per mile'
     end
   end
 
@@ -39,7 +39,7 @@ describe Runby::RunTypes do
     it 'calculates the pace in minutes per mile' do
       slow_tempo_run = runs::SlowTempoRun.new
       calculated_pace_range = slow_tempo_run.pace('14:00', :mi)
-      expect(calculated_pace_range.slow).to eq '05:18'
+      expect(calculated_pace_range.slow.to_s).to eq '5:18 per mile'
     end
   end
 
@@ -47,8 +47,8 @@ describe Runby::RunTypes do
     it 'combines the fast and slow tempo runs into one run type' do
       tempo_run = runs::TempoRun.new
       calculated_pace_range = tempo_run.pace('14:00')
-      expect(calculated_pace_range.fast).to eq '03:07'
-      expect(calculated_pace_range.slow).to eq '03:18'
+      expect(calculated_pace_range.fast.to_s).to eq '3:07 per kilometer'
+      expect(calculated_pace_range.slow.to_s).to eq '3:18 per kilometer'
     end
   end
 end
