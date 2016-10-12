@@ -10,8 +10,8 @@ module Runby
       end
 
       def initialize
-        @fast_pace_data = PaceData.new(GoldenPaces.fast[:'14:00'], GoldenPaces.fast[:'42:00'], 2.125)
-        @slow_pace_data = PaceData.new(GoldenPaces.slow[:'14:00'], GoldenPaces.slow[:'42:00'], 1.55)
+        @fast_pace_data = PaceCalculator.new(GoldenPaces.fast[:'14:00'], GoldenPaces.fast[:'42:00'], 2.125)
+        @slow_pace_data = PaceCalculator.new(GoldenPaces.slow[:'14:00'], GoldenPaces.slow[:'42:00'], 1.55)
       end
 
       def pace(five_k_time, distance_units = :km)
