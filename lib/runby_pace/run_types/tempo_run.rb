@@ -13,7 +13,7 @@ module Runby
         @slow_pace_data = PaceCalculator.new(GoldenPaces.slow[:'14:00'], GoldenPaces.slow[:'42:00'], 3.725)
       end
 
-      def pace(five_k_time, distance_units = :km)
+      def lookup_pace(five_k_time, distance_units = :km)
         fast = @fast_pace_data.calc(five_k_time, distance_units)
         slow = @slow_pace_data.calc(five_k_time, distance_units)
         PaceRange.new(fast, slow)

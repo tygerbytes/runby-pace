@@ -5,7 +5,7 @@ module Runby
       'No description'
     end
 
-    def pace(five_k_time, distance_units = :km)
+    def lookup_pace(five_k_time, distance_units = :km)
     end
   end
 

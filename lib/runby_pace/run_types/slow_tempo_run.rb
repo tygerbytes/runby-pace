@@ -8,7 +8,7 @@ module Runby
         'Slow Tempo Run'
       end
 
-      def pace(five_k_time, distance_units = :km)
+      def lookup_pace(five_k_time, distance_units = :km)
         slow = @slow_pace_data.calc(five_k_time, distance_units)
         PaceRange.new(slow, slow)
       end

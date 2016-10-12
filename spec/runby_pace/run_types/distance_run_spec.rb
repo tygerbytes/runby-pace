@@ -11,7 +11,7 @@ describe Runby::RunTypes do
     it 'calculates a set of distance run (fast) paces correctly' do
       distance_run = runs::DistanceRun.new
       runs::DistanceRun::GoldenPaces.fast.each do |five_k, golden_pace|
-        calculated_pace_range = distance_run.pace(five_k)
+        calculated_pace_range = distance_run.lookup_pace(five_k)
         expect(calculated_pace_range.fast).to be_within_seconds(golden_pace, '00:02')
       end
     end
@@ -19,14 +19,14 @@ describe Runby::RunTypes do
     it 'calculates a set of distance run (slow) paces correctly' do
       distance_run = runs::DistanceRun.new
       runs::DistanceRun::GoldenPaces.slow.each do |five_k, golden_pace|
-        calculated_pace_range = distance_run.pace(five_k)
+        calculated_pace_range = distance_run.lookup_pace(five_k)
         expect(calculated_pace_range.slow).to be_within_seconds(golden_pace, '00:02')
       end
     end
 
     it 'calculates the pace in minutes per mile' do
       distance_run = runs::DistanceRun.new
-      calculated_pace_range = distance_run.pace('14:00', :mi)
+      calculated_pace_range = distance_run.lookup_pace('14:00', :mi)
       expect(calculated_pace_range.fast.to_s).to eq '6:00 per mile'
     end
   end
