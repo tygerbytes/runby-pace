@@ -2,20 +2,20 @@ module Runby
   module RunTypes
     # An easy run is basically a jog. It should be conversational.
     class EasyRun < RunType
-      attr_reader :slow_pace_data, :fast_pace_data
+      attr_reader :slow_pace_calculator, :fast_pace_calculator
 
       def description
         'Easy Run'
       end
 
       def initialize
-        @fast_pace_data = PaceCalculator.new(GoldenPaces.fast[:'14:00'], GoldenPaces.fast[:'42:00'], 1.99)
-        @slow_pace_data = PaceCalculator.new(GoldenPaces.slow[:'14:00'], GoldenPaces.slow[:'42:00'], 1.35)
+        @fast_pace_calculator = PaceCalculator.new(GoldenPaces.fast[:'14:00'], GoldenPaces.fast[:'42:00'], 1.99)
+        @slow_pace_calculator = PaceCalculator.new(GoldenPaces.slow[:'14:00'], GoldenPaces.slow[:'42:00'], 1.35)
       end
 
       def lookup_pace(five_k_time, distance_units = :km)
-        fast = @fast_pace_data.calc(five_k_time, distance_units)
-        slow = @slow_pace_data.calc(five_k_time, distance_units)
+        fast = @fast_pace_calculator.calc(five_k_time, distance_units)
+        slow = @slow_pace_calculator.calc(five_k_time, distance_units)
         PaceRange.new(fast, slow)
       end
 

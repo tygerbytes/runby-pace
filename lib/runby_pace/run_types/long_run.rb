@@ -3,20 +3,20 @@ module Runby
     # Arguably one of the most important run types, the "long run" is harder than an "easy run", but easier than
     #  a "distance run". It should remain conversational.
     class LongRun < RunType
-      attr_reader :slow_pace_data, :fast_pace_data
+      attr_reader :slow_pace_calculator, :fast_pace_calculator
 
       def description
         'Long Run'
       end
 
       def initialize
-        @fast_pace_data = PaceCalculator.new(GoldenPaces.fast[:'14:00'], GoldenPaces.fast[:'42:00'], 2.125)
-        @slow_pace_data = PaceCalculator.new(GoldenPaces.slow[:'14:00'], GoldenPaces.slow[:'42:00'], 1.55)
+        @fast_pace_calculator = PaceCalculator.new(GoldenPaces.fast[:'14:00'], GoldenPaces.fast[:'42:00'], 2.125)
+        @slow_pace_calculator = PaceCalculator.new(GoldenPaces.slow[:'14:00'], GoldenPaces.slow[:'42:00'], 1.55)
       end
 
       def lookup_pace(five_k_time, distance_units = :km)
-        fast = @fast_pace_data.calc(five_k_time, distance_units)
-        slow = @slow_pace_data.calc(five_k_time, distance_units)
+        fast = @fast_pace_calculator.calc(five_k_time, distance_units)
+        slow = @slow_pace_calculator.calc(five_k_time, distance_units)
         PaceRange.new(fast, slow)
       end
 

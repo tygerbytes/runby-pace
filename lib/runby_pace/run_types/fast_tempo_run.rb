@@ -10,7 +10,7 @@ module Runby
       end
 
       def lookup_pace(five_k_time, distance_units = :km)
-        fast = @fast_pace_data.calc(five_k_time, distance_units)
+        fast = @fast_pace_calculator.calc(five_k_time, distance_units)
         PaceRange.new(fast, fast)
       end
     end

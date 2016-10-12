@@ -3,20 +3,20 @@ module Runby
     # Defines the venerable "distance run", the backbone of any distance running program.
     #  Most of your runs should be at this pace. Harder than an "easy run" but still conversational.
     class DistanceRun < RunType
-      attr_reader :slow_pace_data, :fast_pace_data
+      attr_reader :slow_pace_calculator, :fast_pace_calculator
 
       def description
         'Distance Run'
       end
 
       def initialize
-        @fast_pace_data = PaceCalculator.new(GoldenPaces.fast[:'14:00'], GoldenPaces.fast[:'42:00'], 3.675)
-        @slow_pace_data = PaceCalculator.new(GoldenPaces.slow[:'14:00'], GoldenPaces.slow[:'42:00'], 2.175)
+        @fast_pace_calculator = PaceCalculator.new(GoldenPaces.fast[:'14:00'], GoldenPaces.fast[:'42:00'], 3.675)
+        @slow_pace_calculator = PaceCalculator.new(GoldenPaces.slow[:'14:00'], GoldenPaces.slow[:'42:00'], 2.175)
       end
 
       def lookup_pace(five_k_time, distance_units = :km)
-        fast = @fast_pace_data.calc(five_k_time, distance_units)
-        slow = @slow_pace_data.calc(five_k_time, distance_units)
+        fast = @fast_pace_calculator.calc(five_k_time, distance_units)
+        slow = @slow_pace_calculator.calc(five_k_time, distance_units)
         PaceRange.new(fast, slow)
       end
 
