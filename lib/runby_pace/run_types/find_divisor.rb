@@ -8,20 +8,18 @@ module Runby
     # This method, #find_divisor, accepts a hash of "golden paces" for a run type along with
     #   the number of seconds of allowable deviation from the golden pace. Then it proceeds
     #   to brute force the divisor.
-    # @param [Hash] golden_paces
+    # @param [GoldenPaceSet] golden_pace_set
     # @param [String] allowable_deviation
     # @return [decimal]
-    def self.find_divisor(golden_paces, allowable_deviation = '00:01')
-      _, first_pace = golden_paces.first
-      last_pace = golden_paces[:'42:00']
+    def self.find_divisor(golden_pace_set, allowable_deviation = '00:01')
       viable_divisors = []
 
       (1.0..5.0).step(0.025) do |candidate_divisor|
         viable_divisor = nil
 
-        golden_paces.each do |five_k, golden_pace|
+        golden_pace_set.each do |five_k, golden_pace|
           five_k_time = Runby::RunbyTime.new(five_k.to_s)
-          pace_data = Runby::PaceCalculator.new(first_pace, last_pace, candidate_divisor)
+          pace_data = Runby::PaceCalculator.new( golden_pace_set, candidate_divisor)
           calculated_pace = pace_data.calc(five_k_time)
           unless calculated_pace.time.almost_equals?(golden_pace, allowable_deviation)
             viable_divisor = nil

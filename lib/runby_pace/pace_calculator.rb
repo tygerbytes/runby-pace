@@ -25,9 +25,9 @@ module Runby
     #  until it matches that of the data. (See #curve_minutes)
     attr_reader :midpoint_radius_divisor
 
-    def initialize(fastest_pace_km, slowest_pace_km, midpoint_radius_divisor)
-      @fastest_pace_km = Pace.new(fastest_pace_km)
-      @slowest_pace_km = Pace.new(slowest_pace_km)
+    def initialize(golden_pace_set, midpoint_radius_divisor)
+      @fastest_pace_km = Pace.new(golden_pace_set.fastest)
+      @slowest_pace_km = Pace.new(golden_pace_set.slowest)
       @midpoint_radius_divisor = midpoint_radius_divisor
     end
 
