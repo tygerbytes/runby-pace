@@ -4,10 +4,11 @@ module Runby
   class GoldenPaceSet
     attr_reader :paces
 
-    FASTEST = :'14:00'
-    SLOWEST = :'42:00'
+    @@FASTEST = :'14:00'
+    @@SLOWEST = :'42:00'
 
     def initialize(paces_hash)
+
       @paces = paces_hash
     end
 
@@ -18,17 +19,17 @@ module Runby
     end
 
     def first
-      @paces[:'14:00']
+      @paces[@@FASTEST]
     end
     alias :fastest :first
 
     def last
-      @paces[:'42:00']
+      @paces[@@SLOWEST]
     end
     alias :slowest :last
 
     def self.new_from_endpoints(fastest, slowest)
-      GoldenPaceSet.new({'14:00': fastest, '42:00': slowest})
+      GoldenPaceSet.new({@@FASTEST => fastest, @@SLOWEST => slowest})
     end
   end
 end
