@@ -26,8 +26,8 @@ module Runby
     attr_reader :midpoint_radius_divisor
 
     def initialize(golden_pace_set, midpoint_radius_divisor)
-      @fastest_pace_km = Pace.new(golden_pace_set.fastest)
-      @slowest_pace_km = Pace.new(golden_pace_set.slowest)
+      @fastest_pace_km = golden_pace_set.fastest
+      @slowest_pace_km = golden_pace_set.slowest
       @midpoint_radius_divisor = midpoint_radius_divisor
     end
 
