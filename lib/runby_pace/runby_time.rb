@@ -1,6 +1,8 @@
 module Runby
   # Represents a human-readable time in the format MM:ss
   class RunbyTime
+    include Comparable
+
     attr_reader :time_s, :minutes_part, :seconds_part
 
     def initialize(time)
@@ -93,11 +95,12 @@ module Runby
       end
     end
 
-    def ==(other)
-      if other.is_a?(RunbyTime)
-        total_seconds == other.total_seconds
-      elsif other.is_a?(String)
-        @time_s == other
+    def <=>(other)
+      if other.is_a? RunbyTime
+        total_seconds <=> other.total_seconds
+      elsif other.is_a? String
+        return 0 if @time_s == other
+        total_seconds <=> parse(other).total_seconds
       end
     end
 
@@ -107,30 +110,6 @@ module Runby
       end
       tolerance = RunbyTime.new(tolerance_time)
       self >= (other_time - tolerance) && self <= (other_time + tolerance)
-    end
-
-    def >(other)
-      if other.is_a?(RunbyTime)
-        total_seconds > other.total_seconds
-      end
-    end
-
-    def >=(other)
-      if other.is_a?(RunbyTime)
-        total_seconds >= other.total_seconds
-      end
-    end
-
-    def <(other)
-      if other.is_a?(RunbyTime)
-        total_seconds < other.total_seconds
-      end
-    end
-
-    def <=(other)
-      if other.is_a?(RunbyTime)
-        total_seconds <= other.total_seconds
-      end
     end
 
     private
