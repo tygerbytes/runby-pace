@@ -9,7 +9,7 @@ module Runby
       if time_or_pace.is_a? Pace
         init_from_clone time_or_pace
       else
-        @time = Runby::RunbyTime.parse(time_or_pace)
+        @time = Runby::RunbyTime.new(time_or_pace)
         @distance = Runby::Distance.new(distance)
       end
     end
@@ -25,6 +25,7 @@ module Runby
       elsif other.is_a? RunbyTime
         @time <=> other.time
       elsif other.is_a? String
+        # TODO: Parse as Pace when Pace.parse is available
         @time <=> RunbyTime.parse(other)
       end
     end
@@ -34,8 +35,27 @@ module Runby
         other_pace = Pace.parse(other_pace)
       end
       tolerance = RunbyTime.new(tolerance_time)
-      # TODO: Clean this up by adding +- to Pace
-      self.time >= (other_pace.time - tolerance) && self.time <= (other_pace.time + tolerance)
+      self >= (other_pace - tolerance) && self <= (other_pace + tolerance)
+    end
+
+    # @param [Pace, RunbyTime] other
+    def -(other)
+      if other.is_a?(Pace)
+        raise 'Pace arithmetic with different units is not currently supported' unless @distance == other.distance
+        Pace.new(@time - other.time, @distance)
+      elsif other.is_a?(RunbyTime)
+        Pace.new(@time - other, @distance)
+      end
+    end
+
+    # @param [Pace, RunbyTime] other
+    def +(other)
+      if other.is_a?(Pace)
+        raise 'Pace arithmetic with different units is not currently supported' unless @distance == other.distance
+        Pace.new(@time + other.time, @distance)
+      elsif other.is_a?(RunbyTime)
+        Pace.new(@time + other, @distance)
+      end
     end
 
     private

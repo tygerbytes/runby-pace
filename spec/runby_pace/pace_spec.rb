@@ -64,6 +64,36 @@ describe Runby::Pace do
     end
   end
 
+  describe 'Pace arithmetic' do
+    it 'subtracts one pace from another' do
+      pace_a = Runby::Pace.new('01:30')
+      pace_b = Runby::Pace.new('00:31')
+      expect(pace_a - pace_b).to eq '00:59'
+    end
+
+    it 'subtracts a RunbyTime from a Pace' do
+      pace = Runby::Pace.new('01:30')
+      time = Runby::RunbyTime.new('00:31')
+      difference = pace - time
+      expect(difference.class).to eq Runby::Pace
+      expect(difference).to eq '00:59'
+    end
+
+    it 'adds one pace to another' do
+      pace_a = Runby::Pace.new('00:01')
+      pace_b = Runby::Pace.new('00:59')
+      expect(pace_a + pace_b).to eq '01:00'
+    end
+
+    it 'adds a RunbyTime to a Pace' do
+      pace = Runby::Pace.new('00:01')
+      time = Runby::RunbyTime.new('00:59')
+      sum = pace + time
+      expect(sum.class).to eq Runby::Pace
+      expect(sum).to eq '01:00'
+    end
+  end
+
   describe 'Pace equality' do
     it 'should equal another Pace of the same value' do
       pace_a = Runby::Pace.new('09:59')

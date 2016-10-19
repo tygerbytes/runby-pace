@@ -23,7 +23,7 @@ module Runby
     end
 
     def to_s
-      if @fast.time == @slow.time
+      if @fast == @slow
         @fast.to_s
       else
         "#{@fast.time}-#{@slow.time} per #{@fast.distance.pluralized_uom}"
