@@ -47,6 +47,16 @@ module Runby
       @@_uom_definitions.has_key?(symbol)
     end
 
+    def ==(other)
+      if other.is_a? DistanceUnit
+        @symbol == other.symbol
+      elsif other.is_a? String
+        @symbol == DistanceUnit.parse(other)
+      else
+        raise "Error comparing DistanceUnit to #{other.class}"
+      end
+    end
+
     @@_uom_definitions =
       { km: { description: 'Kilometer', conversion_factor: 1.0, synonyms: %w(k km kms kilometer kilometers) },
         m:  { description: 'Meter', conversion_factor: 0.001, synonyms: %w(m meter meters) },

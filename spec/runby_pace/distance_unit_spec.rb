@@ -51,4 +51,12 @@ describe Runby::DistanceUnit do
       end
     end
   end
+
+  describe 'equality' do
+    it 'considers two DistanceUnits of the same symbol to be equal' do
+      uom1 = Runby::DistanceUnit.new 'Kms'
+      uom2 = Runby::DistanceUnit.new 'Kms'
+      expect(uom1 == uom2).to be true
+    end
+  end
 end

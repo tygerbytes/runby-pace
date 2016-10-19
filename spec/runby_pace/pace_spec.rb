@@ -22,7 +22,7 @@ describe Runby::Pace do
       expect(pace.time).to eq '11:01'
     end
 
-    describe 'Time' do
+    describe 'Time parameter' do
       it 'may be an instance of RunbyTime' do
         time = Runby::RunbyTime.new('3:30')
         pace = Runby::Pace.new(time)
@@ -34,9 +34,17 @@ describe Runby::Pace do
         expect(pace.time.class).to eq Runby::RunbyTime
         expect(pace.time).to eq '10:30'
       end
+
+      it 'may also be a Pace, in which case the Pace is cloned' do
+        pace = Runby::Pace.new('10:30')
+        cloned_pace = Runby::Pace.new(pace)
+        expect(pace).to_not be cloned_pace
+        expect(cloned_pace.time == pace.time)
+        expect(cloned_pace.distance == pace.distance)
+      end
     end
 
-    describe 'Distance' do
+    describe 'Distance parameter' do
       it 'defaults to 1 kilometer if not provided' do
         pace = Runby::Pace.new('59:59')
         expect(pace.distance.uom.symbol).to eq :km
@@ -53,6 +61,73 @@ describe Runby::Pace do
         pace = Runby::Pace.new('30:00', '5K')
         expect(pace.distance.to_s).to eq '5 kilometers'
       end
+    end
+  end
+
+  describe 'Pace equality' do
+    it 'should equal another Pace of the same value' do
+      pace_a = Runby::Pace.new('09:59')
+      pace_b = Runby::Pace.new('09:59')
+      expect(pace_a).to eq pace_b
+    end
+
+    it 'should equal another string of the same face value' do
+      pace = Runby::Pace.new('12:15')
+      expect(pace).to eq '12:15'
+    end
+
+    it 'considers two paces of different units as unequal' do
+      pace_km = Runby::Pace.new('09:59', :km)
+      pace_mi = Runby::Pace.new('09:59', :mi)
+      expect(pace_km == pace_mi).to eq false
+    end
+
+    describe '#almost_equals?' do
+      it 'should equal another Pace within the given tolerance' do
+        pace = Runby::Pace.new('01:00')
+        low_pace = Runby::Pace.new('00:58')
+        high_pace = Runby::Pace.new('01:02')
+        expect(pace.almost_equals?(low_pace, '00:02')).to be true
+        expect(pace.almost_equals?(high_pace, '00:02')).to be true
+      end
+
+      it 'should not equal another Pace outside the given tolerance' do
+        pace = Runby::Pace.new('01:00')
+        too_low_pace = Runby::Pace.new('00:57')
+        too_high_pace = Runby::Pace.new('01:03')
+        expect(pace.almost_equals?(too_low_pace, '00:02')).to be false
+        expect(pace.almost_equals?(too_high_pace, '00:02')).to be false
+      end
+    end
+  end
+
+  describe 'Pace comparisons' do
+    it 'should be greater than another pace pace of lesser value' do
+      pace_a = Runby::Pace.new('00:01')
+      pace_b = Runby::Pace.new('00:00')
+      expect(pace_a > pace_b).to be true
+    end
+
+    it 'should be greater than or equal to another pace pace of lesser or equal value' do
+      pace_a = Runby::Pace.new('00:01')
+      pace_b = Runby::Pace.new('00:00')
+      pace_a_clone = Runby::Pace.new(pace_a)
+      expect(pace_a >= pace_b).to be true
+      expect(pace_a >= pace_a_clone).to be true
+    end
+
+    it 'should be less than another pace pace of greater value' do
+      pace_a = Runby::Pace.new('00:00')
+      pace_b = Runby::Pace.new('00:01')
+      expect(pace_a < pace_b).to be true
+    end
+
+    it 'should be less than or equal to another pace pace of greater or equal value' do
+      pace_a = Runby::Pace.new('00:00')
+      pace_b = Runby::Pace.new('00:01')
+      pace_a_clone = Runby::Pace.new(pace_a)
+      expect(pace_a <= pace_b).to be true
+      expect(pace_a <= pace_a_clone).to be true
     end
   end
 end

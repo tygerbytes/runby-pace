@@ -137,4 +137,12 @@ describe Runby::Distance do
       expect(distance.to_s).to eq '3.15 kilometers'
     end
   end
+
+  describe 'Distance equality' do
+    it 'considers two distances of the same UOM and multiplier to be equal' do
+      distance1 = Runby::Distance.new :mi, 5
+      distance2 = Runby::Distance.new :mi, 5
+      expect(distance1 == distance2).to be true
+    end
+  end
 end

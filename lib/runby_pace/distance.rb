@@ -59,10 +59,15 @@ module Runby
 
     def pluralized_uom
       uom_description = @uom.description.downcase
-      if @multiplier > 1 then
+      if @multiplier > 1
         uom_description += 's'
       end
       uom_description
+    end
+
+    def ==(other)
+      raise "Cannot compare Runby::Distance to #{other.class}" unless other.is_a? Distance
+      @uom == other.uom && @multiplier == other.multiplier
     end
 
     private
