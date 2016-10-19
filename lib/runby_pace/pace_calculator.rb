@@ -37,6 +37,7 @@ module Runby
     end
 
     # Calculate the prescribed pace for the given 5K time
+    # @return [Pace]
     def calc(five_k_time, distance_units = :km)
       five_k_time = Runby::RunbyTime.new five_k_time
       distance_units = Runby::DistanceUnit.new distance_units

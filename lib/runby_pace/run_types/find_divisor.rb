@@ -21,7 +21,7 @@ module Runby
           five_k_time = Runby::RunbyTime.new(five_k.to_s)
           pace_data = Runby::PaceCalculator.new(golden_pace_set, candidate_divisor)
           calculated_pace = pace_data.calc(five_k_time)
-          unless calculated_pace.time.almost_equals?(golden_pace.time, allowable_deviation)
+          unless calculated_pace.almost_equals?(golden_pace, allowable_deviation)
             viable_divisor = nil
             break
           end

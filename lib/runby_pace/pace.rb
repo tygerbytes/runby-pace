@@ -31,7 +31,9 @@ module Runby
     end
 
     def almost_equals?(other_pace, tolerance_time = '00:01')
+      return @time.almost_equals?(other_pace, tolerance_time) if other_pace.is_a?(RunbyTime)
       if other_pace.is_a?(String)
+        # TODO: Get parsing working
         other_pace = Pace.parse(other_pace)
       end
       tolerance = RunbyTime.new(tolerance_time)
