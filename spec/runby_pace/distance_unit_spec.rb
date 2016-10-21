@@ -3,7 +3,7 @@ require_relative '../spec_helper'
 describe Runby::DistanceUnit do
   it 'encapsulates the unit of measure for a distance, such as meters, miles, or even "1 marathon"' do
     uom = Runby::DistanceUnit.new :mi
-    expect(uom.description).to eq 'Mile'
+    expect(uom.description).to eq 'mile'
   end
 
   it 'encapsulates the conversion factor of the unit into kilometers (E.g. Meters->KM=.001)' do
@@ -14,12 +14,12 @@ describe Runby::DistanceUnit do
   describe 'initialization and creation' do
     it 'can be created from a known unit of measure symbol, such as :yd' do
       uom = Runby::DistanceUnit.new :yd
-      expect(uom.description).to eq 'Yards'
+      expect(uom.description).to eq 'yard'
     end
 
     it 'can be created from a string parseable as a known unit of measure, such as "kilometers", or "KMs"' do
       uom = Runby::DistanceUnit.new 'Kms'
-      expect(uom.description).to eq 'Kilometer'
+      expect(uom.description).to eq 'kilometer'
     end
 
     it 'raises an error if initialized with a string unparseable as a unit of measure' do
@@ -33,7 +33,7 @@ describe Runby::DistanceUnit do
     describe '#parse' do
       it 'parses a string as a distance unit of measure, and returns a new DistanceUnit' do
         uom = Runby::DistanceUnit.parse 'Marathon'
-        expect(uom.description).to eq 'Marathon'
+        expect(uom.description).to eq 'marathon'
       end
     end
 
@@ -55,7 +55,7 @@ describe Runby::DistanceUnit do
   describe '#to_s' do
     it 'returns the UOM description if "format" is :long (default)' do
       uom = Runby::DistanceUnit.new :mi
-      expect(uom.to_s).to eq 'Mile'
+      expect(uom.to_s).to eq 'mile'
     end
 
     it 'returns the UOM symbol as a string if "format" is :short' do

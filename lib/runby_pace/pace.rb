@@ -16,8 +16,8 @@ module Runby
 
     def to_s(format = :long)
       distance_s = @distance.to_s(format)
-      leading_zero_regex = /^1 ?/
-      distance_s.gsub!(leading_zero_regex, '')
+      leading_one_regex = /^1 ?/
+      distance_s.gsub!(leading_one_regex, '')
       case format
         when :short then "#{time} p/#{distance_s}"
         when :long then "#{time} per #{distance_s}"

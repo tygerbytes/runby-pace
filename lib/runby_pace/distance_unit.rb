@@ -19,11 +19,15 @@ module Runby
       @description = @@_uom_definitions[@symbol][:description]
     end
 
-    def to_s(format = :long)
+    def to_s(format = :long, pluralize = false)
       case format
         when :short then @symbol.to_s
-        when :long then @description
+        when :long then pluralize ? description_plural : @description
       end
+    end
+
+    def description_plural
+      @@_uom_definitions[@symbol][:description_plural]
     end
 
     def self.parse(description)
@@ -65,13 +69,13 @@ module Runby
     end
 
     @@_uom_definitions =
-      { km: { description: 'Kilometer', conversion_factor: 1.0, synonyms: %w(k km kms kilometer kilometers) },
-        m:  { description: 'Meter', conversion_factor: 0.001, synonyms: %w(m meter meters) },
-        mi: { description: 'Mile', conversion_factor: 1.609344, synonyms: %w(mi mile miles) },
-        ft: { description: 'Feet', conversion_factor: 0.0003048, synonyms: %w(ft foot feet) },
-        yd: { description: 'Yards', conversion_factor: 1093.61, synonyms: %w(y yd yds yard yards) },
+      { km: { description: 'kilometer', description_plural: 'kilometers', conversion_factor: 1.0, synonyms: %w(k km kms kilometer kilometers) },
+        m:  { description: 'meter', description_plural: 'meters', conversion_factor: 0.001, synonyms: %w(m meter meters) },
+        mi: { description: 'mile', description_plural: 'miles', conversion_factor: 1.609344, synonyms: %w(mi mile miles) },
+        ft: { description: 'foot', description_plural: 'feet', conversion_factor: 0.0003048, synonyms: %w(ft foot feet) },
+        yd: { description: 'yard', description_plural: 'yards', conversion_factor: 1093.61, synonyms: %w(y yd yds yard yards) },
         # Fun distance unit of measures
-        marathon: { description: 'Marathon', conversion_factor: 42.1648128, synonyms: %w(marathon) }
+        marathon: { description: 'marathon', description_plural: 'marathons', conversion_factor: 42.1648128, synonyms: %w(marathon) }
       }
   end
 end

@@ -54,19 +54,11 @@ module Runby
     end
 
     def to_s(format = :long)
-    formatted_multiplier = format('%g', @multiplier.round(2))
+      formatted_multiplier = format('%g', @multiplier.round(2))
       case format
-        when :short then "#{formatted_multiplier}#{@uom.to_s(:short)}"
-        when :long then "#{formatted_multiplier} #{pluralized_uom}"
+        when :short then "#{formatted_multiplier}#{@uom.to_s(format)}"
+        when :long then "#{formatted_multiplier} #{@uom.to_s(format, plural = (@multiplier > 1))}"
       end
-    end
-
-    def pluralized_uom
-      uom_description = @uom.description.downcase
-      if @multiplier > 1
-        uom_description += 's'
-      end
-      uom_description
     end
 
     def ==(other)

@@ -22,11 +22,11 @@ module Runby
       PaceRange.new fast, slow
     end
 
-    def to_s
+    def to_s(format = :long)
       if @fast == @slow
-        @fast.to_s
+        @fast.to_s(format)
       else
-        "#{@fast.time}-#{@slow.time} per #{@fast.distance.pluralized_uom}"
+        @fast.to_s(format).sub("#{@fast.time}", "#{@fast.time}-#{@slow.time}")
       end
     end
   end
