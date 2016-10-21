@@ -120,7 +120,17 @@ describe Runby::Distance do
   end
 
   describe '#to_s' do
-    it 'pluralizes the UOM description if the multiplier is greater than 1' do
+    it 'returns "<Multiplier> <UOM description>" if "format" is :long (default)' do
+      distance = Runby::Distance.new :mi, 5
+      expect(distance.to_s).to eq '5 miles'
+    end
+
+    it 'returns "<Multiplier><short UOM description>" if "format" is :short' do
+      distance = Runby::Distance.new :mi, 5
+      expect(distance.to_s(:short)).to eq '5mi'
+    end
+
+    it 'pluralizes the long UOM description if the multiplier is greater than 1' do
       one_km = Runby::Distance.new :km, 1
       two_km = Runby::Distance.new :km, 2
       expect(one_km.to_s).to eq '1 kilometer'

@@ -14,8 +14,14 @@ module Runby
       end
     end
 
-    def to_s
-      "#{time} per #{distance.pluralized_uom}"
+    def to_s(format = :long)
+      distance_s = @distance.to_s(format)
+      leading_zero_regex = /^1 ?/
+      distance_s.gsub!(leading_zero_regex, '')
+      case format
+        when :short then "#{time} p/#{distance_s}"
+        when :long then "#{time} per #{distance_s}"
+      end
     end
 
     def <=>(other)

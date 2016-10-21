@@ -160,4 +160,25 @@ describe Runby::Pace do
       expect(pace_a <= pace_a_clone).to be true
     end
   end
+
+  describe '$to_s' do
+    it 'returns "<time> per <long distance>" if "format" is :long (default)' do
+      distance = Runby::Distance.new :mi, 5
+      pace = Runby::Pace.new('09:59', distance)
+      expect(pace.to_s).to eq '9:59 per 5 miles'
+    end
+
+    it 'returns "<time> p/<short distance>" if "format" is :short' do
+      distance = Runby::Distance.new :mi, 5
+      pace = Runby::Pace.new('09:59', distance)
+      expect(pace.to_s(:short)).to eq '9:59 p/5mi'
+    end
+
+    it 'does not show multiplier unless greater than 1 (all formats)' do
+      distance = Runby::Distance.new :mi
+      pace = Runby::Pace.new('09:59', distance)
+      expect(pace.to_s(:short)).to eq '9:59 p/mi'
+      expect(pace.to_s(:long)).to eq '9:59 per mile'
+    end
+  end
 end

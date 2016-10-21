@@ -52,6 +52,18 @@ describe Runby::DistanceUnit do
     end
   end
 
+  describe '#to_s' do
+    it 'returns the UOM description if "format" is :long (default)' do
+      uom = Runby::DistanceUnit.new :mi
+      expect(uom.to_s).to eq 'Mile'
+    end
+
+    it 'returns the UOM symbol as a string if "format" is :short' do
+      uom = Runby::DistanceUnit.new :mi
+      expect(uom.to_s(:short)).to eq 'mi'
+    end
+  end
+
   describe 'equality' do
     it 'considers two DistanceUnits of the same symbol to be equal' do
       uom1 = Runby::DistanceUnit.new 'Kms'

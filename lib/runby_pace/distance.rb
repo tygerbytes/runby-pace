@@ -53,8 +53,12 @@ module Runby
       { distance: distance, error: error_message }
     end
 
-    def to_s
-      "#{format('%g', @multiplier.round(2))} #{pluralized_uom}"
+    def to_s(format = :long)
+    formatted_multiplier = format('%g', @multiplier.round(2))
+      case format
+        when :short then "#{formatted_multiplier}#{@uom.to_s(:short)}"
+        when :long then "#{formatted_multiplier} #{pluralized_uom}"
+      end
     end
 
     def pluralized_uom

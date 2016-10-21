@@ -19,6 +19,13 @@ module Runby
       @description = @@_uom_definitions[@symbol][:description]
     end
 
+    def to_s(format = :long)
+      case format
+        when :short then @symbol.to_s
+        when :long then @description
+      end
+    end
+
     def self.parse(description)
       description = description.strip.chomp.downcase
       found_uom = nil
