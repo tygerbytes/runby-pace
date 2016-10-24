@@ -60,7 +60,13 @@ describe Runby::DistanceUnit do
 
     it 'returns the UOM symbol as a string if "format" is :short' do
       uom = Runby::DistanceUnit.new :mi
-      expect(uom.to_s(:short)).to eq 'mi'
+      expect(uom.to_s(format: :short)).to eq 'mi'
+    end
+
+    it 'contains the logic for pluralizing a distance unit' do
+      uom = Runby::DistanceUnit.new :mi
+      expect(uom.description_plural).to eq 'miles'
+      expect(uom.to_s(pluralize: true)).to eq 'miles'
     end
   end
 

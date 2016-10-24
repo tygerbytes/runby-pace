@@ -22,11 +22,11 @@ module Runby
       PaceRange.new fast, slow
     end
 
-    def to_s(format = :long)
+    def to_s(format: :long)
       if @fast == @slow
-        @fast.to_s(format)
+        @fast.to_s(format: format)
       else
-        @fast.to_s(format).sub("#{@fast.time}", "#{@fast.time}-#{@slow.time}")
+        @fast.to_s(format: format).sub("#{@fast.time}", "#{@fast.time}-#{@slow.time}")
       end
     end
   end

@@ -127,7 +127,7 @@ describe Runby::Distance do
 
     it 'returns "<Multiplier><short UOM description>" if "format" is :short' do
       distance = Runby::Distance.new :mi, 5
-      expect(distance.to_s(:short)).to eq '5mi'
+      expect(distance.to_s(format: :short)).to eq '5mi'
     end
 
     it 'pluralizes the long UOM description if the multiplier is greater than 1' do

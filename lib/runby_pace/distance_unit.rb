@@ -19,7 +19,7 @@ module Runby
       @description = @@_uom_definitions[@symbol][:description]
     end
 
-    def to_s(format = :long, pluralize = false)
+    def to_s(format: :long, pluralize: false)
       case format
         when :short then @symbol.to_s
         when :long then pluralize ? description_plural : @description

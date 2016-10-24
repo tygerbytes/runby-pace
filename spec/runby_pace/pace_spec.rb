@@ -171,14 +171,14 @@ describe Runby::Pace do
     it 'returns "<time> p/<short distance>" if "format" is :short' do
       distance = Runby::Distance.new :mi, 5
       pace = Runby::Pace.new('09:59', distance)
-      expect(pace.to_s(:short)).to eq '9:59 p/5mi'
+      expect(pace.to_s(format: :short)).to eq '9:59 p/5mi'
     end
 
     it 'does not show multiplier unless greater than 1 (all formats)' do
       distance = Runby::Distance.new :mi
       pace = Runby::Pace.new('09:59', distance)
-      expect(pace.to_s(:short)).to eq '9:59 p/mi'
-      expect(pace.to_s(:long)).to eq '9:59 per mile'
+      expect(pace.to_s(format: :short)).to eq '9:59 p/mi'
+      expect(pace.to_s(format: :long)).to eq '9:59 per mile'
     end
   end
 end

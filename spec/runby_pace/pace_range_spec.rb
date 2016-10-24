@@ -28,5 +28,15 @@ describe Runby::PaceRange do
       range = Runby::PaceRange.new('09:59', '09:59')
       expect(range.to_s).to eq '9:59 per kilometer'
     end
+
+    it 'shows the full pace description if the format is :long' do
+      range = Runby::PaceRange.new('09:59', '10:59')
+      expect(range.to_s(format: :long)).to eq '9:59-10:59 per kilometer'
+    end
+
+    it 'shows an abbreviated pace description if the format is :short' do
+      range = Runby::PaceRange.new('09:59', '10:59')
+      expect(range.to_s(format: :short)).to eq '9:59-10:59 p/km'
+    end
   end
 end

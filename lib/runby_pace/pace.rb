@@ -14,8 +14,8 @@ module Runby
       end
     end
 
-    def to_s(format = :long)
-      distance_s = @distance.to_s(format)
+    def to_s(format: :long)
+      distance_s = @distance.to_s(format: format)
       leading_one_regex = /^1 ?/
       distance_s.gsub!(leading_one_regex, '')
       case format
