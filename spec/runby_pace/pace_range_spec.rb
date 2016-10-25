@@ -4,16 +4,16 @@ describe Runby::PaceRange do
   describe 'Pace range initialization and creation' do
     it 'creates a range from two pace time strings' do
       range = Runby::PaceRange.new('10:00', '20:00')
-      expect(range.fast.time).to eq '10:00'
-      expect(range.slow.time).to eq '20:00'
+      expect(range.fast).to eq '10:00'
+      expect(range.slow).to eq '20:00'
     end
 
     describe '#from_speed_range' do
       it 'Creates a new pace range from a SpeedRange' do
         speed_range = Runby::SpeedRange.new 6, 5
         pace_range = Runby::PaceRange.from_speed_range speed_range
-        expect(pace_range.fast.time).to eq '10:00'
-        expect(pace_range.slow.time).to eq '12:00'
+        expect(pace_range.fast).to eq '10:00'
+        expect(pace_range.slow).to eq '12:00'
       end
     end
   end
