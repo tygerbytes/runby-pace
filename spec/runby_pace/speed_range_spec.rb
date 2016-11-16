@@ -12,15 +12,6 @@ describe Runby::SpeedRange do
       expect { Runby::SpeedRange.new('ABC', 5.5) }.to raise_error 'Invalid fast speed value: ABC'
       expect { Runby::SpeedRange.new(5.5, 'XYZ') }.to raise_error 'Invalid slow speed value: XYZ'
     end
-
-    describe '#from_pace_range' do
-      it 'Creates a new speed range from a PaceRange' do
-        pace_range = Runby::PaceRange.new('10:00', '12:00')
-        speed_range = pace_range.as_speed_range
-        expect(speed_range.slow.to_s(format: :short)).to eq '5km/ph'
-        expect(speed_range.fast.to_s(format: :short)).to eq '6km/ph'
-      end
-    end
   end
 
   describe '#to_s' do

@@ -15,13 +15,6 @@ module Runby
       end
     end
 
-    # Create a new pace range from an existing speed range.
-    def self.from_speed_range(speed_range)
-      fast = RunMath.convert_speed_to_pace speed_range.fast
-      slow = RunMath.convert_speed_to_pace speed_range.slow
-      PaceRange.new fast, slow
-    end
-
     def as_speed_range
       SpeedRange.new @fast.as_speed, @slow.as_speed
     end

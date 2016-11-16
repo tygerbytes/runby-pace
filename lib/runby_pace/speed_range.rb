@@ -10,11 +10,6 @@ module Runby
       @slow = Runby::Speed.new(slow)
     end
 
-    # Create a new speed range from an existing pace range.
-    def self.from_pace_range(pace_range)
-      pace_range.as_speed_range
-    end
-
     def as_pace_range
       Runby::PaceRange.new @fast.as_pace, @slow.as_pace
     end
