@@ -24,6 +24,12 @@ module Runby
       end
     end
 
+    def as_speed
+      multiplier = (60 / @time.total_minutes).round(2)
+      distance = Runby::Distance.new(@distance.uom, multiplier)
+      Runby::Speed.new distance
+    end
+
     def <=>(other)
       if other.is_a? Pace
         return nil unless @distance == other.distance

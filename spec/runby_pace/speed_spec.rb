@@ -12,12 +12,10 @@ describe Runby::Speed do
       speed = Runby::Speed.new(distance)
       expect(speed.to_s).to eq '7 miles per hour'
     end
-
-
   end
 
   describe 'Speed parsing' do
-
+    # TODO: Coming soon..
   end
 
   describe '#to_s' do
@@ -33,5 +31,12 @@ describe Runby::Speed do
       expect(speed.to_s(format: :short)).to eq '9.9mi/ph'
     end
 
+  end
+
+  describe '#as_pace' do
+    it 'converts the speed into a new Pace' do
+      speed = Runby::Speed.new(10, :mi)
+      expect(speed.as_pace.to_s).to eq '6:00 per mile'
+    end
   end
 end

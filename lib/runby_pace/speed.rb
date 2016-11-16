@@ -28,11 +28,25 @@ module Runby
       end
     end
 
+    def as_pace
+      time = Runby::RunbyTime.from_minutes(60.0 / @distance.multiplier)
+      Runby::Pace.new(time, @distance.uom)
+    end
+
     def self.try_parse(description)
       # TODO: hard coding
       distance = Distance.new(:mi, 7)
       speed = Speed.new distance
       { speed: speed }
+    end
+
+    def <=>(other)
+      if other.is_a? Speed
+        @distance <=> other.distance
+      elsif other.is_a? String
+        # TODO: Parse as Speed when Speed.parse is available
+        to_s(format: :short) <=> other || to_s(format: :long) <=> other
+      end
     end
 
     private

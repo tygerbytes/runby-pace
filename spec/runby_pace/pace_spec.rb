@@ -161,7 +161,7 @@ describe Runby::Pace do
     end
   end
 
-  describe '$to_s' do
+  describe '#to_s' do
     it 'returns "<time> per <long distance>" if "format" is :long (default)' do
       distance = Runby::Distance.new :mi, 5
       pace = Runby::Pace.new('09:59', distance)
@@ -179,6 +179,13 @@ describe Runby::Pace do
       pace = Runby::Pace.new('09:59', distance)
       expect(pace.to_s(format: :short)).to eq '9:59 p/mi'
       expect(pace.to_s(format: :long)).to eq '9:59 per mile'
+    end
+  end
+
+  describe '#as_speed' do
+    it 'converts the Pace to a Speed' do
+      pace = Runby::Pace.new('12:00', :mi)
+      expect(pace.as_speed.to_s(format: :short)).to eq '5mi/ph'
     end
   end
 end

@@ -2,13 +2,11 @@ module Runby
   # An assortment of mathematical functions related to running.
   class RunMath
     def self.convert_pace_to_speed(pace)
-      pace = Runby::RunbyTime.new(pace)
-      (60 / pace.total_minutes).round(2)
+      pace.as_speed
     end
 
-    def self.convert_speed_to_pace(units_per_hour)
-      raise 'units_per_hour must be numeric' unless units_per_hour.is_a? Numeric
-      Runby::RunbyTime.from_minutes(60.0 / units_per_hour)
+    def self.convert_speed_to_pace(speed)
+      speed.as_pace
     end
 
     def self.distance_traveled(pace, time)
