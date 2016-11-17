@@ -184,8 +184,17 @@ describe Runby::Pace do
 
   describe '#as_speed' do
     it 'converts the Pace to a Speed' do
-      pace = Runby::Pace.new('12:00', :mi)
-      expect(pace.as_speed.to_s(format: :short)).to eq '5mi/ph'
+      pace = Runby::Pace.new('8:34', :mi)
+      mph = pace.as_speed
+      expect(mph).to eq '7mi/ph'
     end
   end
+
+  describe 'pace calculations' do
+    it 'calculates the distance traveled at this pace over a given time' do
+      pace = Runby::Pace.new('06:00')
+      expect(pace.distance_covered_over_time('60:00')).to be_within(0.01).of(10)
+    end
+  end
+
 end

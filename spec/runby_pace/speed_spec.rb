@@ -35,8 +35,8 @@ describe Runby::Speed do
 
   describe '#as_pace' do
     it 'converts the speed into a new Pace' do
-      speed = Runby::Speed.new(10, :mi)
-      expect(speed.as_pace.to_s(format: :long)).to eq '6:00 per mile'
+      speed = Runby::Speed.new(7, :mi)
+      expect(speed.as_pace).to eq '08:34'
     end
   end
 end

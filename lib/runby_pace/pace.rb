@@ -72,6 +72,13 @@ module Runby
       end
     end
 
+    def distance_covered_over_time(time)
+      time = Runby::RunbyTime.new(time)
+      divisor = @time.total_minutes / time.total_minutes
+      distance_units_traveled = 1 / divisor
+      return distance_units_traveled
+    end
+
     private
 
     def init_from_clone(other_pace)
