@@ -4,13 +4,13 @@ describe Runby::Pace do
   it 'represents a "pace" such as 4:59 per mile' do
     distance = Runby::Distance.new(:mi)
     pace = Runby::Pace.new('4:59', distance)
-    expect(pace.to_s).to eq '4:59 per mile'
+    expect(pace.to_s(format: :long)).to eq '4:59 per mile'
   end
 
   it 'encapsulates a distance (in units) and the time in which it was performed' do
     pace = Runby::Pace.new('20:00', '5K')
     expect(pace.time).to eq '20:00'
-    expect(pace.distance.to_s).to eq '5 kilometers'
+    expect(pace.distance.to_s(format: :long)).to eq '5 kilometers'
   end
 
   describe 'Pace initialization' do
@@ -18,7 +18,7 @@ describe Runby::Pace do
       time = Runby::RunbyTime.new('11:01')
       distance = Runby::Distance.new(:km, 3)
       pace = Runby::Pace.new(time, distance)
-      expect(pace.distance.to_s).to eq '3 kilometers'
+      expect(pace.distance.to_s(format: :long)).to eq '3 kilometers'
       expect(pace.time).to eq '11:01'
     end
 
@@ -59,7 +59,7 @@ describe Runby::Pace do
 
       it 'may be a string representing a valid distance' do
         pace = Runby::Pace.new('30:00', '5K')
-        expect(pace.distance.to_s).to eq '5 kilometers'
+        expect(pace.distance.to_s(format: :long)).to eq '5 kilometers'
       end
     end
   end
@@ -165,7 +165,7 @@ describe Runby::Pace do
     it 'returns "<time> per <long distance>" if "format" is :long (default)' do
       distance = Runby::Distance.new :mi, 5
       pace = Runby::Pace.new('09:59', distance)
-      expect(pace.to_s).to eq '9:59 per 5 miles'
+      expect(pace.to_s(format: :long)).to eq '9:59 per 5 miles'
     end
 
     it 'returns "<time> p/<short distance>" if "format" is :short' do

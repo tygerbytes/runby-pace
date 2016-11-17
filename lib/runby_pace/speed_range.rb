@@ -14,7 +14,7 @@ module Runby
       Runby::PaceRange.new @fast.as_pace, @slow.as_pace
     end
 
-    def to_s(format: :long)
+    def to_s(format: :short)
       if @fast == @slow
         @fast.to_s(format: format)
       else

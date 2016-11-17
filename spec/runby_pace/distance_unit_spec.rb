@@ -55,7 +55,7 @@ describe Runby::DistanceUnit do
   describe '#to_s' do
     it 'returns the UOM description if "format" is :long (default)' do
       uom = Runby::DistanceUnit.new :mi
-      expect(uom.to_s).to eq 'mile'
+      expect(uom.to_s(format: :long)).to eq 'mile'
     end
 
     it 'returns the UOM symbol as a string if "format" is :short' do

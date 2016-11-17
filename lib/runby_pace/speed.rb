@@ -20,7 +20,7 @@ module Runby
       end
     end
 
-    def to_s(format: :long)
+    def to_s(format: :short)
       distance = @distance.to_s(format: format)
       case format
         when :short then "#{distance}/ph"

@@ -3,14 +3,14 @@ require_relative '../spec_helper'
 describe Runby::Speed do
   it 'represents a "speed" such as 7 miles per hour' do
     speed = Runby::Speed.new('7 miles')
-    expect(speed.to_s).to eq '7 miles per hour'
+    expect(speed.to_s(format: :long)).to eq '7 miles per hour'
   end
 
   describe 'Speed initialization' do
     it 'is initialized by a distance and defaults to "per hour"' do
       distance = Runby::Distance.new(:mi, 7)
       speed = Runby::Speed.new(distance)
-      expect(speed.to_s).to eq '7 miles per hour'
+      expect(speed.to_s(format: :long)).to eq '7 miles per hour'
     end
   end
 
@@ -36,7 +36,7 @@ describe Runby::Speed do
   describe '#as_pace' do
     it 'converts the speed into a new Pace' do
       speed = Runby::Speed.new(10, :mi)
-      expect(speed.as_pace.to_s).to eq '6:00 per mile'
+      expect(speed.as_pace.to_s(format: :long)).to eq '6:00 per mile'
     end
   end
 end

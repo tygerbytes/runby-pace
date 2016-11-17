@@ -9,7 +9,7 @@ module Runby
       raise 'RunbyRange is a base class for PaceRange and SpeedRange. Instantiate one of them instead.'
     end
 
-    def to_s(format: :long)
+    def to_s(format: :short)
       if @fast == @slow
         @fast.to_s(format: format)
       else

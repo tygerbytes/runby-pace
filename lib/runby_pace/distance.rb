@@ -53,7 +53,7 @@ module Runby
       { distance: distance, error: error_message }
     end
 
-    def to_s(format: :long)
+    def to_s(format: :short)
       formatted_multiplier = format('%g', @multiplier.round(2))
       case format
         when :short then "#{formatted_multiplier}#{@uom.to_s(format: format)}"

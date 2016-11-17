@@ -12,12 +12,12 @@ describe Runby::PaceRange do
   describe '#to_s' do
     it 'outputs a human-readable range of pace times' do
       range = Runby::PaceRange.new('10:00', '10:59')
-      expect(range.to_s).to eq '10:00-10:59 per kilometer'
+      expect(range.to_s(format: :long)).to eq '10:00-10:59 per kilometer'
     end
 
     it 'shows only one pace time when fast and slow paces are equal' do
       range = Runby::PaceRange.new('09:59', '09:59')
-      expect(range.to_s).to eq '9:59 per kilometer'
+      expect(range.to_s(format: :long)).to eq '9:59 per kilometer'
     end
 
     it 'shows the full pace description if the format is :long' do
@@ -35,8 +35,8 @@ describe Runby::PaceRange do
     it 'creates a new speed range from this pace range' do
       pace_range = Runby::PaceRange.new('10:00', '12:00')
       speed_range = pace_range.as_speed_range
-      expect(speed_range.fast.to_s(format: :short)).to eq '6km/ph'
-      expect(speed_range.slow.to_s(format: :short)).to eq '5km/ph'
+      expect(speed_range.fast.to_s).to eq '6km/ph'
+      expect(speed_range.slow.to_s).to eq '5km/ph'
     end
   end
 end

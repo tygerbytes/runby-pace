@@ -19,7 +19,7 @@ module Runby
       SpeedRange.new @fast.as_speed, @slow.as_speed
     end
 
-    def to_s(format: :long)
+    def to_s(format: :short)
       if @fast == @slow
         @fast.to_s(format: format)
       else
