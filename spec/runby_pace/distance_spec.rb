@@ -155,4 +155,34 @@ describe Runby::Distance do
       expect(distance1 == distance2).to be true
     end
   end
+
+  describe 'Distance comparisons' do
+    it 'should be greater than another Distance of lesser value' do
+      distance_a = Runby::Distance.new('6mi')
+      distance_b = Runby::Distance.new('1mi')
+      expect(distance_a > distance_b).to be true
+    end
+
+    it 'should be greater than or equal to another Distance of lesser or equal value' do
+      distance_a = Runby::Distance.new('6mi')
+      distance_b = Runby::Distance.new('0mi')
+      distance_a_clone = Runby::Distance.new(distance_a)
+      expect(distance_a >= distance_b).to be true
+      expect(distance_a >= distance_a_clone).to be true
+    end
+
+    it 'should be less than another Distance of greater value' do
+      distance_a = Runby::Distance.new('0mi')
+      distance_b = Runby::Distance.new('6mi')
+      expect(distance_a < distance_b).to be true
+    end
+
+    it 'should be less than or equal to another Distance of greater or equal value' do
+      distance_a = Runby::Distance.new('0mi')
+      distance_b = Runby::Distance.new('6mi')
+      distance_a_clone = Runby::Distance.new(distance_a)
+      expect(distance_a <= distance_b).to be true
+      expect(distance_a <= distance_a_clone).to be true
+    end
+  end
 end

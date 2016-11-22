@@ -1,6 +1,8 @@
 module Runby
   # Represents a distance (distance UOM and multiplier)
   class Distance
+    include Comparable
+
     attr_reader :uom, :multiplier
     def initialize(uom = :km, multiplier = 1)
       case uom
@@ -61,9 +63,13 @@ module Runby
       end
     end
 
-    def ==(other)
-      raise "Cannot compare Runby::Distance to #{other.class}" unless other.is_a? Distance
-      @uom == other.uom && @multiplier == other.multiplier
+    def <=>(other)
+      raise "Cannot compare Runby::Distance to #{other.class}" unless [Distance, String].include? other.class
+      if (other.is_a?(String))
+        return 0 if to_s == other.to_s || to_s(format: :long) == other.to_s(format: :long)
+        return self <=> try_parse(other)[:distance]
+      end
+      kilometers <=> other.kilometers
     end
 
     private

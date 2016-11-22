@@ -56,12 +56,12 @@ module Runby
     end
 
     def <=>(other)
-      if other.is_a? Speed
-        @distance <=> other.distance
-      elsif other.is_a? String
-        # TODO: Parse as Speed when Speed.parse is available
-        to_s(format: :short) <=> other || to_s(format: :long) <=> other
+      raise "Cannot compare Runby::Speed to #{other.class}" unless [Speed, String].include? other.class
+      if other.is_a? String
+        return 0 if to_s == other.to_s || to_s(format: :long) == other.to_s(format: :long)
+        self <=> try_parse(other)[:speed]
       end
+      @distance <=> other.distance
     end
 
     private

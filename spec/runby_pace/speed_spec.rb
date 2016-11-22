@@ -57,4 +57,34 @@ describe Runby::Speed do
       expect(speed.as_pace).to eq '08:34'
     end
   end
+
+  describe 'Speed comparisons' do
+    it 'should be greater than another speed of lesser value' do
+      speed_a = Runby::Speed.new('6mi/ph')
+      speed_b = Runby::Speed.new('1mi/ph')
+      expect(speed_a > speed_b).to be true
+    end
+
+    it 'should be greater than or equal to another speed of lesser or equal value' do
+      speed_a = Runby::Speed.new('6mi/ph')
+      speed_b = Runby::Speed.new('0mi/ph')
+      speed_a_clone = Runby::Speed.new(speed_a)
+      expect(speed_a >= speed_b).to be true
+      expect(speed_a >= speed_a_clone).to be true
+    end
+
+    it 'should be less than another speed of greater value' do
+      speed_a = Runby::Speed.new('0mi/ph')
+      speed_b = Runby::Speed.new('6mi/ph')
+      expect(speed_a < speed_b).to be true
+    end
+
+    it 'should be less than or equal to another speed of greater or equal value' do
+      speed_a = Runby::Speed.new('0mi/ph')
+      speed_b = Runby::Speed.new('6mi/ph')
+      speed_a_clone = Runby::Speed.new(speed_a)
+      expect(speed_a <= speed_b).to be true
+      expect(speed_a <= speed_a_clone).to be true
+    end
+  end
 end
