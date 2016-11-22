@@ -2,8 +2,8 @@ require_relative '../spec_helper'
 
 describe Runby::Speed do
   it 'represents a "speed" such as 7 miles per hour' do
-    speed = Runby::Speed.new('7 miles')
-    expect(speed.to_s(format: :long)).to eq '7 miles per hour'
+    speed = Runby::Speed.new('7 miles per hour')
+    expect(speed.to_s).to eq '7mi/ph'
   end
 
   describe 'Speed initialization' do
@@ -12,10 +12,28 @@ describe Runby::Speed do
       speed = Runby::Speed.new(distance)
       expect(speed.to_s(format: :long)).to eq '7 miles per hour'
     end
+
+    it 'is initialized by a string parseable as a Speed or a Distance, which defaults to "per hour"' do
+      speed = Runby::Speed.new('10km/ph')
+      expect(speed.to_s(format: :long)).to eq '10 kilometers per hour'
+    end
   end
 
   describe 'Speed parsing' do
-    # TODO: Coming soon..
+    it 'parses a long form speed such as "7.5 miles per hour"' do
+      speed = Runby::Speed.parse '7.5 miles per hour'
+      expect(speed.to_s).to eq '7.5mi/ph'
+    end
+
+    it 'parses a short form speed such as "7.5mi/ph"' do
+      speed = Runby::Speed.parse '7.5mi/ph'
+      expect(speed.to_s).to eq '7.5mi/ph'
+    end
+
+    it '#parse raises an exception if parsing a malformed speed' do
+      expect {Runby::Speed.parse('bananas per hour')}.to raise_error 'Invalid speed format (bananas per hour)'
+    end
+
   end
 
   describe '#to_s' do

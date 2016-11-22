@@ -33,11 +33,26 @@ module Runby
       Runby::Pace.new(time, @distance.uom)
     end
 
-    def self.try_parse(description)
-      # TODO: hard coding
-      distance = Distance.new(:mi, 7)
-      speed = Speed.new distance
-      { speed: speed }
+
+    # @param [String] str is either a long-form speed such as "7.5 miles per hour" or a short-form speed like "7.5mi/ph"
+    def self.parse(str)
+      str = str.to_s.strip.chomp
+      if str.match(/^(?<distance>\d+(?:\.\d+)? ?[A-Za-z]+)(?: per hour|\/ph)$/)
+        distance = Runby::Distance.new($~[:distance])
+        Speed.new distance
+      else
+        raise "Invalid speed format (#{str})"
+      end
+    end
+
+    def self.try_parse(str)
+      speed, error_message = nil, warning_message = nil
+      begin
+        speed = Speed.parse str
+      rescue StandardError => ex
+        error_message = "#{ex.message} (#{str})"
+      end
+      { speed: speed, error: error_message, warning: warning_message }
     end
 
     def <=>(other)
@@ -56,7 +71,7 @@ module Runby
     end
 
     def init_from_distance(distance)
-      @distance = distance
+      @distance = Distance.new(distance)
     end
 
     def init_from_multiplier(multiplier, uom)
