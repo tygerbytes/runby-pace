@@ -7,15 +7,15 @@ describe Runby::GoldenPaceSet do
     it 'creates a GoldenPaceSet from a hash of 5K time symbols and recommended time strings' do
       hash = {'14:00':'4:00', '42:00':'20:00'}
       pace_set = Runby::GoldenPaceSet.new(hash)
-      expect(pace_set.first).to eq '04:00'
-      expect(pace_set.last).to eq '20:00'
+      expect(pace_set.first).to eq '4:00 p/km'
+      expect(pace_set.last).to eq '20:00 p/km'
     end
 
     describe '#new_from_endpoints' do
       it 'creates and returns a new GoldenPaceSet with only two entries' do
         pace_set = Runby::GoldenPaceSet.new_from_endpoints('10:00', '20:00')
-        expect(pace_set.first).to eq '10:00'
-        expect(pace_set.last).to eq '20:00'
+        expect(pace_set.first).to eq '10:00 p/km'
+        expect(pace_set.last).to eq '20:00 p/km'
       end
     end
   end
@@ -31,16 +31,16 @@ describe Runby::GoldenPaceSet do
   describe '#first/#fastest' do
     it 'returns the first (or fastest) 5K/pace pair in the set' do
       pace_set = Runby::GoldenPaceSet.new_from_endpoints('10:00', '20:00')
-      expect(pace_set.first).to eq '10:00'
-      expect(pace_set.fastest).to eq '10:00'
+      expect(pace_set.first).to eq '10:00 p/km'
+      expect(pace_set.fastest).to eq '10:00 p/km'
     end
   end
 
   describe '#last/#slowest' do
     it 'returns the last (or slowest) 5K/pace pair in the set' do
       pace_set = Runby::GoldenPaceSet.new_from_endpoints('10:00', '20:00')
-      expect(pace_set.last.to_s(format: :short)).to eq '20:00 p/km'
-      expect(pace_set.slowest).to eq '20:00'
+      expect(pace_set.last).to eq '20:00 p/km'
+      expect(pace_set.slowest).to eq '20:00 p/km'
     end
   end
 end

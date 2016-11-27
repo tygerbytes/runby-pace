@@ -35,7 +35,8 @@ module Runby
 
     def self.parse(str)
       str = str.strip.chomp.downcase
-      multiplier = str.scan(/[\d,.]+/).first.to_f
+      multiplier = str.scan(/[\d,.]+/).first
+      multiplier = multiplier.nil? ? 1 : multiplier.to_f
       uom = str.scan(/[-_a-z ]+$/).first
       raise "Unable to find distance unit in '#{str}'" if uom.nil?
 
@@ -65,8 +66,8 @@ module Runby
 
     def <=>(other)
       raise "Cannot compare Runby::Distance to #{other.class}" unless [Distance, String].include? other.class
-      if (other.is_a?(String))
-        return 0 if to_s == other.to_s || to_s(format: :long) == other.to_s(format: :long)
+      if other.is_a?(String)
+        return 0 if to_s == other || to_s(format: :long) == other
         return self <=> try_parse(other)[:distance]
       end
       kilometers <=> other.kilometers

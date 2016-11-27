@@ -6,11 +6,15 @@ module Runby
     attr_reader :time, :distance
 
     def initialize(time_or_pace, distance = '1K')
-      if time_or_pace.is_a? Pace
-        init_from_clone time_or_pace
-      else
-        @time = Runby::RunbyTime.new(time_or_pace)
-        @distance = Runby::Distance.new(distance)
+      case time_or_pace
+        when Pace
+          return init_from_clone time_or_pace
+        when RunbyTime
+          return init_from_time time_or_pace, distance
+        when String
+          return init_from_string time_or_pace, distance
+        else
+          raise 'Invalid Time or Pace'
       end
     end
 
@@ -30,26 +34,49 @@ module Runby
       Runby::Speed.new distance
     end
 
+    # @param [String] str is either a long-form pace such as "10:00 per mile" or a short-form pace like "10:00 p/mi"
+    def self.parse(str)
+      str = str.to_s.strip.chomp
+      if str.match(/^(?<time>[:\d]*) ?(?: per |p\/)(?<distance>(?:[\d.]+ ?)?\w+)$/)
+        time = Runby::RunbyTime.new($~[:time])
+        distance = Runby::Distance.new($~[:distance])
+        Pace.new time, distance
+      else
+        raise "Invalid pace format (#{str})"
+      end
+    end
+
+    def self.try_parse(str)
+      pace, error_message = nil, warning_message = nil
+      begin
+        pace = Pace.parse str
+      rescue StandardError => ex
+        error_message = ex.message
+      end
+      { pace: pace, error: error_message, warning: warning_message }
+    end
+
     def <=>(other)
       if other.is_a? Pace
-        return nil unless @distance == other.distance
+        raise 'Comparing paces of different distances is not currently supported' unless @distance == other.distance
         @time <=> other.time
       elsif other.is_a? RunbyTime
         @time <=> other.time
       elsif other.is_a? String
-        # TODO: Parse as Pace when Pace.parse is available
-        @time <=> RunbyTime.parse(other)
+        return 0 if to_s == other || to_s(format: :long) == other
+        return 0 if @time == other
+        self <=> try_parse(other)[:pace]
       end
     end
 
     def almost_equals?(other_pace, tolerance_time = '00:01')
       return @time.almost_equals?(other_pace, tolerance_time) if other_pace.is_a?(RunbyTime)
       if other_pace.is_a?(String)
-        # TODO: Get parsing working
+        return @time.almost_equals?(other_pace, tolerance_time) if other_pace =~ /^\d\d:\d\d$/
         other_pace = Pace.parse(other_pace)
       end
       tolerance = RunbyTime.new(tolerance_time)
-      self >= (other_pace - tolerance) && self <= (other_pace + tolerance)
+      (self - tolerance) <= other_pace && (self + tolerance) >= other_pace
     end
 
     # @param [Pace, RunbyTime] other
@@ -85,6 +112,22 @@ module Runby
       raise "#{other_pace} is not a Runby::Pace" unless other_pace.is_a? Pace
       @time = other_pace.time
       @distance = other_pace.distance
+    end
+
+    def init_from_string(string, distance = '1K')
+      pace = Pace.try_parse(string)
+      if pace[:pace]
+        @time = pace[:pace].time
+        @distance = pace[:pace].distance
+        return
+      end
+      @time = Runby::RunbyTime.new string
+      @distance = Runby::Distance.new distance
+    end
+
+    def init_from_time(time, distance)
+      @time = time
+      @distance = Runby::Distance.new distance
     end
   end
 end

@@ -62,12 +62,40 @@ describe Runby::Pace do
         expect(pace.distance.to_s(format: :long)).to eq '5 kilometers'
       end
     end
+
+    describe '#parse' do
+      it 'parses a string as a pace and returns a new Pace' do
+        pace = Runby::Pace.parse '10:00 p/mi'
+        expect(pace.time).to eq '10:00'
+        expect(pace.distance).to eq '1 mile'
+      end
+
+      it 'raises an error if it cannot parse the pace' do
+        expect { Runby::Pace.parse '5' }.to raise_error 'Invalid pace format (5)'
+      end
+    end
+
+    describe '#try_parse' do
+      it 'parses a string containing a valid pace and returns a results hash containing a Pace' do
+        results = Runby::Pace.try_parse '10:00 per mile'
+        expect(results[:pace].time).to eq '10:00'
+        expect(results[:pace].distance).to eq '1 mile'
+        expect(results[:error]).to eq nil
+      end
+
+      it 'attempts to parse a string containing an invalid pace and returns the error message in the results hash' do
+        results = Runby::Pace.try_parse 'INVALID'
+        expect(results[:pace]).to eq nil
+        expect(results[:error]).to eq 'Invalid pace format (INVALID)'
+      end
+    end
   end
 
   describe 'Pace arithmetic' do
     it 'subtracts one pace from another' do
       pace_a = Runby::Pace.new('01:30')
       pace_b = Runby::Pace.new('00:31')
+      puts (pace_a - pace_b).to_s
       expect(pace_a - pace_b).to eq '00:59'
     end
 
@@ -127,6 +155,18 @@ describe Runby::Pace do
         too_high_pace = Runby::Pace.new('01:03')
         expect(pace.almost_equals?(too_low_pace, '00:02')).to be false
         expect(pace.almost_equals?(too_high_pace, '00:02')).to be false
+      end
+
+      it 'compares a Pace against a string that is parsable as a Time' do
+        pace = Runby::Pace.new('01:00')
+        expect(pace.almost_equals?('00:58', '00:02')).to be true
+        expect(pace.almost_equals?('01:02', '00:02')).to be true
+      end
+
+      it 'compares a Pace against a string that is parsable as a Pace' do
+        pace = Runby::Pace.new('01:00 p/mi')
+        expect(pace.almost_equals?('00:58 p/mi', '00:02')).to be true
+        expect(pace.almost_equals?('01:02 p/mi', '00:02')).to be true
       end
     end
   end
@@ -196,5 +236,4 @@ describe Runby::Pace do
       expect(pace.distance_covered_over_time('60:00')).to be_within(0.01).of(10)
     end
   end
-
 end
