@@ -45,8 +45,8 @@ module RSpec
         #  Let me know if there is an idiomatic way to do this
         def actual_formatted
           formatted_object = RSpec::Support::ObjectFormatter.format(@actual)
-          if [Runby::RunbyTime, Runby::Pace].include? @actual.class
-            return "#{@actual.to_s}\n          #{formatted_object}"
+          if [Runby::RunbyTime, Runby::Pace, Runby::Speed].include? @actual.class
+            return "#{@actual.to_s} ---> #{formatted_object}"
           end
           formatted_object
         end

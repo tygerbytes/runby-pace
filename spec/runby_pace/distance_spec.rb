@@ -105,7 +105,6 @@ describe Runby::Distance do
         expect(results[:error]).to eq "Error parsing distance unit 'invalid'"
       end
     end
-
   end
 
   describe 'Fuzzy string parsing of common distance descriptions' do
