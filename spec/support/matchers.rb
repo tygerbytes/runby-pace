@@ -35,3 +35,22 @@ RSpec::Matchers.define :be_within_seconds do |expected_time, seconds_variation|
     "#{slow_time}-#{fast_time}"
   end
 end
+
+module RSpec
+  module Matchers
+    module BuiltIn
+      class Eq < BaseMatcher
+        private
+        # Monkey patch the "Eq" matcher to make failure messages involving Pace and RunbyTime easier to read
+        #  Let me know if there is an idiomatic way to do this
+        def actual_formatted
+          formatted_object = RSpec::Support::ObjectFormatter.format(@actual)
+          if [Runby::RunbyTime, Runby::Pace].include? @actual.class
+            return "#{@actual.to_s}\n          #{formatted_object}"
+          end
+          formatted_object
+        end
+      end
+    end
+  end
+end
