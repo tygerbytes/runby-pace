@@ -251,6 +251,10 @@ describe Runby::Pace do
       expect(pace.to_s(format: :short)).to eq '9:59 p/mi'
       expect(pace.to_s(format: :long)).to eq '9:59 per mile'
     end
+
+    it 'shows one leading zero when pace is under 1 minute' do
+      expect(Runby::Pace.new('00:59').to_s).to eq '0:59 p/km'
+    end
   end
 
   describe '#as_speed' do

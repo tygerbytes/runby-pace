@@ -100,6 +100,10 @@ describe 'RunbyTime' do
       time = Runby::RunbyTime.new('04:59')
       expect(time.to_s).to eq '4:59'
     end
+
+    it 'shows one leading zero when time is under 1 minute' do
+      expect(Runby::RunbyTime.new('00:58').to_s).to eq '0:58'
+    end
   end
 
   describe '#total_seconds' do
