@@ -29,9 +29,16 @@ module Runby
     end
 
     def as_speed
-      multiplier = (60 / @time.total_minutes).round(2)
+      total_minutes = @time.total_minutes
+      multiplier = total_minutes > 0 ? (60 / total_minutes).round(2) : 0
       distance = Runby::Distance.new(@distance.uom, multiplier)
       Runby::Speed.new distance
+    end
+
+    def meters_per_minute
+      total_minutes = @time.total_minutes
+      return 0 unless total_minutes > 0
+      @distance.meters / total_minutes
     end
 
     # @param [String] str is either a long-form pace such as "10:00 per mile" or a short-form pace like "10:00 p/mi"
@@ -58,8 +65,7 @@ module Runby
 
     def <=>(other)
       if other.is_a? Pace
-        raise 'Comparing paces of different distances is not currently supported' unless @distance == other.distance
-        @time <=> other.time
+        (meters_per_minute.round(2)) <=> (other.meters_per_minute.round(2))
       elsif other.is_a? RunbyTime
         @time <=> other.time
       elsif other.is_a? String
@@ -70,13 +76,17 @@ module Runby
     end
 
     def almost_equals?(other_pace, tolerance_time = '00:01')
-      return @time.almost_equals?(other_pace, tolerance_time) if other_pace.is_a?(RunbyTime)
+      if other_pace.is_a?(RunbyTime)
+        return almost_equals?(Pace.new(other_pace, @distance), tolerance_time)
+      end
       if other_pace.is_a?(String)
-        return @time.almost_equals?(other_pace, tolerance_time) if other_pace =~ /^\d\d:\d\d$/
+        return almost_equals?(Pace.new(other_pace, @distance), tolerance_time) if other_pace =~ /^\d?\d:\d\d$/
         other_pace = Pace.parse(other_pace)
       end
       tolerance = RunbyTime.new(tolerance_time)
-      (self - tolerance) <= other_pace && (self + tolerance) >= other_pace
+      fast_end = (self - tolerance)
+      slow_end = (self + tolerance)
+      slow_end <= other_pace && other_pace <= fast_end
     end
 
     # @param [Pace, RunbyTime] other

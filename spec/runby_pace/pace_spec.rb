@@ -13,6 +13,18 @@ describe Runby::Pace do
     expect(pace.distance.to_s(format: :long)).to eq '5 kilometers'
   end
 
+  describe '#meters_per_minute' do
+    it 'returns the number of meters ran in one minute' do
+      pace = Runby::Pace.new('10:00', '1 km')
+      expect(pace.meters_per_minute).to eq 100
+    end
+
+    it 'returns the meters per minute, even for non-metric distance units' do
+      pace = Runby::Pace.new('10:00', '1 mi')
+      expect(pace.meters_per_minute).to be_within(0.01).of 160.93
+    end
+  end
+
   describe 'Pace initialization' do
     it 'is initialized by a time and a distance' do
       time = Runby::RunbyTime.new('11:01')
@@ -95,7 +107,6 @@ describe Runby::Pace do
     it 'subtracts one pace from another' do
       pace_a = Runby::Pace.new('01:30')
       pace_b = Runby::Pace.new('00:31')
-      puts (pace_a - pace_b).to_s
       expect(pace_a - pace_b).to eq '00:59'
     end
 
@@ -172,32 +183,52 @@ describe Runby::Pace do
   end
 
   describe 'Pace comparisons' do
-    it 'should be greater than another pace pace of lesser value' do
-      pace_a = Runby::Pace.new('00:01')
-      pace_b = Runby::Pace.new('00:00')
+    it 'should be greater than another slower pace' do
+      pace_a = Runby::Pace.new('05:59')
+      pace_b = Runby::Pace.new('06:00')
       expect(pace_a > pace_b).to be true
     end
 
-    it 'should be greater than or equal to another pace pace of lesser or equal value' do
-      pace_a = Runby::Pace.new('00:01')
-      pace_b = Runby::Pace.new('00:00')
+    it 'should be greater than or equal to another slower or identical pace' do
+      pace_a = Runby::Pace.new('05:59')
+      pace_b = Runby::Pace.new('06:00')
       pace_a_clone = Runby::Pace.new(pace_a)
       expect(pace_a >= pace_b).to be true
       expect(pace_a >= pace_a_clone).to be true
     end
 
-    it 'should be less than another pace pace of greater value' do
+    it 'should be less than another faster pace' do
+      pace_a = Runby::Pace.new('06:00')
+      pace_b = Runby::Pace.new('05:59')
+      expect(pace_a < pace_b).to be true
+    end
+
+    it 'should be less than or equal to another faster or identical pace' do
+      pace_a = Runby::Pace.new('06:00')
+      pace_b = Runby::Pace.new('05:59')
+      pace_a_clone = Runby::Pace.new(pace_a)
+      expect(pace_a <= pace_b).to be true
+      expect(pace_a <= pace_a_clone).to be true
+    end
+
+    it 'considers a pace of 00:00 as slower than a pace of 00:01' do
       pace_a = Runby::Pace.new('00:00')
       pace_b = Runby::Pace.new('00:01')
       expect(pace_a < pace_b).to be true
     end
 
-    it 'should be less than or equal to another pace pace of greater or equal value' do
+    it 'considers two paces of 00:00 to be equal' do
       pace_a = Runby::Pace.new('00:00')
-      pace_b = Runby::Pace.new('00:01')
-      pace_a_clone = Runby::Pace.new(pace_a)
-      expect(pace_a <= pace_b).to be true
-      expect(pace_a <= pace_a_clone).to be true
+      pace_b = Runby::Pace.new('00:00')
+      expect(pace_a == pace_b).to be true
+    end
+
+    it 'supports comparing paces of difference Distances' do
+      pace_a = Runby::Pace.new('9:59 p/km')
+      pace_b = Runby::Pace.new('10:00 p/mi')
+      # Note that pace A is way slower than pace B
+      expect(pace_a < pace_b).to be true
+      expect(pace_a > pace_b).to be false
     end
   end
 
@@ -227,6 +258,11 @@ describe Runby::Pace do
       pace = Runby::Pace.new('8:34', :mi)
       mph = pace.as_speed
       expect(mph).to eq '7mi/ph'
+    end
+
+    it 'returns a speed of 0 if the time component is 0:00' do
+      speed = Runby::Pace.new('0:00', :mi).as_speed
+      expect(speed).to eq '0mi/ph'
     end
   end
 

@@ -33,7 +33,6 @@ module Runby
       Runby::Pace.new(time, @distance.uom)
     end
 
-
     # @param [String] str is either a long-form speed such as "7.5 miles per hour" or a short-form speed like "7.5mi/ph"
     def self.parse(str)
       str = str.to_s.strip.chomp
