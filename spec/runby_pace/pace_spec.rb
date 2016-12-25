@@ -242,7 +242,7 @@ describe Runby::Pace do
     it 'returns "<time> p/<short distance>" if "format" is :short' do
       distance = Runby::Distance.new :mi, 5
       pace = Runby::Pace.new('09:59', distance)
-      expect(pace.to_s(format: :short)).to eq '9:59 p/5mi'
+      expect(pace.to_s(format: :short)).to eq '9:59 p/5 mi'
     end
 
     it 'does not show multiplier unless greater than 1 (all formats)' do
@@ -261,12 +261,12 @@ describe Runby::Pace do
     it 'converts the Pace to a Speed' do
       pace = Runby::Pace.new('8:34', :mi)
       mph = pace.as_speed
-      expect(mph).to eq '7mi/ph'
+      expect(mph).to eq '7 mi/ph'
     end
 
     it 'returns a speed of 0 if the time component is 0:00' do
       speed = Runby::Pace.new('0:00', :mi).as_speed
-      expect(speed).to eq '0mi/ph'
+      expect(speed).to eq '0 mi/ph'
     end
   end
 

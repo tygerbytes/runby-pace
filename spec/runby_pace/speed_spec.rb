@@ -3,7 +3,7 @@ require_relative '../spec_helper'
 describe Runby::Speed do
   it 'represents a "speed" such as 7 miles per hour' do
     speed = Runby::Speed.new('7 miles per hour')
-    expect(speed).to eq '7mi/ph'
+    expect(speed).to eq '7 mi/ph'
   end
 
   describe 'Speed initialization' do
@@ -14,7 +14,7 @@ describe Runby::Speed do
     end
 
     it 'is initialized by a string parseable as a Speed or a Distance, which defaults to "per hour"' do
-      speed = Runby::Speed.new('10km/ph')
+      speed = Runby::Speed.new('10 km/ph')
       expect(speed.to_s(format: :long)).to eq '10 kilometers per hour'
     end
   end
@@ -22,12 +22,12 @@ describe Runby::Speed do
   describe 'Speed parsing' do
     it 'parses a long form speed such as "7.5 miles per hour"' do
       speed = Runby::Speed.parse '7.5 miles per hour'
-      expect(speed).to eq '7.5mi/ph'
+      expect(speed).to eq '7.5 mi/ph'
     end
 
     it 'parses a short form speed such as "7.5mi/ph"' do
-      speed = Runby::Speed.parse '7.5mi/ph'
-      expect(speed).to eq '7.5mi/ph'
+      speed = Runby::Speed.parse '7.5 mi/ph'
+      expect(speed).to eq '7.5 mi/ph'
     end
 
     it '#parse raises an exception if parsing a malformed speed' do
@@ -45,7 +45,7 @@ describe Runby::Speed do
     it 'returns <distance>/ph if "format" is :short' do
       distance = Runby::Distance.new('9.9 miles')
       speed = Runby::Speed.new(distance)
-      expect(speed.to_s(format: :short)).to eq '9.9mi/ph'
+      expect(speed.to_s(format: :short)).to eq '9.9 mi/ph'
     end
   end
 
@@ -58,28 +58,28 @@ describe Runby::Speed do
 
   describe 'Speed comparisons' do
     it 'should be greater than another speed of lesser value' do
-      speed_a = Runby::Speed.new('6mi/ph')
-      speed_b = Runby::Speed.new('1mi/ph')
+      speed_a = Runby::Speed.new('6 mi/ph')
+      speed_b = Runby::Speed.new('1 mi/ph')
       expect(speed_a > speed_b).to be true
     end
 
     it 'should be greater than or equal to another speed of lesser or equal value' do
-      speed_a = Runby::Speed.new('6mi/ph')
-      speed_b = Runby::Speed.new('0mi/ph')
+      speed_a = Runby::Speed.new('6 mi/ph')
+      speed_b = Runby::Speed.new('0 mi/ph')
       speed_a_clone = Runby::Speed.new(speed_a)
       expect(speed_a >= speed_b).to be true
       expect(speed_a >= speed_a_clone).to be true
     end
 
     it 'should be less than another speed of greater value' do
-      speed_a = Runby::Speed.new('0mi/ph')
-      speed_b = Runby::Speed.new('6mi/ph')
+      speed_a = Runby::Speed.new('0 mi/ph')
+      speed_b = Runby::Speed.new('6 mi/ph')
       expect(speed_a < speed_b).to be true
     end
 
     it 'should be less than or equal to another speed of greater or equal value' do
-      speed_a = Runby::Speed.new('0mi/ph')
-      speed_b = Runby::Speed.new('6mi/ph')
+      speed_a = Runby::Speed.new('0 mi/ph')
+      speed_b = Runby::Speed.new('6 mi/ph')
       speed_a_clone = Runby::Speed.new(speed_a)
       expect(speed_a <= speed_b).to be true
       expect(speed_a <= speed_a_clone).to be true

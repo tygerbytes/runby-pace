@@ -35,8 +35,8 @@ describe Runby::PaceRange do
     it 'creates a new speed range from this pace range' do
       pace_range = Runby::PaceRange.new('10:00', '12:00')
       speed_range = pace_range.as_speed_range
-      expect(speed_range.fast.to_s).to eq '6km/ph'
-      expect(speed_range.slow.to_s).to eq '5km/ph'
+      expect(speed_range.fast.to_s).to eq '6 km/ph'
+      expect(speed_range.slow.to_s).to eq '5 km/ph'
     end
   end
 end
