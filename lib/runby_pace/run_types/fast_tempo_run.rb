@@ -9,6 +9,10 @@ module Runby
         'Fast Tempo Run'
       end
 
+      def explanation
+        'The fast tempo run is an interval workout of 15-25 minutes per repetition. The pace roughly corresponds to that of your half-marathon race pace.'
+      end
+
       def lookup_pace(five_k_time, distance_units = :km)
         fast = @fast_pace_calculator.calc(five_k_time, distance_units)
         PaceRange.new(fast, fast)

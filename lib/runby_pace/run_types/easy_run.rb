@@ -8,6 +8,10 @@ module Runby
         'Easy Run'
       end
 
+      def explanation
+        'Also called a "recovery run", the easy run is harder than jogging, but you should still be able to carry on a conversation.'
+      end
+
       def initialize
         @fast_pace_calculator = PaceCalculator.new(GoldenPaces.fast, 1.99)
         @slow_pace_calculator = PaceCalculator.new(GoldenPaces.slow, 1.35)

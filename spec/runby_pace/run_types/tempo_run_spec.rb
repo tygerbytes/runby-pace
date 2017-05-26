@@ -8,6 +8,10 @@ describe Runby::RunTypes do
       expect(runs::FastTempoRun.new.description).to eq 'Fast Tempo Run'
     end
 
+    it 'has a nice explanation' do
+      expect(runs::FastTempoRun.new.explanation.length).to be > 50
+    end
+
     it 'calculates a set of fast tempo run paces correctly' do
       fast_tempo_run = runs::FastTempoRun.new
       runs::FastTempoRun::GoldenPaces.fast.each do |five_k, golden_pace|
@@ -28,6 +32,10 @@ describe Runby::RunTypes do
       expect(runs::SlowTempoRun.new.description).to eq 'Slow Tempo Run'
     end
 
+    it 'has a nice explanation' do
+      expect(runs::SlowTempoRun.new.explanation.length).to be > 50
+    end
+
     it 'calculates a set of slow tempo run paces correctly' do
       slow_tempo_run = runs::SlowTempoRun.new
       runs::SlowTempoRun::GoldenPaces.slow.each do |five_k, golden_pace|
@@ -44,6 +52,14 @@ describe Runby::RunTypes do
   end
 
   describe runs::TempoRun do
+    it 'has the correct description' do
+      expect(runs::TempoRun.new.description).to eq 'Tempo Run'
+    end
+
+    it 'has a nice explanation' do
+      expect(runs::TempoRun.new.explanation.length).to be > 50
+    end
+
     it 'combines the fast and slow tempo runs into one run type' do
       tempo_run = runs::TempoRun.new
       calculated_pace_range = tempo_run.lookup_pace('14:00')

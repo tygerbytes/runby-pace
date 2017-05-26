@@ -5,8 +5,11 @@ module Runby
       'No description'
     end
 
-    def lookup_pace(five_k_time, distance_units = :km)
+    def explanation
+      'No explanation'
     end
+
+    def lookup_pace(five_k_time, distance_units = :km) end
   end
 
   # Extends RunTypes with additional methods.

@@ -8,6 +8,10 @@ module Runby
         'Slow Tempo Run'
       end
 
+      def explanation
+        'The slow tempo run is an interval workout of 20-40 minutes per repetition. The pace roughly corresponds to that of your marathon race pace.'
+      end
+
       def lookup_pace(five_k_time, distance_units = :km)
         slow = @slow_pace_calculator.calc(five_k_time, distance_units)
         PaceRange.new(slow, slow)

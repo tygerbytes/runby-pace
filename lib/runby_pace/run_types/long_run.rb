@@ -9,6 +9,10 @@ module Runby
         'Long Run'
       end
 
+      def explanation
+        'For many runners, the long run is the favorite run of the week. It is usually only ran once per week, and accounts for 20-25% of your weekly training volume. Remember that it\'s not a race. It should remain comfortable.'
+      end
+
       def initialize
         @fast_pace_calculator = PaceCalculator.new(GoldenPaces.fast, 2.125)
         @slow_pace_calculator = PaceCalculator.new(GoldenPaces.slow, 1.55)

@@ -8,6 +8,10 @@ describe Runby::RunTypes do
       expect(runs::LongRun.new.description).to eq 'Long Run'
     end
 
+    it 'has a nice explanation' do
+      expect(runs::LongRun.new.explanation.length).to be > 50
+    end
+
     it 'calculates a set of long run (fast) paces correctly' do
       long_run = runs::LongRun.new
       runs::LongRun::GoldenPaces.fast.each do |five_k, golden_pace|

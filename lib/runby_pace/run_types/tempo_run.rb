@@ -8,6 +8,10 @@ module Runby
         'Tempo Run'
       end
 
+      def explanation
+        'Ran at a comfortably hard pace that you could maintain for about an hour, if pressed. However, tempo runs are interval workouts, so you won\'t run for longer than 15-40 minutes per repetition'
+      end
+
       def initialize
         @fast_pace_calculator = PaceCalculator.new(GoldenPaces.fast, 4.025)
         @slow_pace_calculator = PaceCalculator.new(GoldenPaces.slow, 3.725)

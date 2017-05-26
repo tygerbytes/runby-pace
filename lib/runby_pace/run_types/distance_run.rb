@@ -9,6 +9,10 @@ module Runby
         'Distance Run'
       end
 
+      def explanation
+        'Most of your weekly training should be comprised of Distance Runs. They are faster than "easy runs", but you should still be able to carry on a conversation.'
+      end
+
       def initialize
         @fast_pace_calculator = PaceCalculator.new(GoldenPaces.fast, 3.675)
         @slow_pace_calculator = PaceCalculator.new(GoldenPaces.slow, 2.175)
