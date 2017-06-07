@@ -3,7 +3,7 @@ module Runby
   class RunbyTime
     include Comparable
 
-    attr_reader :time_s, :minutes_part, :seconds_part
+    attr_reader :time_s, :hours_part, :minutes_part, :seconds_part
 
     def initialize(time)
       if time.is_a?(String) || time.is_a?(Symbol)
@@ -17,9 +17,14 @@ module Runby
 
     # @param [numeric] total_seconds
     def self.from_seconds(total_seconds)
-      minutes = total_seconds.abs.to_i / 60
+      hours = total_seconds.abs.to_i / 60 / 60
+      minutes = (total_seconds.abs.to_i / 60) % 60
       seconds = total_seconds.abs.to_i % 60
-      RunbyTime.new format('%02d:%02d', minutes, seconds)
+      if hours > 0
+        RunbyTime.new format('%d:%02d:%02d', hours, minutes, seconds)
+      else
+        RunbyTime.new format('%02d:%02d', minutes, seconds)
+      end
     end
 
     # @param [numeric] total_minutes
@@ -27,29 +32,48 @@ module Runby
       from_seconds(total_minutes * 60.0)
     end
 
+    # @param [numeric] total_hours
+    def self.from_hours(total_hours)
+      from_seconds(total_hours * 60.0 * 60.0)
+    end
+
     def self.parse(str)
       time = str.to_s.strip.chomp
 
-      if time.match(/^\d?\d:\d\d$/)
+      if time =~ /^\d?\d:\d\d:\d\d$/
         parts = time.split(':')
+        hours_part = parts[0].to_i
+        minutes_part = parts[1].to_i
+        seconds_part = parts[2].to_i
+      elsif time =~ /^\d?\d:\d\d$/
+        parts = time.split(':')
+        hours_part = 0
         minutes_part = parts[0].to_i
         seconds_part = parts[1].to_i
-      elsif time.match(/^\d+$/)
+      elsif time =~ /^\d+$/
+        hours_part = 0
         minutes_part = time.to_i
         seconds_part = 0
-      elsif time.match(/^\d+[,. ]\d+$/)
+      elsif time =~ /^\d+[,. ]\d+$/
         parts = time.split(/[,. ]/)
+        hours_part = 0
         minutes_part = parts[0].to_i
         seconds_part = (parts[1].to_i / 10.0 * 60).to_i
       else
         raise 'Invalid time format'
       end
 
-      raise 'Minutes must be less than 100' if minutes_part > 99
+      raise 'Hours must be less than 24' if hours_part > 23
+      raise 'Minutes must be less than 60 if hours are supplied' if hours_part > 0 && minutes_part > 59
+      raise 'Minutes must be less than 99 if no hours are supplied' if hours_part.zero? && minutes_part > 99
       raise 'Seconds must be less than 60' if seconds_part > 59
-      time_formatted = "#{minutes_part.to_s.rjust(2, '0')}:#{seconds_part.to_s.rjust(2, '0')}"
+      hours_part_formatted = ''
+      if hours_part > 0
+        hours_part_formatted = "#{hours_part.to_s.rjust(2, '0')}:"
+      end
+      time_formatted = "#{hours_part_formatted}#{minutes_part.to_s.rjust(2, '0')}:#{seconds_part.to_s.rjust(2, '0')}"
 
-      RunbyTime.new(time_s: time_formatted, minutes_part: minutes_part, seconds_part: seconds_part)
+      RunbyTime.new(time_s: time_formatted, hours_part: hours_part, minutes_part: minutes_part, seconds_part: seconds_part)
     end
 
     def self.try_parse(str, is_five_k = false)
@@ -100,7 +124,7 @@ module Runby
         total_seconds <=> other.total_seconds
       elsif other.is_a? String
         return 0 if @time_s == other
-        total_seconds <=> parse(other).total_seconds
+        total_seconds <=> RunbyTime.parse(other).total_seconds
       end
     end
 

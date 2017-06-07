@@ -23,6 +23,10 @@ describe 'RunbyTime' do
       expect(Runby::RunbyTime.from_minutes(0.5)).to eq '00:30'
     end
 
+    it 'creates a time from numeric hours' do
+      expect(Runby::RunbyTime.from_hours(2.5)).to eq '2:30:00'
+    end
+
     it 'creates a time from another pace time' do
       pace_time = Runby::RunbyTime.new('03:59')
       cloned_time = Runby::RunbyTime.new(pace_time)
@@ -58,8 +62,16 @@ describe 'RunbyTime' do
         end
       end
 
-      it 'will not parse a time greater than 99 minutes' do
-        expect { Runby::RunbyTime.new('100') }.to raise_error 'Minutes must be less than 100'
+      it 'will not parse a time with minutes greater than 59 when hours are supplied' do
+        expect { Runby::RunbyTime.new('1:60:00') }.to raise_error 'Minutes must be less than 60 if hours are supplied'
+      end
+
+      it 'will not parse a time with minutes greater than 99 when hours are not supplied' do
+        expect { Runby::RunbyTime.new('100') }.to raise_error 'Minutes must be less than 99 if no hours are supplied'
+      end
+
+      it 'will not parse a time with hours greater than 23' do
+        expect { Runby::RunbyTime.new('24:00:00') }.to raise_error 'Hours must be less than 24'
       end
     end
 
@@ -92,8 +104,8 @@ describe 'RunbyTime' do
 
   describe '#to_s' do
     it 'outputs a human-readable time format' do
-      time = Runby::RunbyTime.new('99:59')
-      expect(time.to_s).to eq '99:59'
+      time = Runby::RunbyTime.new('23:59:59')
+      expect(time.to_s).to eq '23:59:59'
     end
 
     it 'strips any leading zeroes and colons' do
