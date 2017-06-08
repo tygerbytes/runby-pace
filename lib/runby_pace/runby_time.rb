@@ -97,26 +97,26 @@ module Runby
       @time_s.sub(/^0/, '')
     end
 
+    def total_hours
+      @hours_part + (@minutes_part / 60.0) + (@seconds_part / 60.0 / 60.0)
+    end
+
     def total_seconds
-      @minutes_part * 60 + @seconds_part
+      @hours_part * 60 * 60 + @minutes_part * 60 + @seconds_part
     end
 
     def total_minutes
-      @minutes_part + (@seconds_part / 60.0)
+      @hours_part * 60 + @minutes_part + (@seconds_part / 60.0)
     end
 
     # @param [RunbyTime] other
     def -(other)
-      if other.is_a?(RunbyTime)
-        RunbyTime.from_seconds(total_seconds - other.total_seconds)
-      end
+      RunbyTime.from_seconds(total_seconds - other.total_seconds) if other.is_a?(RunbyTime)
     end
 
     # @param [RunbyTime] other
     def +(other)
-      if other.is_a?(RunbyTime)
-        RunbyTime.from_seconds(total_seconds + other.total_seconds)
-      end
+      RunbyTime.from_seconds(total_seconds + other.total_seconds) if other.is_a?(RunbyTime)
     end
 
     def <=>(other)
@@ -129,9 +129,7 @@ module Runby
     end
 
     def almost_equals?(other_time, tolerance_time = '00:01')
-      if other_time.is_a?(String)
-        other_time = RunbyTime.new(other_time)
-      end
+      other_time = RunbyTime.new(other_time) if other_time.is_a?(String)
       tolerance = RunbyTime.new(tolerance_time)
       self >= (other_time - tolerance) && self <= (other_time + tolerance)
     end
@@ -141,6 +139,7 @@ module Runby
     # @param [Hash] params
     def init_from_hash(params = {})
       @time_s = params.fetch :time_s, '00:00'
+      @hours_part = params.fetch :hours_part, 0.0
       @minutes_part = params.fetch :minutes_part, 0.0
       @seconds_part = params.fetch :seconds_part, 0.0
     end
@@ -148,6 +147,7 @@ module Runby
     # @param [RunbyTime] time
     def init_from_clone(time)
       @time_s = time.time_s
+      @hours_part = time.hours_part
       @minutes_part = time.minutes_part
       @seconds_part = time.seconds_part
     end

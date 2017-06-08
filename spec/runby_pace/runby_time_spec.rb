@@ -4,10 +4,15 @@ describe 'RunbyTime' do
   describe 'RunbyTime initialization and creation' do
     it 'parses a time string such as 05:20, where 05 is the number of minutes, and 20 is the number of seconds' do
       time = Runby::RunbyTime.new('05:20')
-      expect(time.total_seconds).to be 320
+      expect(time.total_seconds).to eq 320
     end
 
-    it 'expects the time to be formatted as \d\d:\d\d ' do
+    it 'parses a time string such as 2:59:01, where 2 is the number of hours, 59 is the number of minutes, and 01 is the seconds' do
+      time = Runby::RunbyTime.new('2:59:01')
+      expect(time.total_seconds).to eq 10_741
+    end
+
+    it 'expects the time to be formatted as \d?\d:\d\d:\d\d or \d\d:\d\d ' do
       expect { Runby::RunbyTime.new('ab:cd') }.to raise_error 'Invalid time format'
     end
 
@@ -24,7 +29,7 @@ describe 'RunbyTime' do
     end
 
     it 'creates a time from numeric hours' do
-      expect(Runby::RunbyTime.from_hours(2.5)).to eq '2:30:00'
+      expect(Runby::RunbyTime.from_hours(2.75)).to eq '2:45:00'
     end
 
     it 'creates a time from another pace time' do
@@ -66,8 +71,12 @@ describe 'RunbyTime' do
         expect { Runby::RunbyTime.new('1:60:00') }.to raise_error 'Minutes must be less than 60 if hours are supplied'
       end
 
-      it 'will not parse a time with minutes greater than 99 when hours are not supplied' do
+      it 'will not parse a time with minutes greater than 99 when no hours are supplied' do
         expect { Runby::RunbyTime.new('100') }.to raise_error 'Minutes must be less than 99 if no hours are supplied'
+      end
+
+      it 'will parse a time string such as 61:01 as 01:01:01' do
+        expect(Runby::RunbyTime.new('61:01')).to eq '01:01:01'
       end
 
       it 'will not parse a time with hours greater than 23' do
@@ -113,6 +122,10 @@ describe 'RunbyTime' do
       expect(time.to_s).to eq '4:59'
     end
 
+    it 'strips any leading zeroes, even if hours are supplied' do
+      expect(Runby::RunbyTime.new('05:30:01')).to eq '5:30:01'
+    end
+
     it 'shows one leading zero when time is under 1 minute' do
       expect(Runby::RunbyTime.new('00:58').to_s).to eq '0:58'
     end
@@ -120,36 +133,43 @@ describe 'RunbyTime' do
 
   describe '#total_seconds' do
     it 'returns the pace time in seconds, represented by an integer' do
-      time = Runby::RunbyTime.new('01:30')
-      expect(time.total_seconds).to eq 90
+      time = Runby::RunbyTime.new('01:01:30')
+      expect(time.total_seconds).to eq 3690
     end
   end
 
   describe '#total_minutes' do
     it 'returns the pace time in minutes ,represented by a floating point numeric value' do
-      time = Runby::RunbyTime.new('01:30')
-      expect(time.total_minutes).to eq 1.5
+      time = Runby::RunbyTime.new('01:01:30')
+      expect(time.total_minutes).to eq 61.5
+    end
+  end
+
+  describe '#total_hours' do
+    it 'returns the pace time in hours ,represented by a floating point numeric value' do
+      time = Runby::RunbyTime.new('01:30:00')
+      expect(time.total_hours).to eq 1.5
     end
   end
 
   describe 'RunbyTime arithmetic' do
     it 'subtracts one runby time from another' do
-      time_a = Runby::RunbyTime.new('01:30')
+      time_a = Runby::RunbyTime.new('01:00:30')
       time_b = Runby::RunbyTime.new('00:31')
-      expect(time_a - time_b).to eq '00:59'
+      expect(time_a - time_b).to eq '59:59'
     end
 
     it 'adds one runby time to another' do
-      time_a = Runby::RunbyTime.new('00:01')
+      time_a = Runby::RunbyTime.new('1:00:01')
       time_b = Runby::RunbyTime.new('00:59')
-      expect(time_a + time_b).to eq '01:00'
+      expect(time_a + time_b).to eq '1:01:00'
     end
   end
 
   describe 'RunbyTime equality' do
     it 'should equal another RunbyTime of the same value' do
-      time_a = Runby::RunbyTime.new('09:59')
-      time_b = Runby::RunbyTime.new('09:59')
+      time_a = Runby::RunbyTime.new('1:09:59')
+      time_b = Runby::RunbyTime.new('1:09:59')
       expect(time_a).to eq time_b
     end
 
@@ -160,17 +180,17 @@ describe 'RunbyTime' do
 
     describe '#almost_equals?' do
       it 'should equal another RunbyTime within the given tolerance' do
-        time = Runby::RunbyTime.new('01:00')
-        low_time = Runby::RunbyTime.new('00:58')
-        high_time = Runby::RunbyTime.new('01:02')
+        time = Runby::RunbyTime.new('1:01:00')
+        low_time = Runby::RunbyTime.new('1:00:58')
+        high_time = Runby::RunbyTime.new('1:01:02')
         expect(time.almost_equals?(low_time, '00:02')).to be true
         expect(time.almost_equals?(high_time, '00:02')).to be true
       end
 
       it 'should not equal another RunbyTime outside the given tolerance' do
         time = Runby::RunbyTime.new('01:00')
-        too_low_time = Runby::RunbyTime.new('00:57')
-        too_high_time = Runby::RunbyTime.new('01:03')
+        too_low_time = Runby::RunbyTime.new('1:00:57')
+        too_high_time = Runby::RunbyTime.new('1:01:03')
         expect(time.almost_equals?(too_low_time, '00:02')).to be false
         expect(time.almost_equals?(too_high_time, '00:02')).to be false
       end
