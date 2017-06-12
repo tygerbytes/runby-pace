@@ -146,23 +146,40 @@ describe 'RunbyTime' do
   end
 
   describe '#total_hours' do
-    it 'returns the pace time in hours ,represented by a floating point numeric value' do
+    it 'returns the pace time in hours, represented by a floating point numeric value' do
       time = Runby::RunbyTime.new('01:30:00')
       expect(time.total_hours).to eq 1.5
     end
   end
 
   describe 'RunbyTime arithmetic' do
-    it 'subtracts one runby time from another' do
+    it 'subtracts (-) one runby time from another' do
       time_a = Runby::RunbyTime.new('01:00:30')
       time_b = Runby::RunbyTime.new('00:31')
       expect(time_a - time_b).to eq '59:59'
     end
 
-    it 'adds one runby time to another' do
+    it 'adds (+) one runby time to another' do
       time_a = Runby::RunbyTime.new('1:00:01')
       time_b = Runby::RunbyTime.new('00:59')
       expect(time_a + time_b).to eq '1:01:00'
+    end
+
+    it 'multiplies (*) a runby time with a numeric' do
+      time = Runby::RunbyTime.new('2:15:59')
+      expect(time * 2).to eq '4:31:57'
+    end
+
+    it 'divides (/) one runby time with another' do
+      dividend = Runby::RunbyTime.new('1:00:00')
+      divisor = Runby::RunbyTime.new('5:00')
+      quotient = dividend / divisor
+      expect(quotient).to eq 12
+    end
+
+    it 'divides (/) one runby time with a numeric' do
+      time = Runby::RunbyTime.new('1:00:00')
+      expect(time / 12).to eq '5:00'
     end
   end
 

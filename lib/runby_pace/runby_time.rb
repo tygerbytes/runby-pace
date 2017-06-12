@@ -119,6 +119,23 @@ module Runby
       RunbyTime.from_seconds(total_seconds + other.total_seconds) if other.is_a?(RunbyTime)
     end
 
+    # @param [Numeric] other
+    # @return [RunbyTime]
+    def *(other)
+        RunbyTime.from_minutes(total_minutes * other) if other.is_a?(Numeric)
+    end
+
+    # @param [RunbyTime, Numeric] other
+    # @return [Numeric, RunbyTime]
+    def /(other)
+      case other
+        when RunbyTime
+          total_seconds / other.total_seconds
+        when Numeric
+          RunbyTime.from_seconds(total_seconds / other)
+      end
+    end
+
     def <=>(other)
       if other.is_a? RunbyTime
         total_seconds <=> other.total_seconds
