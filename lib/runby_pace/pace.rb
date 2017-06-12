@@ -18,6 +18,12 @@ module Runby
       end
     end
 
+    def convert_to(target_distance)
+      target_distance = Distance.new(target_distance) unless target_distance.is_a?(Distance)
+      conversion_factor = target_distance / @distance
+      Pace.new @time * conversion_factor, target_distance
+    end
+
     def to_s(format: :short)
       distance_s = @distance.to_s(format: format)
       leading_one_regex = /^1 ?/
@@ -44,7 +50,7 @@ module Runby
     # @param [String] str is either a long-form pace such as "10:00 per mile" or a short-form pace like "10:00 p/mi"
     def self.parse(str)
       str = str.to_s.strip.chomp
-      if str.match(/^(?<time>[:\d]*) ?(?: per |p\/)(?<distance>(?:[\d.]+ ?)?\w+)$/)
+      if str =~ /^(?<time>[:\d]*) ?(?: per |p\/)(?<distance>(?:[\d.]+ ?)?\w+)$/
         time = Runby::RunbyTime.new($~[:time])
         distance = Runby::Distance.new($~[:distance])
         Pace.new time, distance
@@ -113,7 +119,7 @@ module Runby
       time = Runby::RunbyTime.new(time)
       divisor = @time.total_minutes / time.total_minutes
       distance_units_traveled = 1 / divisor
-      return distance_units_traveled
+      distance_units_traveled
     end
 
     private

@@ -276,4 +276,18 @@ describe Runby::Pace do
       expect(pace.distance_covered_over_time('60:00')).to be_within(0.01).of(10)
     end
   end
+
+  describe 'pace conversions' do
+    it 'converts a pace in one distance unit to a pace in another distance unit' do
+      minutes_per_mile = Runby::Pace.new('10:00 p/mi')
+      minutes_per_kilometer = minutes_per_mile.convert_to('1km')
+      expect(minutes_per_kilometer.to_s(format: :short)).to eq '6:12 p/km'
+    end
+
+    it 'converts a p/km pace to a p/mi pace' do
+      minutes_per_kilometer = Runby::Pace.new('6:12 p/km')
+      minutes_per_mile = minutes_per_kilometer.convert_to('1mi')
+      expect(minutes_per_mile.to_s(format: :short)).to eq '9:58 p/mi'
+    end
+  end
 end

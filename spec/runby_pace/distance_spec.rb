@@ -203,12 +203,12 @@ describe Runby::Distance do
       expect(distance * 2).to eq '5.5 mi'
     end
 
-    it 'divides a distance by a numeric divisor' do
+    it 'divides a distance by a numeric divisor and returns new distance' do
       distance = Runby::Distance.new(:mi, 100)
       expect(distance / 2.5).to eq '40 mi'
     end
 
-    it 'divides one distance by another distance' do
+    it 'divides one distance by another distance and returns a numeric quotient' do
       distance1 = Runby::Distance.new(:mi, 100)
       distance2 = Runby::Distance.new(:mi, 50)
       expect(distance1 / distance2).to eq 2
