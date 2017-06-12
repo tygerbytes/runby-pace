@@ -40,7 +40,7 @@ module Runby
         end
       end
       raise "Error parsing distance unit '#{description}'" unless found_uom
-      return DistanceUnit.new found_uom
+      DistanceUnit.new found_uom
     end
 
     def self.try_parse(str)
@@ -48,14 +48,14 @@ module Runby
       begin
         uom = parse str
       rescue StandardError => ex
-        error_message = "#{ex.message}"
+        error_message = ex.message
       end
       { uom: uom, error: error_message }
     end
 
     def self.known_uom?(symbol)
       # TODO: test
-      @@_uom_definitions.has_key?(symbol)
+      @@_uom_definitions.key?(symbol)
     end
 
     def ==(other)

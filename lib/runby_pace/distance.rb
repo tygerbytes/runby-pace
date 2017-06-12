@@ -19,8 +19,8 @@ module Runby
       end
     end
 
-    def convert_to(uom)
-      target_uom = DistanceUnit.new uom
+    def convert_to(target_uom)
+      target_uom = DistanceUnit.new target_uom unless target_uom.is_a?(DistanceUnit)
       target_multiplier = kilometers / (target_uom.conversion_factor * 1.0)
       Distance.new target_uom, target_multiplier
     end
@@ -43,7 +43,7 @@ module Runby
       parsed_uom = Runby::DistanceUnit.parse uom
       raise "'#{uom.strip}' is not recognized as a distance unit" if parsed_uom.nil?
 
-      self.new parsed_uom, multiplier
+      new parsed_uom, multiplier
     end
 
     def self.try_parse(str)
@@ -51,7 +51,7 @@ module Runby
       begin
         distance = parse str
       rescue StandardError => ex
-        error_message = "#{ex.message}"
+        error_message = ex.message.to_s
       end
       { distance: distance, error: error_message }
     end
@@ -64,13 +64,50 @@ module Runby
       end
     end
 
+    # @param [Distance, String] other
     def <=>(other)
       raise "Cannot compare Runby::Distance to #{other.class}" unless [Distance, String].include? other.class
       if other.is_a?(String)
         return 0 if to_s == other || to_s(format: :long) == other
-        return self <=> try_parse(other)[:distance]
+        return self <=> Distance.try_parse(other)[:distance]
       end
       kilometers <=> other.kilometers
+    end
+
+    # @param [Distance] other
+    # @return [Distance]
+    def +(other)
+      raise "Cannot add Runby::Distance to #{other.class}" unless other.is_a?(Distance)
+      sum_in_km = Distance.new(:km, kilometers + other.kilometers)
+      sum_in_km.convert_to(@uom)
+    end
+
+    # @param [Distance] other
+    # @return [Distance]
+    def -(other)
+      raise "Cannot add Runby::Distance to #{other.class}" unless other.is_a?(Distance)
+      sum_in_km = Distance.new(:km, kilometers - other.kilometers)
+      sum_in_km.convert_to(@uom)
+    end
+
+    # @param [Numeric] other
+    # @return [Distance]
+    def *(other)
+      raise "Cannot multiply Runby::Distance by #{other.class}" unless other.is_a?(Numeric)
+      product_in_km = Distance.new(:km, kilometers * other)
+      product_in_km.convert_to(@uom)
+    end
+
+    # @param [Numeric, Distance] other
+    # @return [Distance, Numeric]
+    def /(other)
+      raise "Cannot divide Runby::Distance by #{other.class}" unless other.is_a?(Numeric) || other.is_a?(Distance)
+      if other.is_a?(Numeric)
+        quotient_in_km = Distance.new(:km, kilometers / other)
+        return quotient_in_km.convert_to(@uom)
+      elsif other.is_a?(Distance)
+        return kilometers / other.kilometers
+      end
     end
 
     private

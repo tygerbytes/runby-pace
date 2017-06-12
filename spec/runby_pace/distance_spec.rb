@@ -184,4 +184,34 @@ describe Runby::Distance do
       expect(distance_a <= distance_a_clone).to be true
     end
   end
+
+  describe 'Distance arithmetic' do
+    it 'adds (+) two distances and returns a new distance in the uom of the first distance' do
+      distance_a = Runby::Distance.new('4km')
+      distance_b = Runby::Distance.new('1000m')
+      expect(distance_a + distance_b).to eq '5 km'
+    end
+
+    it 'subtracts two distances and returns a new distance in the uom of the first distance' do
+      distance_a = Runby::Distance.new('4km')
+      distance_b = Runby::Distance.new('1000m')
+      expect(distance_a - distance_b).to eq '3 km'
+    end
+
+    it 'multiplies a distance by some numeric multiplier' do
+      distance = Runby::Distance.new(:mi, 2.75)
+      expect(distance * 2).to eq '5.5 mi'
+    end
+
+    it 'divides a distance by a numeric divisor' do
+      distance = Runby::Distance.new(:mi, 100)
+      expect(distance / 2.5).to eq '40 mi'
+    end
+
+    it 'divides one distance by another distance' do
+      distance1 = Runby::Distance.new(:mi, 100)
+      distance2 = Runby::Distance.new(:mi, 50)
+      expect(distance1 / distance2).to eq 2
+    end
+  end
 end

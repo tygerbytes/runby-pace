@@ -111,23 +111,27 @@ module Runby
 
     # @param [RunbyTime] other
     def -(other)
-      RunbyTime.from_seconds(total_seconds - other.total_seconds) if other.is_a?(RunbyTime)
+      raise "Cannot subtract #{other.class} from a Runby::RunbyTime" unless other.is_a?(RunbyTime)
+      RunbyTime.from_seconds(total_seconds - other.total_seconds)
     end
 
     # @param [RunbyTime] other
     def +(other)
-      RunbyTime.from_seconds(total_seconds + other.total_seconds) if other.is_a?(RunbyTime)
+      raise "Cannot add Runby::RunbyTime to a #{other.class}" unless other.is_a?(RunbyTime)
+      RunbyTime.from_seconds(total_seconds + other.total_seconds)
     end
 
     # @param [Numeric] other
     # @return [RunbyTime]
     def *(other)
-        RunbyTime.from_minutes(total_minutes * other) if other.is_a?(Numeric)
+      raise "Cannot multiply Runby::RunbyTime with a #{other.class}" unless other.is_a?(Numeric)
+      RunbyTime.from_minutes(total_minutes * other)
     end
 
     # @param [RunbyTime, Numeric] other
     # @return [Numeric, RunbyTime]
     def /(other)
+      raise "Cannot divide Runby::RunbyTime by #{other.class}" unless other.is_a?(RunbyTime) || other.is_a?(Numeric)
       case other
         when RunbyTime
           total_seconds / other.total_seconds
@@ -137,6 +141,7 @@ module Runby
     end
 
     def <=>(other)
+      raise "Cannot compare Runby::RunbyTime to #{other.class}" unless [RunbyTime, String].include? other.class
       if other.is_a? RunbyTime
         total_seconds <=> other.total_seconds
       elsif other.is_a? String
