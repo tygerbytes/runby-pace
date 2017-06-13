@@ -21,6 +21,7 @@ module Runby
 
     def convert_to(target_uom)
       target_uom = DistanceUnit.new target_uom unless target_uom.is_a?(DistanceUnit)
+      return self if @uom == target_uom
       target_multiplier = kilometers / (target_uom.conversion_factor * 1.0)
       Distance.new target_uom, target_multiplier
     end

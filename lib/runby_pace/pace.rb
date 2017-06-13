@@ -20,6 +20,7 @@ module Runby
 
     def convert_to(target_distance)
       target_distance = Distance.new(target_distance) unless target_distance.is_a?(Distance)
+      return self if @distance == target_distance
       conversion_factor = target_distance / @distance
       Pace.new @time * conversion_factor, target_distance
     end
