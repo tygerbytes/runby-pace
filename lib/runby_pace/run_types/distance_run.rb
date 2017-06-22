@@ -10,7 +10,7 @@ module Runby
       end
 
       def explanation
-        'Most of your weekly training should be comprised of Distance Runs. They are faster than "easy runs", but you should still be able to carry on a conversation.'
+        'Most of your weekly training should be comprised of Distance Runs. They are faster than easy runs, but you should still be able to carry on a conversation.'
       end
 
       def initialize

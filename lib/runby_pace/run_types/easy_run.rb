@@ -9,7 +9,7 @@ module Runby
       end
 
       def explanation
-        'Also called a "recovery run", the easy run is harder than jogging, but you should still be able to carry on a conversation.'
+        'Also called a recovery run, the easy run is harder than jogging, but you should still be able to carry on a conversation.'
       end
 
       def initialize
