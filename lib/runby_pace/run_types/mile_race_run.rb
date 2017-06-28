@@ -7,9 +7,7 @@ module Runby
       end
 
       def explanation
-        'Repetitions run at a pace you would use to race one mile can increase the stroke volume of your heart, '
-        + 'strengthen your lungs, increase the number of capillaries around your intermediate and fast twitch fibers, '
-        + 'and increase mitochondrial densities around the same.'
+        'Repetitions run at a pace you would use to race one mile can increase the stroke volume of your heart, strengthen your lungs, increase the number of capillaries around your intermediate and fast twitch fibers, and increase mitochondrial densities around the same.'
       end
 
       def lookup_pace(five_k_time, distance_units = :km)
