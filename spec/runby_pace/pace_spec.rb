@@ -271,9 +271,16 @@ describe Runby::Pace do
   end
 
   describe 'pace calculations' do
-    it 'calculates the distance traveled at this pace over a given time' do
-      pace = Runby::Pace.new('06:00')
-      expect(pace.distance_covered_over_time('60:00')).to be_within(0.01).of(10)
+    describe 'distance traveled calculations' do
+      it 'calculates the distance traveled at this pace over a given time' do
+        pace = Runby::Pace.new('06:00')
+        expect(pace.distance_covered_over_time('60:00')).to be_within(0.01).of(10)
+      end
+
+      it 'returns 0 if time is 0:00' do
+        pace = Runby::Pace.new('6:00')
+        expect(pace.distance_covered_over_time('0:00')).to eq 0
+      end
     end
   end
 
