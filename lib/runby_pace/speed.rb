@@ -36,12 +36,10 @@ module Runby
     # @param [String] str is either a long-form speed such as "7.5 miles per hour" or a short-form speed like "7.5mi/ph"
     def self.parse(str)
       str = str.to_s.strip.chomp
-      if str.match(/^(?<distance>\d+(?:\.\d+)? ?[A-Za-z]+)(?: per hour|\/ph)$/)
-        distance = Runby::Distance.new($~[:distance])
-        Speed.new distance
-      else
-        raise "Invalid speed format (#{str})"
-      end
+      match = str.match(%r{^(?<distance>\d+(?:\.\d+)? ?[A-Za-z]+)(?: per hour|\/ph)$})
+      raise "Invalid speed format (#{str})" unless match
+      distance = Runby::Distance.new(match[:distance])
+      Speed.new distance
     end
 
     def self.try_parse(str)

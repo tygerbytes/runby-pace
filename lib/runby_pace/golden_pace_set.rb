@@ -22,9 +22,9 @@ module Runby
       paces_hash.each { |five_k_time, recommended_pace| @paces[five_k_time.to_sym] = Pace.new(recommended_pace) }
     end
 
-    def each(&block)
+    def each
       @paces.each do |h, v|
-        block.call(h, v)
+        yield h, v
       end
     end
 
