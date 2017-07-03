@@ -274,12 +274,22 @@ describe Runby::Pace do
     describe 'distance traveled calculations' do
       it 'calculates the distance traveled at this pace over a given time' do
         pace = Runby::Pace.new('06:00')
-        expect(pace.distance_covered_over_time('60:00')).to be_within(0.01).of(10)
+        expect(pace.distance_covered_over_time('60:00').multiplier).to be_within(0.01).of(10)
       end
 
-      it 'returns 0 if time is 0:00' do
+      it 'returns 0 distance if time is 0:00' do
         pace = Runby::Pace.new('6:00')
-        expect(pace.distance_covered_over_time('0:00')).to eq 0
+        expect(pace.distance_covered_over_time('0:00')).to eq '0 km'
+      end
+
+      it 'returns 0 distance if the pace is for a distance of 0' do
+        pace = Runby::Pace.new('10:00', '0 miles')
+        expect(pace.distance_covered_over_time('60:00')).to eq '0 miles'
+      end
+
+      it 'calculates distance traveled when the pace is for an exotic distance' do
+        pace = Runby::Pace.new('10:00', '2 miles')
+        expect(pace.distance_covered_over_time('60:00')).to eq '12 miles'
       end
     end
   end

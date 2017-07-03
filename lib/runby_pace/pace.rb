@@ -118,9 +118,11 @@ module Runby
 
     def distance_covered_over_time(time)
       time = Runby::RunbyTime.new(time)
-      return 0 if time.total_minutes.zero?
-      divisor = @time.total_minutes / time.total_minutes
-      distance_units_traveled = 1 / divisor
+      if time.total_minutes.zero? || @distance.multiplier.zero?
+        return Runby::Distance.new(@distance.uom, 0)
+      end
+      divisor = @time.total_minutes / time.total_minutes / @distance.multiplier
+      distance_units_traveled = Runby::Distance.new(@distance.uom, 1 / divisor)
       distance_units_traveled
     end
 
