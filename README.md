@@ -6,6 +6,7 @@ RunbyPace contains the core logic for calculating the target "paces" used by run
 | | |
 | --- | --- |
 | **Build** | [![Build Status](https://travis-ci.org/tygerbytes/runby-pace.svg?branch=master)](https://travis-ci.org/tygerbytes/runby-pace) |
+| **Grade** | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7c228c8601ff4eeb9dfe0f6c60867f25)](https://www.codacy.com/app/tygerbytes/runby-pace?utm_source=github.com&utm_medium=referral&utm_content=tygerbytes/runby-pace&utm_campaign=badger) |
 | **Coverage** | [![Coverage Status](https://coveralls.io/repos/github/tygerbytes/runby-pace/badge.svg?branch=master)](https://coveralls.io/github/tygerbytes/runby-pace?branch=master) |
 | **Gem** | [![gem](https://img.shields.io/gem/v/runby_pace.svg)](https://rubygems.org/gems/runby_pace) |
 
