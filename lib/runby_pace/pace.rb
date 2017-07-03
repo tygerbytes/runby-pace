@@ -7,14 +7,14 @@ module Runby
 
     def initialize(time_or_pace, distance = '1K')
       case time_or_pace
-        when Pace
-          return init_from_clone time_or_pace
-        when RunbyTime
-          return init_from_time time_or_pace, distance
-        when String
-          return init_from_string time_or_pace, distance
-        else
-          raise 'Invalid Time or Pace'
+      when Pace
+        init_from_clone time_or_pace
+      when RunbyTime
+        init_from_time time_or_pace, distance
+      when String
+        init_from_string time_or_pace, distance
+      else
+        raise 'Invalid Time or Pace'
       end
     end
 
@@ -30,38 +30,38 @@ module Runby
       leading_one_regex = /^1 ?/
       distance_s.gsub!(leading_one_regex, '')
       case format
-        when :short then "#{time} p/#{distance_s}"
-        when :long then "#{time} per #{distance_s}"
+      when :short then "#{time} p/#{distance_s}"
+      when :long then "#{time} per #{distance_s}"
       end
     end
 
     def as_speed
       total_minutes = @time.total_minutes
-      multiplier = total_minutes > 0 ? (60 / total_minutes).round(2) : 0
+      multiplier = total_minutes.positive? ? (60 / total_minutes).round(2) : 0
       distance = Runby::Distance.new(@distance.uom, multiplier)
       Runby::Speed.new distance
     end
 
     def meters_per_minute
       total_minutes = @time.total_minutes
-      return 0 unless total_minutes > 0
+      return 0 unless total_minutes.positive?
       @distance.meters / total_minutes
     end
 
     # @param [String] str is either a long-form pace such as "10:00 per mile" or a short-form pace like "10:00 p/mi"
     def self.parse(str)
       str = str.to_s.strip.chomp
-      if str =~ /^(?<time>[:\d]*) ?(?: per |p\/)(?<distance>(?:[\d.]+ ?)?\w+)$/
-        time = Runby::RunbyTime.new($~[:time])
-        distance = Runby::Distance.new($~[:distance])
-        Pace.new time, distance
-      else
-        raise "Invalid pace format (#{str})"
-      end
+      match = str.match %r{^(?<time>[:\d]*) ?(?: per |p\/)(?<distance>(?:[\d.]+ ?)?\w+)$}
+      raise "Invalid pace format (#{str})" unless match
+      time = Runby::RunbyTime.new(match[:time])
+      distance = Runby::Distance.new(match[:distance])
+      Pace.new time, distance
     end
 
     def self.try_parse(str)
-      pace, error_message = nil, warning_message = nil
+      pace = nil
+      error_message = nil
+      warning_message = nil
       begin
         pace = Pace.parse str
       rescue StandardError => ex
@@ -72,7 +72,7 @@ module Runby
 
     def <=>(other)
       if other.is_a? Pace
-        (meters_per_minute.round(2)) <=> (other.meters_per_minute.round(2))
+        meters_per_minute.round(2) <=> other.meters_per_minute.round(2)
       elsif other.is_a? RunbyTime
         @time <=> other.time
       elsif other.is_a? String
@@ -87,7 +87,7 @@ module Runby
         return almost_equals?(Pace.new(other_pace, @distance), tolerance_time)
       end
       if other_pace.is_a?(String)
-        return almost_equals?(Pace.new(other_pace, @distance), tolerance_time) if other_pace =~ /^\d?\d:\d\d$/
+        return almost_equals?(Pace.new(other_pace, @distance), tolerance_time) if other_pace.match? /^\d?\d:\d\d$/
         other_pace = Pace.parse(other_pace)
       end
       tolerance = RunbyTime.new(tolerance_time)

@@ -64,11 +64,11 @@ module Runby
       end
 
       raise 'Hours must be less than 24' if hours_part > 23
-      raise 'Minutes must be less than 60 if hours are supplied' if hours_part > 0 && minutes_part > 59
+      raise 'Minutes must be less than 60 if hours are supplied' if hours_part.positive? && minutes_part > 59
       raise 'Minutes must be less than 99 if no hours are supplied' if hours_part.zero? && minutes_part > 99
       raise 'Seconds must be less than 60' if seconds_part > 59
       hours_part_formatted = ''
-      if hours_part > 0
+      if hours_part.positive?
         hours_part_formatted = "#{hours_part.to_s.rjust(2, '0')}:"
       end
       time_formatted = "#{hours_part_formatted}#{minutes_part.to_s.rjust(2, '0')}:#{seconds_part.to_s.rjust(2, '0')}"
