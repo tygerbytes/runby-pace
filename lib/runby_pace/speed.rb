@@ -7,24 +7,24 @@ module Runby
 
     def initialize(distance_or_multiplier, units = :km)
       case distance_or_multiplier
-        when Distance
-          init_from_distance distance_or_multiplier
-        when String
-          init_from_string distance_or_multiplier
-        when Numeric
-          init_from_multiplier(distance_or_multiplier, units)
-        when Speed
-          init_from_clone distance_or_multiplier
-        else
-          raise 'Unable to initialize Runby::Speed'
+      when Distance
+        init_from_distance distance_or_multiplier
+      when String
+        init_from_string distance_or_multiplier
+      when Numeric
+        init_from_multiplier(distance_or_multiplier, units)
+      when Speed
+        init_from_clone distance_or_multiplier
+      else
+        raise 'Unable to initialize Runby::Speed'
       end
     end
 
     def to_s(format: :short)
       distance = @distance.to_s(format: format)
       case format
-        when :short then "#{distance}/ph"
-        when :long then "#{distance} per hour"
+      when :short then "#{distance}/ph"
+      when :long then "#{distance} per hour"
       end
     end
 
@@ -43,7 +43,9 @@ module Runby
     end
 
     def self.try_parse(str)
-      speed, error_message = nil, warning_message = nil
+      speed = nil
+      error_message = nil
+      warning_message = nil
       begin
         speed = Speed.parse str
       rescue StandardError => ex

@@ -2,11 +2,11 @@ RSpec::Matchers.define :be_within_seconds do |expected_time, seconds_variation|
   match do |actual_time|
     # First make sure everything is a RunbyTime
     seconds = Runby::RunbyTime.new(seconds_variation)
-    if expected_time.is_a? Runby::Pace
-      expected_time = expected_time.time
-    else
-      expected_time = Runby::RunbyTime.new(expected_time)
-    end
+    expected_time = if expected_time.is_a? Runby::Pace
+                      expected_time.time
+                    else
+                      Runby::RunbyTime.new(expected_time)
+                    end
     if actual_time.is_a? Runby::Pace
       actual_time = actual_time.time
     elsif actual_time.is_a? String
@@ -39,14 +39,15 @@ end
 module RSpec
   module Matchers
     module BuiltIn
+      # Monkey patch the "Eq" matcher to make failure messages involving Pace and RunbyTime easier to read
+      #  Let me know if there is an idiomatic way to do this
       class Eq < BaseMatcher
         private
-        # Monkey patch the "Eq" matcher to make failure messages involving Pace and RunbyTime easier to read
-        #  Let me know if there is an idiomatic way to do this
+
         def actual_formatted
           formatted_object = RSpec::Support::ObjectFormatter.format(@actual)
           if [Runby::RunbyTime, Runby::Pace, Runby::Speed].include? @actual.class
-            return "#{@actual.to_s} ---> #{formatted_object}"
+            return "#{@actual} ---> #{formatted_object}"
           end
           formatted_object
         end

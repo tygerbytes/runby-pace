@@ -83,14 +83,14 @@ module Runby
       rescue StandardError => ex
         error_message = "#{ex.message} (#{str})"
       end
-
-      # Break out these sanity checks into their own class if we add any more.
-      if !time.nil? && is_five_k
-        warning_message = '5K times of less than 14:00 are unlikely' if time.minutes_part < 14
-        warning_message = '5K times of greater than 42:00 are not fully supported' if time.total_seconds > (42 * 60)
-      end
-
+      warning_message = check_5k_sanity(time) if !time.nil? && is_five_k
       { time: time, error: error_message, warning: warning_message }
+    end
+
+    def self.check_5k_sanity(time)
+      return unless time.is_a? RunbyTime
+      return '5K times of less than 14:00 are unlikely' if time.minutes_part < 14
+      return '5K times of greater than 42:00 are not fully supported' if time.total_seconds > (42 * 60)
     end
 
     def to_s
@@ -133,10 +133,10 @@ module Runby
     def /(other)
       raise "Cannot divide Runby::RunbyTime by #{other.class}" unless other.is_a?(RunbyTime) || other.is_a?(Numeric)
       case other
-        when RunbyTime
-          total_seconds / other.total_seconds
-        when Numeric
-          RunbyTime.from_seconds(total_seconds / other)
+      when RunbyTime
+        total_seconds / other.total_seconds
+      when Numeric
+        RunbyTime.from_seconds(total_seconds / other)
       end
     end
 
