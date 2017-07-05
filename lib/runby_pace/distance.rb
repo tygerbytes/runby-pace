@@ -6,16 +6,16 @@ module Runby
     attr_reader :uom, :multiplier
     def initialize(uom = :km, multiplier = 1)
       case uom
-        when Distance
-          return init_from_clone uom
-        when DistanceUnit
-          return init_from_distance_unit uom, multiplier
-        when String
-          return init_from_string uom
-        when Symbol
-          return init_from_symbol uom, multiplier
-        else
-          raise 'Invalid distance unit of measure'
+      when Distance
+        return init_from_clone uom
+      when DistanceUnit
+        return init_from_distance_unit uom, multiplier
+      when String
+        return init_from_string uom
+      when Symbol
+        return init_from_symbol uom, multiplier
+      else
+        raise 'Invalid distance unit of measure'
       end
     end
 
@@ -60,8 +60,8 @@ module Runby
     def to_s(format: :short)
       formatted_multiplier = format('%g', @multiplier.round(2))
       case format
-        when :short then "#{formatted_multiplier} #{@uom.to_s(format: format)}"
-        when :long then "#{formatted_multiplier} #{@uom.to_s(format: format, pluralize: (@multiplier > 1))}"
+      when :short then "#{formatted_multiplier} #{@uom.to_s(format: format)}"
+      when :long then "#{formatted_multiplier} #{@uom.to_s(format: format, pluralize: (@multiplier > 1))}"
       end
     end
 

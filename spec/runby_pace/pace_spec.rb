@@ -118,6 +118,12 @@ describe Runby::Pace do
       expect(difference).to eq '00:59'
     end
 
+    it 'subtracts one pace from another, even when units differ' do
+      pace_in_miles = Runby::Pace.new('10:00 p/mi')
+      pace_in_kilometers = Runby::Pace.new('6:13 p/km')
+      expect((pace_in_miles - pace_in_kilometers).to_s(format: :short)).to eq '0:00 p/mi'
+    end
+
     it 'adds one pace to another' do
       pace_a = Runby::Pace.new('00:01')
       pace_b = Runby::Pace.new('00:59')
@@ -130,6 +136,12 @@ describe Runby::Pace do
       sum = pace + time
       expect(sum.class).to eq Runby::Pace
       expect(sum).to eq '01:00'
+    end
+
+    it 'adds one pace to another, even when units differ' do
+      pace_in_miles = Runby::Pace.new('10:00 p/mi')
+      pace_in_kilometers = Runby::Pace.new('6:13 p/km')
+      expect((pace_in_miles + pace_in_kilometers).to_s(format: :short)).to eq '20:00 p/mi'
     end
   end
 

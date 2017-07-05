@@ -99,8 +99,7 @@ module Runby
     # @param [Pace, RunbyTime] other
     def -(other)
       if other.is_a?(Pace)
-        raise 'Pace arithmetic with different units is not currently supported' unless @distance == other.distance
-        Pace.new(@time - other.time, @distance)
+        Pace.new(@time - other.convert_to(@distance).time, @distance)
       elsif other.is_a?(RunbyTime)
         Pace.new(@time - other, @distance)
       end
@@ -109,8 +108,7 @@ module Runby
     # @param [Pace, RunbyTime] other
     def +(other)
       if other.is_a?(Pace)
-        raise 'Pace arithmetic with different units is not currently supported' unless @distance == other.distance
-        Pace.new(@time + other.time, @distance)
+        Pace.new(@time + other.convert_to(@distance).time, @distance)
       elsif other.is_a?(RunbyTime)
         Pace.new(@time + other, @distance)
       end
@@ -122,8 +120,8 @@ module Runby
         return Runby::Distance.new(@distance.uom, 0)
       end
       divisor = @time.total_minutes / time.total_minutes / @distance.multiplier
-      distance_units_traveled = Runby::Distance.new(@distance.uom, 1 / divisor)
-      distance_units_traveled
+      distance_covered = Runby::Distance.new(@distance.uom, 1 / divisor)
+      distance_covered
     end
 
     private
