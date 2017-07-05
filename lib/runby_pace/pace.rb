@@ -87,7 +87,7 @@ module Runby
         return almost_equals?(Pace.new(other_pace, @distance), tolerance_time)
       end
       if other_pace.is_a?(String)
-        return almost_equals?(Pace.new(other_pace, @distance), tolerance_time) if other_pace.match? /^\d?\d:\d\d$/
+        return almost_equals?(Pace.new(other_pace, @distance), tolerance_time) if other_pace.match?(/^\d?\d:\d\d$/)
         other_pace = Pace.parse(other_pace)
       end
       tolerance = RunbyTime.new(tolerance_time)

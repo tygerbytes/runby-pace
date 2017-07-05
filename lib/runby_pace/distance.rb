@@ -7,13 +7,13 @@ module Runby
     def initialize(uom = :km, multiplier = 1)
       case uom
       when Distance
-        return init_from_clone uom
+        init_from_clone uom
       when DistanceUnit
-        return init_from_distance_unit uom, multiplier
+        init_from_distance_unit uom, multiplier
       when String
-        return init_from_string uom
+        init_from_string uom
       when Symbol
-        return init_from_symbol uom, multiplier
+        init_from_symbol uom, multiplier
       else
         raise 'Invalid distance unit of measure'
       end
