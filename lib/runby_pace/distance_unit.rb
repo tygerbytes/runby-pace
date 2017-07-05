@@ -17,8 +17,8 @@ module Runby
         @symbol = parsed_uom.symbol
         @conversion_factor = UOM_DEFINITIONS[@symbol][:conversion_factor]
       end
-
       @description = UOM_DEFINITIONS[@symbol][:description]
+      freeze
     end
 
     def to_s(format: :long, pluralize: false)

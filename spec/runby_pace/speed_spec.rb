@@ -7,6 +7,11 @@ describe Runby::Speed do
   end
 
   describe 'Speed initialization' do
+    it 'is immutable' do
+      speed = Runby::Speed.new(7, :mi)
+      expect(speed.frozen?).to be true
+    end
+
     it 'is initialized by a distance and defaults to "per hour"' do
       distance = Runby::Distance.new(:mi, 7)
       speed = Runby::Speed.new(distance)

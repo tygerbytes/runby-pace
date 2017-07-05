@@ -2,6 +2,11 @@ require_relative '../spec_helper'
 
 describe 'RunbyTime' do
   describe 'RunbyTime initialization and creation' do
+    it 'is immutable' do
+      time = Runby::RunbyTime.new('6:20')
+      expect(time.frozen?).to be true
+    end
+
     it 'parses a time string such as 05:20, where 05 is the number of minutes, and 20 is the number of seconds' do
       time = Runby::RunbyTime.new('05:20')
       expect(time.total_seconds).to eq 320

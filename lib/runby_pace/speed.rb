@@ -20,6 +20,7 @@ module Runby
       else
         raise 'Unable to initialize Runby::Speed'
       end
+      freeze
     end
 
     def to_s(format: :short)

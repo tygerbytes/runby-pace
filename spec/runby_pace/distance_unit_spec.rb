@@ -12,6 +12,11 @@ describe Runby::DistanceUnit do
   end
 
   describe 'initialization and creation' do
+    it 'is immutable' do
+      uom = Runby::DistanceUnit.new('miles')
+      expect(uom.frozen?).to be true
+    end
+
     it 'can be created from a known unit of measure symbol, such as :yd' do
       uom = Runby::DistanceUnit.new :yd
       expect(uom.description).to eq 'yard'

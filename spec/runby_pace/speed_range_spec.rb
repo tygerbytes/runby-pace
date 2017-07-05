@@ -2,6 +2,11 @@ require_relative '../spec_helper'
 
 describe Runby::SpeedRange do
   describe 'Speed range initialization and creation' do
+    it 'is immutable' do
+      speed = Runby::SpeedRange.new(5, 10)
+      expect(speed.frozen?).to be true
+    end
+
     it 'creates a speed range from two decimals' do
       range = Runby::SpeedRange.new(5.371, 9.129)
       expect(range.fast).to eq '5.37 km/ph'

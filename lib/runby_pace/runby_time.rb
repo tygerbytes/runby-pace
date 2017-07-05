@@ -15,6 +15,7 @@ module Runby
       elsif time.is_a?(Hash)
         init_from_hash time
       end
+      freeze
     end
 
     # @param [numeric] total_seconds

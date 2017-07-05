@@ -43,6 +43,11 @@ describe Runby::Distance do
   end
 
   describe 'distance initialization and creation' do
+    it 'is immutable' do
+      distance = Runby::Distance.new('1 mile')
+      expect(distance.frozen?).to be true
+    end
+
     it 'parses the string as a distance if one is provided' do
       distance = Runby::Distance.new('26.2 miles')
       expect(distance.uom.symbol).to eq :mi

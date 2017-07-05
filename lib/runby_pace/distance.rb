@@ -19,6 +19,7 @@ module Runby
       else
         raise 'Invalid distance unit of measure'
       end
+      freeze
     end
 
     def convert_to(target_uom)

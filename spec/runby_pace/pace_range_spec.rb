@@ -2,6 +2,11 @@ require_relative '../spec_helper'
 
 describe Runby::PaceRange do
   describe 'Pace range initialization and creation' do
+    it 'is immutable' do
+      range = Runby::PaceRange.new('10:00', '20:00')
+      expect(range.frozen?).to be true
+    end
+
     it 'creates a range from two pace time strings' do
       range = Runby::PaceRange.new('10:00', '20:00')
       expect(range.fast).to eq '10:00'

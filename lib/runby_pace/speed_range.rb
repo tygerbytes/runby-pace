@@ -10,6 +10,7 @@ module Runby
       raise "Invalid slow speed value: #{slow}" unless slow.is_a?(Numeric) || slow.is_a?(Speed)
       @fast = Runby::Speed.new(fast)
       @slow = Runby::Speed.new(slow)
+      freeze
     end
 
     def as_pace_range

@@ -18,6 +18,7 @@ module Runby
       else
         raise 'Invalid Time or Pace'
       end
+      freeze
     end
 
     def convert_to(target_distance)

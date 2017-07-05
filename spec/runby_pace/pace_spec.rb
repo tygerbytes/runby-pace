@@ -26,6 +26,11 @@ describe Runby::Pace do
   end
 
   describe 'Pace initialization' do
+    it 'is immutable' do
+      pace = Runby::Pace.new('10:00')
+      expect(pace.frozen?).to be true
+    end
+
     it 'is initialized by a time and a distance' do
       time = Runby::RunbyTime.new('11:01')
       distance = Runby::Distance.new(:km, 3)

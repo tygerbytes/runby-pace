@@ -15,6 +15,7 @@ module Runby
         @fast = Pace.new(fast, distance)
         @slow = Pace.new(slow, distance)
       end
+      freeze
     end
 
     def as_speed_range
