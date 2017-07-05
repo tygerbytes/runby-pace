@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   # Represents a distance (distance UOM and multiplier)
   class Distance

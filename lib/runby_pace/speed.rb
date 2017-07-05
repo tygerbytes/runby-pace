@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   # Represents a speed consisting of a distance and a unit of time in which that distance was covered
   class Speed

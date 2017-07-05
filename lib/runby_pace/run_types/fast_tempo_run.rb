@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'tempo_run'
 
 module Runby

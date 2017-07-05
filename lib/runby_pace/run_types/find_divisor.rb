@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   # Extend RunTypes with additional behavior. (See comments for details)
   module RunTypes

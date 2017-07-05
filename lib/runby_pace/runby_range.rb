@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   # Base class for ranges of Runby data, e.g. PaceRange, SpeedRange, ...
   class RunbyRange

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   module RunTypes
     # Arguably one of the most important run types, the "long run" is harder than an "easy run", but easier than

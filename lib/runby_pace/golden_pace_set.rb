@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
 
   # Maps a set of 5K race times with their pre-calculated pace recommendations.

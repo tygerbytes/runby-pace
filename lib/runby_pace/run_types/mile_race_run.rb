@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   module RunTypes
     # Your mile race pace, which is also useful for running repetitions at this pace

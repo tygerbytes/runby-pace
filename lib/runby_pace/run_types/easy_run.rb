@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   module RunTypes
     # An easy run is basically a jog. It should be conversational.

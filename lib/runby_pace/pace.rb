@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   # Represents a pace consisting of a distance and a time in which that distance was covered
   class Pace
@@ -26,9 +28,8 @@ module Runby
     end
 
     def to_s(format: :short)
-      distance_s = @distance.to_s(format: format)
       leading_one_regex = /^1 ?/
-      distance_s.gsub!(leading_one_regex, '')
+      distance_s = @distance.to_s(format: format).gsub(leading_one_regex, '')
       case format
       when :short then "#{time} p/#{distance_s}"
       when :long then "#{time} per #{distance_s}"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   # An assortment of mathematical functions related to running.
   class RunMath

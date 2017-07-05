@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   module RunTypes
     # Defines the venerable "distance run", the backbone of any distance running program.

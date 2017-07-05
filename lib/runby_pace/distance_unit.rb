@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   # Represents the distance units (e.g. kilometers, miles) used in paces
   #  including the human-readable description of each unit

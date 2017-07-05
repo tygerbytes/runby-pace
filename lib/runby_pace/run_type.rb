@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   # Base class for all run types
   class RunType

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Runby
   # Encapsulates the algorithms used to calculate target paces.
   class PaceCalculator
