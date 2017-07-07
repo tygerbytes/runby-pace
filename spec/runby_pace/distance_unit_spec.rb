@@ -82,4 +82,14 @@ describe Runby::DistanceUnit do
       expect(uom1 == uom2).to be true
     end
   end
+
+  describe '#known_uom?' do
+    it 'returns true if a symbol such as :km represents a unit of measure known to Runby Pace' do
+      expect(Runby::DistanceUnit.known_uom?(:km)).to be true
+    end
+
+    it 'returns false if a given symbol is unknown to Runby Pace as a valid unit of measure' do
+      expect(Runby::DistanceUnit.known_uom?(:bananas)).to be false
+    end
+  end
 end
