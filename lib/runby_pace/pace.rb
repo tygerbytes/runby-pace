@@ -117,7 +117,7 @@ module Runby
     end
 
     def distance_covered_over_time(time)
-      time = Runby::RunbyTime.new(time)
+      time = sanitize_arg(time).as(RunbyTime)
       if time.total_minutes.zero? || @distance.multiplier.zero?
         return Runby::Distance.new(@distance.uom, 0)
       end

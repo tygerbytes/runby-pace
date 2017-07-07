@@ -30,6 +30,7 @@ module Runby
     end
 
     def self.parse(description)
+      return new description if description.is_a? Symbol
       description = description.strip.chomp.downcase
       found_uom = nil
       UOM_DEFINITIONS.each do |uom, details|

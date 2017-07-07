@@ -23,7 +23,7 @@ module Runby
       else
         fast_multiplier = format('%g', @fast.distance.multiplier.round(2))
         slow_multiplier = format('%g', @slow.distance.multiplier.round(2))
-        @fast.to_s(format: format).sub("#{fast_multiplier}", "#{fast_multiplier}-#{slow_multiplier}")
+        @fast.to_s(format: format).sub(fast_multiplier.to_s, "#{fast_multiplier}-#{slow_multiplier}")
       end
     end
   end

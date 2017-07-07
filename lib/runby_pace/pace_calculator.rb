@@ -41,19 +41,26 @@ module Runby
     # Calculate the prescribed pace for the given 5K time
     # @return [Pace]
     def calc(five_k_time, distance_units = :km)
-      five_k_time = Runby::RunbyTime.new five_k_time
-      distance_units = Runby::DistanceUnit.new distance_units
-      x2 = ((five_k_time.total_minutes * 2) - (MIDPOINT_X - 1)) - 1
-      minutes_per_km = slope * x2 + @fastest_pace_km.time.total_minutes + curve_minutes(x2)
-      minutes_per_unit = minutes_per_km * distance_units.conversion_factor
+      five_k_time = sanitize_arg(five_k_time).as(RunbyTime)
+      distance_units = sanitize_arg(distance_units).as(DistanceUnit)
 
-      # TODO: Is there a way to clean up all of this "newing up"?
+      minutes_per_unit = calculate_minutes_per_unit(distance_units, five_k_time)
+      build_pace minutes_per_unit, distance_units
+    end
+
+    private
+
+    def build_pace(minutes_per_unit, distance_units)
       time = RunbyTime.from_minutes(minutes_per_unit)
       distance = Distance.new distance_units, 1
       Pace.new time, distance
     end
 
-    private
+    def calculate_minutes_per_unit(distance_units, five_k_time)
+      x2 = ((five_k_time.total_minutes * 2) - (MIDPOINT_X - 1)) - 1
+      minutes_per_km = slope * x2 + @fastest_pace_km.time.total_minutes + curve_minutes(x2)
+      minutes_per_km * distance_units.conversion_factor
+    end
 
     # Since the paces for each 5K time do not progress in a straight line
     #  when plotted on a graph, but rather a curve with its highest point near
@@ -69,7 +76,7 @@ module Runby
       midpoint = MIDPOINT_X
       if midpoint_reduction > midpoint
         midpoint_reduction = midpoint - (midpoint_reduction - midpoint)
-        midpoint_reduction = 0 if midpoint_reduction < 0
+        midpoint_reduction = 0 if midpoint_reduction.negative?
       end
       # TODO: Use an actual curve instead of a triangle to calculate the number of minutes to add.
       midpoint_reduction / @midpoint_radius_divisor / 60
