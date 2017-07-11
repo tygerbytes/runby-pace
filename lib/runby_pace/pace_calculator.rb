@@ -41,8 +41,8 @@ module Runby
     # Calculate the prescribed pace for the given 5K time
     # @return [Pace]
     def calc(five_k_time, distance_units = :km)
-      five_k_time = sanitize_arg(five_k_time).as(RunbyTime)
-      distance_units = sanitize_arg(distance_units).as(DistanceUnit)
+      five_k_time = Runby.sanitize(five_k_time).as(RunbyTime)
+      distance_units = Runby.sanitize(distance_units).as(DistanceUnit)
 
       minutes_per_unit = calculate_minutes_per_unit(distance_units, five_k_time)
       build_pace minutes_per_unit, distance_units
