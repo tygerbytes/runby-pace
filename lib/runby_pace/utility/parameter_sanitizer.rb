@@ -3,9 +3,6 @@
 module Runby
   module Utility
     # Helps sanitize method parameters. (See RSpec documentation for examples)
-    # Example: time = ParameterSanitizer.sanitize(time).as(RunbyTime)
-    # If the parameter is already of the expected type,
-    # Expects `type` to have a `parse` method.
     class ParameterSanitizer
       attr_reader :parameter
 
