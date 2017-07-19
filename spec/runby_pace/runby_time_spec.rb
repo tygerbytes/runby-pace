@@ -37,10 +37,10 @@ describe 'RunbyTime' do
       expect(Runby::RunbyTime.from_hours(2.75)).to eq '2:45:00'
     end
 
-    it 'creates a time from another pace time' do
+    it 'returns the same (immutable) RunbyTime object if newing up one time from another RunbyTime' do
       pace_time = Runby::RunbyTime.new('03:59')
-      cloned_time = Runby::RunbyTime.new(pace_time)
-      expect(cloned_time).to eq pace_time
+      newish_time = Runby::RunbyTime.new(pace_time)
+      expect(newish_time.object_id).to eq pace_time.object_id
     end
 
     describe 'Fuzzy string parsing' do
