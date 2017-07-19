@@ -7,14 +7,14 @@ module Runby
 
     attr_reader :time_s, :hours_part, :minutes_part, :seconds_part
 
+    def self.new(time)
+      return time if time.is_a? RunbyTime
+      return RunbyTime.parse time if time.is_a?(String) || time.is_a?(Symbol)
+      super
+    end
+
     def initialize(time)
-      if time.is_a?(String) || time.is_a?(Symbol)
-        init_from_string time
-      elsif time.is_a?(RunbyTime)
-        init_from_clone time
-      elsif time.is_a?(Hash)
-        init_from_hash time
-      end
+      init_from_parts time if time.is_a? RunbyTimeParser::TimeParts
       freeze
     end
 
@@ -62,7 +62,7 @@ module Runby
     end
 
     def to_s
-      @time_s.sub(/^0/, '')
+      @time_s
     end
 
     def total_hours
@@ -126,25 +126,12 @@ module Runby
 
     private
 
-    # @param [Hash] params
-    def init_from_hash(params = {})
-      @time_s = params.fetch :time_s, '00:00'
-      @hours_part = params.fetch :hours_part, 0.0
-      @minutes_part = params.fetch :minutes_part, 0.0
-      @seconds_part = params.fetch :seconds_part, 0.0
-    end
-
-    # @param [RunbyTime] time
-    def init_from_clone(time)
-      @time_s = time.time_s
-      @hours_part = time.hours_part
-      @minutes_part = time.minutes_part
-      @seconds_part = time.seconds_part
-    end
-
-    # @param [String] time
-    def init_from_string(time)
-      init_from_clone RunbyTime.parse time
+    # @param [RunbyTimeParser::TimeParts] parts
+    def init_from_parts(parts)
+      @time_s = parts.format
+      @hours_part = parts[:hours]
+      @minutes_part = parts[:minutes]
+      @seconds_part = parts[:seconds]
     end
   end
 end
