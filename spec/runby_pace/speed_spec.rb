@@ -22,6 +22,12 @@ describe Runby::Speed do
       speed = Runby::Speed.new('10 km/ph')
       expect(speed.to_s(format: :long)).to eq '10 kilometers per hour'
     end
+
+    it 'returns the same immutable Speed object if initialized from a Speed' do
+      speed = Runby::Speed.new(7, :mi)
+      newish_speed = Runby::Speed.new(speed)
+      expect(newish_speed.object_id).to eq speed.object_id
+    end
   end
 
   describe 'Speed parsing' do

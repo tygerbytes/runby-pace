@@ -7,16 +7,24 @@ module Runby
 
     attr_reader :distance
 
+    def self.new(distance_or_multiplier, units = :km)
+      return distance_or_multiplier if distance_or_multiplier.is_a? Speed
+      if distance_or_multiplier.is_a? String
+        parsed_speed = Speed.try_parse(distance_or_multiplier)
+        return parsed_speed[:speed] unless parsed_speed[:error]
+      end
+      super
+    end
+
     def initialize(distance_or_multiplier, units = :km)
       case distance_or_multiplier
       when Distance
         init_from_distance distance_or_multiplier
       when String
-        init_from_string distance_or_multiplier
+        # Already tried to parse it as a Speed string. Try parsing it as a Distance string.
+        init_from_distance_string distance_or_multiplier
       when Numeric
         init_from_multiplier(distance_or_multiplier, units)
-      when Speed
-        init_from_clone distance_or_multiplier
       else
         raise 'Unable to initialize Runby::Speed'
       end
@@ -68,27 +76,18 @@ module Runby
 
     private
 
-    def init_from_clone(other_speed)
-      @distance = Distance.new(other_speed.distance)
-    end
-
     def init_from_distance(distance)
-      @distance = Distance.new(distance)
+      @distance = distance
     end
 
     def init_from_multiplier(multiplier, uom)
       @distance = Distance.new(uom, multiplier)
     end
 
-    def init_from_string(str)
-      results = Speed.try_parse(str)
-      unless results[:error]
-        init_from_clone results[:speed]
-        return
-      end
+    def init_from_distance_string(str)
       results = Distance.try_parse(str)
       unless results[:error]
-        init_from_distance results[:distance]
+        @distance = results[:distance]
         return
       end
       raise "'#{str}' is not recognized as a Speed"

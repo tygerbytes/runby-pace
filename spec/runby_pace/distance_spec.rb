@@ -80,6 +80,12 @@ describe Runby::Distance do
       expect { Runby::Distance.new(:km, 'Banana') }.to raise_error 'Invalid multiplier'
     end
 
+    it 'returns the same Distance if initialized with a Distance object' do
+      distance = Runby::Distance.new(:mi)
+      newish_distance = Runby::Distance.new(distance)
+      expect(distance.object_id).to eq newish_distance.object_id
+    end
+
     describe '#parse' do
       it 'parses a string as a distance and returns a new Distance' do
         distance = Runby::Distance.parse '26.2 miles'

@@ -7,12 +7,15 @@ module Runby
   class DistanceUnit
     attr_reader :symbol, :description, :conversion_factor
 
+    def self.new(unit_of_measure)
+      return unit_of_measure if unit_of_measure.is_a? DistanceUnit
+      return DistanceUnit.parse(unit_of_measure) if unit_of_measure.is_a? String
+      super
+    end
+
     def initialize(unit_of_measure)
-      if unit_of_measure.is_a? Symbol
-        init_from_symbol unit_of_measure
-      elsif unit_of_measure.is_a? String
-        init_from_string unit_of_measure
-      end
+      raise "':#{unit_of_measure}' is an unknown unit of measure" unless DistanceUnit.known_uom? unit_of_measure
+      @symbol = unit_of_measure
       @conversion_factor = UOM_DEFINITIONS[@symbol][:conversion_factor]
       @description = UOM_DEFINITIONS[@symbol][:description]
       freeze
@@ -81,17 +84,5 @@ module Runby
         # Fun distance unit of measures
         marathon: { description: 'marathon', description_plural: 'marathons', conversion_factor: 42.1648128,
                     synonyms: %w[marathon] } }.freeze
-
-    private
-
-    def init_from_symbol(unit_of_measure)
-      raise "':#{unit_of_measure}' is an unknown unit of measure" unless DistanceUnit.known_uom? unit_of_measure
-      @symbol = unit_of_measure
-    end
-
-    def init_from_string(unit_of_measure)
-      parsed_uom = DistanceUnit.parse(unit_of_measure)
-      @symbol = parsed_uom.symbol
-    end
   end
 end

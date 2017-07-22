@@ -35,6 +35,12 @@ describe Runby::DistanceUnit do
       expect { Runby::DistanceUnit.new :banana }.to raise_error "':banana' is an unknown unit of measure"
     end
 
+    it 'return the same (immutable) DistanceUnit object if newing up one distance unit from another DistanceUnit' do
+      distance_unit = Runby::DistanceUnit.new(:km)
+      newish_distance_unit = Runby::DistanceUnit.new(distance_unit)
+      expect(newish_distance_unit.object_id).to eq distance_unit.object_id
+    end
+
     describe '#parse' do
       it 'parses a string as a distance unit of measure, and returns a new DistanceUnit' do
         uom = Runby::DistanceUnit.parse 'Marathon'

@@ -52,12 +52,10 @@ describe Runby::Pace do
         expect(pace.time).to eq '10:30'
       end
 
-      it 'may also be a Pace, in which case the Pace is cloned' do
+      it 'may also be a Pace, in which case the same immutable Pace is returned' do
         pace = Runby::Pace.new('10:30')
-        cloned_pace = Runby::Pace.new(pace)
-        expect(pace).to_not be cloned_pace
-        expect(cloned_pace.time == pace.time)
-        expect(cloned_pace.distance == pace.distance)
+        newish_pace = Runby::Pace.new(pace)
+        expect(pace.object_id).to eq newish_pace.object_id
       end
     end
 

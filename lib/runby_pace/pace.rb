@@ -7,10 +7,13 @@ module Runby
 
     attr_reader :time, :distance
 
+    def self.new(time_or_pace, distance = '1K')
+      return time_or_pace if time_or_pace.is_a? Pace
+      super
+    end
+
     def initialize(time_or_pace, distance = '1K')
       case time_or_pace
-      when Pace
-        init_from_clone time_or_pace
       when RunbyTime
         init_from_time time_or_pace, distance
       when String
@@ -127,12 +130,6 @@ module Runby
     end
 
     private
-
-    def init_from_clone(other_pace)
-      raise "#{other_pace} is not a Runby::Pace" unless other_pace.is_a? Pace
-      @time = other_pace.time
-      @distance = other_pace.distance
-    end
 
     def init_from_string(string, distance = '1K')
       pace = Pace.try_parse(string)

@@ -6,14 +6,17 @@ module Runby
     include Comparable
 
     attr_reader :uom, :multiplier
+
+    def self.new(uom = :km, multiplier = 1)
+      return uom if uom.is_a? Distance
+      return Distance.parse uom if uom.is_a? String
+      super
+    end
+
     def initialize(uom = :km, multiplier = 1)
       case uom
-      when Distance
-        init_from_clone uom
       when DistanceUnit
         init_from_distance_unit uom, multiplier
-      when String
-        init_from_string uom
       when Symbol
         init_from_symbol uom, multiplier
       else
@@ -116,18 +119,9 @@ module Runby
 
     private
 
-    def init_from_clone(distance)
-      @uom = distance.uom
-      @multiplier = distance.multiplier
-    end
-
     def init_from_distance_unit(uom, multiplier)
       @uom = uom
       @multiplier = multiplier
-    end
-
-    def init_from_string(string)
-      init_from_clone Distance.parse string
     end
 
     def init_from_symbol(distance_uom_symbol, multiplier)
