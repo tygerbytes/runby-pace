@@ -4,7 +4,11 @@ module Runby
   # Encapsulates data and behavior relating to all run types.
   module RunTypes
     def self.all
-      %w(__RUN_TYPES__)
+      %w[__RUN_TYPE_NAMES__]
+    end
+
+    def self.all_classes
+      [__RUN_TYPES__]
     end
   end
 end

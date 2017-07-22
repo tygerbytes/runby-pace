@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+begin
+  require "bundler/setup"
+rescue LoadError
+end
+
+begin
+  require 'runby_pace'
+rescue LoadError
+  require_relative '../lib/runby_pace'
+end
+
+cli = Runby::Cli.new(ARGV)
+exit cli.run
