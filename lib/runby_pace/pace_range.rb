@@ -26,7 +26,7 @@ module Runby
       if @fast == @slow
         @fast.to_s(format: format)
       else
-        @fast.to_s(format: format).sub("#{@fast.time}", "#{@fast.time}-#{@slow.time}")
+        @fast.to_s(format: format).sub(@fast.time.to_s, "#{@fast.time}-#{@slow.time}")
       end
     end
   end

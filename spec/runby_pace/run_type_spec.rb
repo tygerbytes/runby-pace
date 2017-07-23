@@ -14,11 +14,17 @@ describe Runby::RunTypes do
     end
   end
 
-  describe '#enumerate_run_types' do
-    it 'enumerates all of the possible run types' do
+  describe 'run type enumeration' do
+    it 'enumerates all of the possible run type names' do
       run_types = runs.all
       expect(run_types).to include 'EasyRun'
       expect(run_types).to include 'LongRun'
+    end
+
+    it 'enumerates all of the possible run type classes' do
+      run_types = runs.all_classes
+      expect(run_types).to include Runby::RunTypes::EasyRun
+      expect(run_types).to include Runby::RunTypes::LongRun
     end
   end
 end

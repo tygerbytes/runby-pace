@@ -25,6 +25,7 @@ module Runby
       case format
       when :short then @symbol.to_s
       when :long then pluralize ? description_plural : @description
+      else raise "Invalid string format #{format}"
       end
     end
 
@@ -64,9 +65,9 @@ module Runby
       if other.is_a? DistanceUnit
         @symbol == other.symbol
       elsif other.is_a? String
-        @symbol == DistanceUnit.parse(other)
+        self == DistanceUnit.parse(other)
       else
-        raise "Error comparing DistanceUnit to #{other.class}"
+        raise "Unable to compare DistanceUnit to #{other.class}(#{other})"
       end
     end
 

@@ -194,6 +194,11 @@ describe Runby::Distance do
       expect(distance_a <= distance_b).to be true
       expect(distance_a <= distance_a_clone).to be true
     end
+
+    it 'raises an error if unable to compare a Distance to something' do
+      distance = Runby::Distance.new('6mi')
+      expect { distance == Runby::RunbyTime.new(10) }.to raise_error 'Cannot compare Runby::Distance to Runby::RunbyTime(10:00)'
+    end
   end
 
   describe 'Distance arithmetic' do

@@ -18,15 +18,24 @@ describe Runby::Speed do
       expect(speed.to_s(format: :long)).to eq '7 miles per hour'
     end
 
-    it 'is initialized by a string parseable as a Speed or a Distance, which defaults to "per hour"' do
+    it 'is initialized by a string parseable as a Speed' do
       speed = Runby::Speed.new('10 km/ph')
       expect(speed.to_s(format: :long)).to eq '10 kilometers per hour'
+    end
+
+    it 'can be initialized by a string parseable as a Distance, which defaults to "per hour"' do
+      speed = Runby::Speed.new('10 miles')
+      expect(speed.to_s(format: :long)).to eq '10 miles per hour'
     end
 
     it 'returns the same immutable Speed object if initialized from a Speed' do
       speed = Runby::Speed.new(7, :mi)
       newish_speed = Runby::Speed.new(speed)
       expect(newish_speed.object_id).to eq speed.object_id
+    end
+
+    it 'complains if it cannot initialize the speed from the provided parameter' do
+      expect { Runby::Speed.new(Runby::RunbyTime.new('5:00')) }.to raise_error 'Unable to initialize Runby::Speed from 5:00'
     end
   end
 
@@ -42,7 +51,20 @@ describe Runby::Speed do
     end
 
     it '#parse raises an exception if parsing a malformed speed' do
-      expect {Runby::Speed.parse('bananas per hour')}.to raise_error 'Invalid speed format (bananas per hour)'
+      expect { Runby::Speed.parse('bananas per hour') }.to raise_error 'Invalid speed format (bananas per hour)'
+    end
+
+    describe '#try_parse, which returns a has containing the parsed speed, any error message, and any warning message' do
+      it 'returns the parsed speed if the string was parsed successfully' do
+        results = Runby::Speed.try_parse('5.5 mi/ph')
+        expect(results[:speed]).to eq '5.5 miles per hour'
+      end
+
+      it 'returns a speed of nil and the error that was raised if the string is unparseable as a Speed' do
+        results = Runby::Speed.try_parse('Banana')
+        expect(results[:speed]).to be nil
+        expect(results[:error]).to start_with 'Invalid speed format'
+      end
     end
   end
 
@@ -94,6 +116,11 @@ describe Runby::Speed do
       speed_a_clone = Runby::Speed.new(speed_a)
       expect(speed_a <= speed_b).to be true
       expect(speed_a <= speed_a_clone).to be true
+    end
+
+    it 'raises an error if unable to compare Speed to something' do
+      speed = Runby::Speed.new(7, :mi)
+      expect { speed == Runby::RunType }.to raise_error 'Unable to compare Runby::Speed to Class(Runby::RunType)'
     end
   end
 end

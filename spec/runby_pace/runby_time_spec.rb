@@ -25,6 +25,10 @@ describe 'RunbyTime' do
       expect { Runby::RunbyTime.new('00:60') }.to raise_error 'Seconds must be less than 60'
     end
 
+    it 'returns a time in minutes if newing up with a number' do
+      expect(Runby::RunbyTime.new(5)).to eq '5:00'
+    end
+
     it 'creates a time from numeric seconds' do
       expect(Runby::RunbyTime.from_seconds(61)).to eq '01:01'
     end
@@ -246,6 +250,11 @@ describe 'RunbyTime' do
       time_a_clone = Runby::RunbyTime.new(time_a)
       expect(time_a <= time_b).to be true
       expect(time_a <= time_a_clone).to be true
+    end
+
+    it 'raises an error if it cannot compare RunbyTime to something' do
+      time = Runby::RunbyTime.new(10)
+      expect { time == Runby::RunType }.to raise_error 'Unable to compare Runby::RunbyTime to Class(Runby::RunType)'
     end
   end
 end

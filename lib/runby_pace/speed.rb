@@ -26,7 +26,7 @@ module Runby
       when Numeric
         init_from_multiplier(distance_or_multiplier, units)
       else
-        raise 'Unable to initialize Runby::Speed'
+        raise "Unable to initialize Runby::Speed from #{distance_or_multiplier}"
       end
       freeze
     end
@@ -36,6 +36,7 @@ module Runby
       case format
       when :short then "#{distance}/ph"
       when :long then "#{distance} per hour"
+      else raise "Invalid string format #{format}"
       end
     end
 
@@ -66,9 +67,9 @@ module Runby
     end
 
     def <=>(other)
-      raise "Cannot compare Runby::Speed to #{other.class}" unless [Speed, String].include? other.class
+      raise "Unable to compare Runby::Speed to #{other.class}(#{other})" unless [Speed, String].include? other.class
       if other.is_a? String
-        return 0 if to_s == other.to_s || to_s(format: :long) == other.to_s(format: :long)
+        return 0 if to_s == other || to_s(format: :long) == other
         self <=> try_parse(other)[:speed]
       end
       @distance <=> other.distance
@@ -90,7 +91,7 @@ module Runby
         @distance = results[:distance]
         return
       end
-      raise "'#{str}' is not recognized as a Speed"
+      raise "'#{str}' is not recognized as a Speed or a Distance"
     end
   end
 end

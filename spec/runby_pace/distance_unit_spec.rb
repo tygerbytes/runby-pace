@@ -87,6 +87,16 @@ describe Runby::DistanceUnit do
       uom2 = Runby::DistanceUnit.new 'Kms'
       expect(uom1 == uom2).to be true
     end
+
+    it 'attempts to compare a DistanceUnit to a string parseable as a DistanceUnit' do
+      uom = Runby::DistanceUnit.new 'Kms'
+      expect(uom).to eq 'Kms'
+    end
+
+    it 'raises an error if unable to compare a DistanceUnit to something' do
+      uom = Runby::DistanceUnit.new 'Kms'
+      expect { uom == Runby::RunbyTime.new(5) }.to raise_error 'Unable to compare DistanceUnit to Runby::RunbyTime(5:00)'
+    end
   end
 
   describe '#known_uom?' do

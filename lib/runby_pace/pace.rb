@@ -37,6 +37,7 @@ module Runby
       case format
       when :short then "#{time} p/#{distance_s}"
       when :long then "#{time} per #{distance_s}"
+      else raise "Invalid string format #{format}"
       end
     end
 
@@ -76,10 +77,11 @@ module Runby
     end
 
     def <=>(other)
+      raise "Unable to compare Runby::Pace to #{other.class}(#{other})" unless [Pace, RunbyTime, String].include? other.class
       if other.is_a? Pace
         meters_per_minute.round(2) <=> other.meters_per_minute.round(2)
       elsif other.is_a? RunbyTime
-        @time <=> other.time
+        @time <=> other
       elsif other.is_a? String
         return 0 if to_s == other || to_s(format: :long) == other
         return 0 if @time == other

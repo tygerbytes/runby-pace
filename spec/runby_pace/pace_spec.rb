@@ -183,6 +183,12 @@ describe Runby::Pace do
         expect(pace.almost_equals?(too_high_pace, '00:02')).to be false
       end
 
+      it 'compares a Pace to a RunbyTime' do
+        pace = Runby::Pace.new('01:00')
+        expect(pace.almost_equals?(Runby::RunbyTime.new('00:58'), '00:02')).to be true
+        expect(pace.almost_equals?(Runby::RunbyTime.new('01:02'), '00:02')).to be true
+      end
+
       it 'compares a Pace against a string that is parsable as a Time' do
         pace = Runby::Pace.new('01:00')
         expect(pace.almost_equals?('00:58', '00:02')).to be true
@@ -244,6 +250,21 @@ describe Runby::Pace do
       # Note that pace A is way slower than pace B
       expect(pace_a < pace_b).to be true
       expect(pace_a > pace_b).to be false
+    end
+
+    it 'compares a Pace with a RunbyTime by comparing the time portion of the Pace with the RunbyTime' do
+      pace = Runby::Pace.new('10:00 p/mi')
+      expect(pace == Runby::RunbyTime.new(10)).to be true
+    end
+
+    it 'compares a Pace with a string parseable as a Pace' do
+      pace = Runby::Pace.new('10:00 p/km')
+      expect(pace == '10:00 per kilometer').to be true
+    end
+
+    it 'raises an error if unable to compare a Pace to something' do
+      pace = Runby::Pace.new('10:00 p/mi')
+      expect { pace == Runby::RunType }.to raise_error 'Unable to compare Runby::Pace to Class(Runby::RunType)'
     end
   end
 

@@ -10,6 +10,7 @@ module Runby
     def self.new(time)
       return time if time.is_a? RunbyTime
       return RunbyTime.parse time if time.is_a?(String) || time.is_a?(Symbol)
+      return from_minutes(time) if time.is_a? Numeric
       super
     end
 
@@ -109,7 +110,7 @@ module Runby
     end
 
     def <=>(other)
-      raise "Cannot compare Runby::RunbyTime to #{other.class}" unless [RunbyTime, String].include? other.class
+      raise "Unable to compare Runby::RunbyTime to #{other.class}(#{other})" unless [RunbyTime, String].include? other.class
       if other.is_a? RunbyTime
         total_seconds <=> other.total_seconds
       elsif other.is_a? String
