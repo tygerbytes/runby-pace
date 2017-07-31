@@ -11,5 +11,5 @@ rescue LoadError
   require_relative '../lib/runby_pace'
 end
 
-cli = Runby::Cli.new(ARGV)
-exit cli.run
+cli = Runby::Cli::Cli.new(ARGV)
+cli.run
