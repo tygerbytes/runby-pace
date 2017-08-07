@@ -21,7 +21,7 @@ Any sort of running program will include runs at varying paces, easy runs, dista
 So this is great, but a little tedious. RunbyPace automates this whole process by calculating all of the paces for you.
  All you need is your current 5K time and some Ruby, and you're off running at just the right pace.
 
-Note that this project is currently being developed, so much of the functionality is pending.
+RunbyPace also encapsulates the logic and math necessary for many running-related calculations based on time, pace, speed, unit coversions, etc. If you're tired of constantly converting minutes and seconds to decimal and back again, RunbyPace is for you.
 
 ## Installation
 
@@ -35,23 +35,31 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Or install it yourself:
 
     $ gem install runby_pace
 
 ## Usage
 
-TODO: Coming soon... When the class interfaces are fleshed out.
+I plan to craft better docs in the future, but for now the **specs** make for excellent class usage documentation: https://github.com/tygerbytes/runby-pace/tree/master/spec/runby_pace
+
+For a live front end written in **Rails**, see https://runbypace.com. It's code will be open-sourced as well, as soon as we can guarantee secure deployment.
+
+For an open-source example front end written in **Elm**, see https://github.com/tygerbytes/pacebyelm
+
+The CLI is still in its infancy, but the gem comes with a basic CLI/REPL (`bin/runbypace`)
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` or `bin/runbypace` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/tygerbytes/runby-pace.
+
+Contribute front-end and CLI ideas at [@runbypace](https://twitter.com/runbypace).
 
 ## Acknowledgements
 
