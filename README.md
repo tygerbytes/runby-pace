@@ -23,6 +23,8 @@ So this is great, but a little tedious. RunbyPace automates this whole process b
 
 RunbyPace also encapsulates the logic and math necessary for many running-related calculations based on time, pace, speed, unit coversions, etc. If you're tired of constantly converting minutes and seconds to decimal and back again, RunbyPace is for you.
 
+[![RunbyPace logo](misc/runbypace_logo.png)](https://runbypace.com)
+
 ## Installation
 
 Add this line to your application's Gemfile:
