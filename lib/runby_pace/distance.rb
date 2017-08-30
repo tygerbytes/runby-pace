@@ -74,7 +74,7 @@ module Runby
 
     # @param [Distance, String] other
     def <=>(other)
-      raise "Cannot compare Runby::Distance to #{other.class}(#{other})" unless [Distance, String].include? other.class
+      raise "Unable to compare Runby::Distance to #{other.class}(#{other})" unless [Distance, String].include? other.class
       if other.is_a?(String)
         return 0 if to_s == other || to_s(format: :long) == other
         return self <=> Distance.try_parse(other)[:distance]

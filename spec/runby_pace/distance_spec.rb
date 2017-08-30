@@ -197,7 +197,7 @@ describe Runby::Distance do
 
     it 'raises an error if unable to compare a Distance to something' do
       distance = Runby::Distance.new('6mi')
-      expect { distance == Runby::RunbyTime.new(10) }.to raise_error 'Cannot compare Runby::Distance to Runby::RunbyTime(10:00)'
+      expect { distance == Runby::RunbyTime.new(10) }.to raise_error 'Unable to compare Runby::Distance to Runby::RunbyTime(10:00)'
     end
   end
 
