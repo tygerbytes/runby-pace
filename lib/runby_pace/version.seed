@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+module Runby
+  GENERATED_VERSION = '__VERSION__'
+end

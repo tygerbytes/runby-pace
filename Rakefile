@@ -7,11 +7,11 @@ RSpec::Core::RakeTask.new(:spec)
 
 task default: :build
 
-task build: %i[gen_all_run_types spec]
+task build: %i[gen_version_number gen_all_run_types spec]
 
 desc 'Generate the all_run_types.g.rb file'
 task :gen_all_run_types do
-  puts "\e[32m__TEXT__\e[0m".gsub('__TEXT__', 'Generate all_run_types.g.rb')
+  puts "\e[32m__TEXT__\e[0m".gsub('__TEXT__', '> Generate all_run_types.g.rb')
   run_types_path = './lib/runby_pace/run_types'
 
   # Parse *_run.rb file names to generate array of the run type class names
@@ -34,4 +34,35 @@ task :gen_all_run_types do
   template.gsub!('__RUN_TYPES__', all_run_types.join(', '))
   File.write(File.join(run_types_path, 'all_run_types.g.rb'), template)
   puts "\e[32mDone\e[0m\n\n"
+end
+
+desc 'Generate version number'
+task :gen_version_number do
+  puts "\e[32m__TEXT__\e[0m".gsub('__TEXT__', '> Generate version number')
+
+  # Generate "teeny" version number based on the number of commits since the last tagged major/minor release
+  latest_tagged_release = `git describe --tags --abbrev=0 --match v*`.to_s.chomp
+  puts "\e[32m__TEXT__\e[0m".gsub('__TEXT__', "Latest tagged release is #{latest_tagged_release}")
+  version = "#{latest_tagged_release[1..-1]}.#{`git rev-list --count #{latest_tagged_release}..HEAD`}".chomp
+
+  # Write version number to generated file
+  path = './lib/runby_pace'
+  template = File.read(File.join(path, 'version.seed'))
+  template.gsub!('__VERSION__', version)
+  version_file_path = File.join(path, 'version.g.rb')
+  File.write(version_file_path, template)
+  with_no_warnings do
+    # Silencing warnings about redefining constants, since it's intentional
+    load version_file_path
+    Runby::VERSION = Runby::GENERATED_VERSION
+  end
+  puts "\e[32m__TEXT__\e[0m".gsub('__TEXT__', "Version: #{Runby::VERSION}")
+end
+
+def with_no_warnings
+  warning_level = $VERBOSE
+  $VERBOSE = nil
+  result = yield
+  $VERBOSE = warning_level
+  result
 end
