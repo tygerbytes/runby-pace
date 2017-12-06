@@ -1,7 +1,7 @@
 language: ruby
 rvm:
-- 2.4
-before_install: gem install bundler -v 1.12.5
+- 2.4.2
+before_install: gem install bundler -v 1.16
 deploy:
   skip_cleanup: true
   provider: rubygems
