@@ -1,3 +1,6 @@
+
+ruby '2.4.2'
+
 source 'https://rubygems.org'
 
 group :development do
