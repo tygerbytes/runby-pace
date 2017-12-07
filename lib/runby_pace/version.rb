@@ -6,7 +6,7 @@ include FileUtils
 module Runby
 
   VERSION = begin
-              path = './lib/runby_pace/version.g.rb'
+              path = File.join(__dir__, 'version.g.rb')
               if File.exist? path
                 load path
                 Runby::GENERATED_VERSION
