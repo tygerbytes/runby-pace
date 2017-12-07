@@ -3,6 +3,8 @@
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 
+require_relative 'lib/runby_pace/utility/warning_suppressant'
+
 RSpec::Core::RakeTask.new(:spec)
 
 task default: :build
@@ -51,18 +53,10 @@ task :gen_version_number do
   template.gsub!('__VERSION__', version)
   version_file_path = File.join(path, 'version.g.rb')
   File.write(version_file_path, template)
-  with_no_warnings do
+  Runby.with_no_warnings do
     # Silencing warnings about redefining constants, since it's intentional
     load version_file_path
     Runby::VERSION = Runby::GENERATED_VERSION
   end
   puts "\e[32m__TEXT__\e[0m".gsub('__TEXT__', "Version: #{Runby::VERSION}")
-end
-
-def with_no_warnings
-  warning_level = $VERBOSE
-  $VERBOSE = nil
-  result = yield
-  $VERBOSE = warning_level
-  result
 end
