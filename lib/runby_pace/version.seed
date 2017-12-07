@@ -4,6 +4,6 @@ require_relative 'utility/warning_suppressant'
 
 module Runby
   with_no_warnings do
-    GENERATED_VERSION = '0.62.5'
+    GENERATED_VERSION = '__VERSION__'
   end
 end
